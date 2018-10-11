@@ -1,9 +1,11 @@
-/**************************************/
-/* (c) L. Apvrille, Telecom ParisTech */
-/**************************************/
+/**********************************************/
+/*     (c) L. Apvrille, Telecom ParisTech     */
+/* Extended version by O. Marin, NYU Shanghai */
+/**********************************************/
 
 
 #include <os-scheduling.h>
+#include <string.h>
 
 
 char * states[] = {"upcoming  ", "ready     ", "running   ", "suspended ", "terminated"};
@@ -39,12 +41,56 @@ void printTasks(task tasks[], int nbOfTasks) {
 }
 
 
+void printQueues(task tasks[], sched_data* schedData) {
+    int i, j, taskIndex = 0;
+    printf("Nb of queues %d\n", schedData->nbOfQueues);
+    for (i = 0; i < schedData->nbOfQueues; i++) {
+        j = 0;
+        printf("Q%d => ", i);
+        while (j < MAX_NB_OF_TASKS) {
+            taskIndex = schedData->queues[i][j];
+            if (taskIndex == -1) {
+                j = MAX_NB_OF_TASKS;
+            } else {
+                printf("%s ", tasks[taskIndex].name);
+                j++;
+            }
+        }
+        printf("\n");
+    }
+}
+
+void printFinalStatistics(task tasks[], int nbOfTasks, int totalTime) {
+    int i, turnaroundTime;
+    int totalWaitingTime = 0;
+    printf("STATISTICS ########\n");
+    for(i=0; i<nbOfTasks; i++) {
+        turnaroundTime = tasks[i].completionDate - tasks[i].arrivalDate;
+        totalWaitingTime += turnaroundTime - tasks[i].executionTime;
+        printf("Task: %s \t turnaround time:%d \t penalty rate:%2.2f\n",
+               tasks[i].name, turnaroundTime, ((double)turnaroundTime / tasks[i].executionTime));
+    }
+    printf("Average waiting time = %2.2f\n", ((double)totalWaitingTime/nbOfTasks));
+    printf("Throughput = %2.2f\n\n", ((double)nbOfTasks/totalTime));
+}
+
+
 /* Returns the index of the elected task  */
 /*         -1 if no task could be elected */
-int scheduler(task tasks[], int nbOfTasks, sched_data *schedData, int currentTime) {
-//    return FCFS(tasks, nbOfTasks, schedData, currentTime);
-//    return SJF(tasks, nbOfTasks, schedData, currentTime);
-    return SRTF(tasks, nbOfTasks, schedData, currentTime);
+int scheduler(char* policy, task tasks[], int nbOfTasks, sched_data *schedData, int currentTime) {
+    if (strcmp(policy, "FCFS") == 0)
+        return FCFS(tasks, nbOfTasks, schedData, currentTime);
+    if (strcmp(policy, "SJF") == 0)
+        return SJF(tasks, nbOfTasks, schedData, currentTime);
+    if (strcmp(policy, "SRTF") == 0)
+        return SRTF(tasks, nbOfTasks, schedData, currentTime);
+    if (strcmp(policy, "RR") == 0)
+        return RR(tasks, nbOfTasks, schedData, currentTime);
+    if (strcmp(policy, "MFQ") == 0)
+        return MFQ(tasks, nbOfTasks, schedData, currentTime);
+    if (strcmp(policy, "IORR") == 0)
+        return IORR(tasks, nbOfTasks, schedData, currentTime);
+    return -1;
 }
 
 
@@ -63,6 +109,12 @@ int main(int argc, char *argv[]){
         return -1;
     }
     
+    printf("Scheduling policy is %s\n", argv[2]);
+    
+    /* Adjust policy parameters */
+    if (strcmp(argv[2], "RR") == 0)
+        schedData->quantum = atoi(argv[3]);
+    
     /* Read the file line by line */
     printf("Loading file of tasks\n");
     while (fgets(line, sizeof(line), file) != NULL ) {
@@ -75,38 +127,29 @@ int main(int argc, char *argv[]){
     printf("%d tasks loaded\n\n", nbOfTasks);
     
     /**** Schedule the set of tasks ****/
-    printf("Scheduling the set of tasks\n\n");
+    printf("Scheduling the set of tasks\n");
     
     
     while(hasTasksToSchedule(tasks, nbOfTasks) > 0) {
         printTasks(tasks, nbOfTasks);
-        taskIndex = scheduler(tasks, nbOfTasks, schedData, time);
+        taskIndex = scheduler(argv[2], tasks, nbOfTasks, schedData, time);
         if (taskIndex >= 0) {
             printf("\nTime %d: %s\n", time,  tasks[taskIndex].name);
         } else {
             printf("\nTime %d: no task to schedule\n", time);
         }
         time ++;
+//  For debugging purposes only
+        getchar();
     }
     
     
     /**** That's all folks ****/
     printTasks(tasks, nbOfTasks);
     time --;
-    printf("All done after %d units of time\n", time);
-    
-    /**** Print the statistics ****/
-    printf("\nTask\tturnaroundTime\tpenaltyRate\n");
-    int k;
-    double waitingTime;
-    for (k = 0; k < nbOfTasks; k++){
-        printf("%s\t", tasks[k].name);
-        printf("%d\t\t", tasks[k].turnaroundTime);
-        printf("%.2f\t\t", (double)(tasks[k].turnaroundTime)/(double)tasks[k].computationTime);
-        printf("\n");
-        waitingTime += (tasks[k].turnaroundTime - tasks[k].computationTime);
-    }
-    printf("\nAverage waiting time: %.2f\n\n", waitingTime/nbOfTasks);
+    printf("\n\nAll done after %d units of time\n", time);
+    printf("\n######## %s ", argv[2]);
+    printFinalStatistics(tasks, nbOfTasks, time);
     return 0;
 }
 

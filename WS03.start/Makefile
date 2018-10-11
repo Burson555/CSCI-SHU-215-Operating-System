@@ -1,5 +1,7 @@
 CFLAGS=-Iinclude -Wall
 
+FILE=tasks4
+
 all: build run
 
 build: clean
@@ -10,12 +12,12 @@ build: clean
 	gcc $(CFLAGS) -o bin/sched-simulator obj/simulator.o obj/policies.o
 
 run:
-	bin/sched-simulator "tasks" 1>sched-run.txt
-	cat sched-run.txt
-
-run2:
-	bin/sched-simulator "tasks2" 1>sched-run.txt
-	cat sched-run.txt
+#	bin/sched-simulator $(FILE) FCFS 1>sched-run-fcfs.txt
+#	bin/sched-simulator $(FILE) SJF 1>sched-run-sjf.txt
+#	bin/sched-simulator $(FILE) SRTF 1>sched-run-srtf.txt
+#	bin/sched-simulator $(FILE) RR 4 1>sched-run-rr.txt
+	bin/sched-simulator $(FILE) RR 4
+	cat *.txt
 
 clean:
-	rm -rf bin obj sched-run.txt
+	rm -rf bin obj sched-run-*.txt
