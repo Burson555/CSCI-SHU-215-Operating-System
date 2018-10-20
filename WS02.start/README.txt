@@ -57,17 +57,18 @@ Outputs:
 
 	P:		(prints nothing, no output)
 
-	C0:		0
+	C0:		i = 0
+			j = 0
 
-	C1:		1
+	C1:		i = 1
 
-	C2:		2
+	C2:		i = 2
 
-	G0:		1
+	G0:		j = 1
 
 	G1:		(prints nothing, no output)
 
-	GG0:	2
+	GG0:	j = 2
 
 Modified Codes:
 
