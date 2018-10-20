@@ -1,19 +1,23 @@
 #include <os-scheduling.h>
 
 
-int admitNewTasks(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime) {
-    int i, j;
-    j = 0;
-    while (schedData->queues[0][j] != -1)
-        j++;
-    for(i = 0; i < nbOfTasks; i++) {
-        if ((tasks[i].state == UPCOMING) && (tasks[i].arrivalDate == currentTime)) {
-            tasks[i].state = READY;
-            schedData->queues[0][j] = i;
-            j++;
+void print_queues(task tasks[], sched_data* schedData) {
+    int i, j, taskIndex = 0;
+    printf("Nb of queues %d\n", schedData->nbOfQueues);
+    for (i = 0; i < schedData->nbOfQueues; i++) {
+        j = 0;
+        printf("Q%d => ", i);
+        while (j < MAX_NB_OF_TASKS) {
+            taskIndex = schedData->queues[i][j];
+            if (taskIndex == -1) {
+                j = MAX_NB_OF_TASKS;
+            } else {
+                printf("%s ", tasks[taskIndex].name);
+                j++;
+            }
         }
+        printf("\n");
     }
-    return 1;
 }
 
 
@@ -41,7 +45,7 @@ int FCFS(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime) {
             j++;
         }
     }
-    printQueues(tasks, schedData);
+    print_queues(tasks, schedData);
     
     // Is the first task in the queue running? Has that task finished its computations?
     //   If so, put it in terminated state and remove it from the queue
@@ -51,7 +55,8 @@ int FCFS(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime) {
         if (tasks[i].state == RUNNING) {
             if (tasks[i].executionTime == tasks[i].computationTime) {
                 tasks[i].state = TERMINATED;
-                tasks[i].completionDate = currentTime;
+                // **************************************
+                tasks[i].turnaroundTime = currentTime - tasks[i].arrivalDate;
                 for (j = 0; j < MAX_NB_OF_TASKS - 1; j++) {
                     schedData->queues[0][j] = schedData->queues[0][j+1];
                 }
@@ -76,121 +81,85 @@ int FCFS(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime) {
 }
 
 
-int SJF(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime) {
-    int i, j, minCompTime;
+int RR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int quantum) {
     
-    // N.B: SJF does not require any queue!
-
-    // Admit new tasks (currentTime >= arrivalTime)
-    for(i = 0; i < nbOfTasks; i++) {
-        if ((tasks[i].state == UPCOMING) && (tasks[i].arrivalDate == currentTime)) {
-            tasks[i].state = READY;
+    int i, j;
+    
+    // Initialize single queue
+    if (currentTime == 0) {
+        printf("Initializing job queue\n");
+        schedData->nbOfQueues = 1;
+        for (i = 0; i < MAX_NB_OF_TASKS; i++) {
+            schedData->queues[0][i] = -1;
         }
     }
     
-    // Is there a task running? Has that task finished its computations?
-    //   If so, put it in terminated state
-    //   If not, continue this task
-    for (i = 0; i < nbOfTasks; i++) {
+    // Admit new tasks (currentTime >= arrivalTime)
+    j = 0;
+    while (schedData->queues[0][j] != -1)
+        j++;
+    for(i = 0; i < nbOfTasks; i++) {
+        if ((tasks[i].state == UPCOMING) && (tasks[i].arrivalDate == currentTime)) {
+            tasks[i].state = READY;
+            schedData->queues[0][j] = i;
+            j++;
+        }
+    }
+    print_queues(tasks, schedData);
+    
+    // Is the first task in the queue running? Has that task finished its computations?
+    //   If so, put it in terminated state and remove it from the queue
+    //   If not, CHECK THE QUANTUM
+    i = schedData->queues[0][0];
+    if (i != -1) {
         if (tasks[i].state == RUNNING) {
             if (tasks[i].executionTime == tasks[i].computationTime) {
                 tasks[i].state = TERMINATED;
-                tasks[i].completionDate = currentTime;
-                break;
+                // **************************************
+                tasks[i].turnaroundTime = currentTime - tasks[i].arrivalDate;
+                for (j = 0; j < MAX_NB_OF_TASKS - 1; j++) {
+                    schedData->queues[0][j] = schedData->queues[0][j+1];
+                }
             } else {
-                /* Reelect this task */
-                tasks[i].executionTime ++;
-                return i;
+                /* still have quantum */
+                if (tasks[i].currentQuantum < 4){
+                    tasks[i].executionTime ++;
+                    tasks[i].currentQuantum ++;
+                    return i;
+                }
+                /* the ELSE case, no quantum left */
+                /* elect another task */
+                /* we have 2 cases: current is OR isn't the last task in queue */
+                /* both cases can be done with following codes */
+                else{
+                    tasks[i].state = READY;
+                    tasks[i].currentQuantum = 0;
+                    j = 0;
+                    while (schedData->queues[0][j] != -1){
+                        schedData->queues[0][j] = schedData->queues[0][j+1];
+                        j++;
+                    }
+                    schedData->queues[0][j-1] = i;
+                }
             }
         }
     }
     
-    //Otherwise, find the task in READY state that has the shortest computation time
-    j = -1;
-    minCompTime = 0;
-    for (i = 0; i < nbOfTasks; i++) {
-        if (tasks[i].state == READY) {
-            if ((j == -1) || (minCompTime > tasks[i].computationTime)) {
-                j = i;
-                minCompTime = tasks[i].computationTime;
-            }
-        }
-    }
-    if (j != -1){
-        tasks[j].executionTime ++;
-        tasks[j].state = RUNNING;
-        return j;
+    // Otherwise, elect the first task in the queue
+    i = schedData->queues[0][0];
+    if (i != -1){
+        tasks[i].executionTime ++;
+        tasks[i].currentQuantum ++;
+        tasks[i].state = RUNNING;
+        return i;
     }
     
+    // No task could be elected
     return -1;
 }
 
 
-int SRTF(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime) {
-    int i, j, remainingCompTime, minRemainingCompTime;
-    
-    // N.B: SRTF does not require any queue!
-    
-    // Admit new tasks (currentTime >= arrivalTime)
-    for(i = 0; i < nbOfTasks; i++) {
-        if ((tasks[i].state == UPCOMING) && (tasks[i].arrivalDate == currentTime)) {
-            tasks[i].state = READY;
-        }
-    }
-    
-    // Is there a task running?
-    //      => determine its remaining computation time
-    //   Has that task finished its computations?
-    //      => put it in terminated state
-    //   else
-    //      => put it back to READY
-    for (i = 0; i < nbOfTasks; i++) {
-        if (tasks[i].state == RUNNING) {
-            remainingCompTime = tasks[i].computationTime - tasks[i].executionTime;
-            if (remainingCompTime == 0) {
-                tasks[i].state = TERMINATED;
-                tasks[i].completionDate = currentTime;
-            } else {
-                tasks[i].state = READY;
-            }
-            break;
-        }
-    }
-    
-    //Now elect the task in READY state that has the shortest remaining time
-    j = -1;
-    minRemainingCompTime = -1;
-    for (i = 0; i < nbOfTasks; i++) {
-        if (tasks[i].state == READY) {
-            remainingCompTime = tasks[i].computationTime - tasks[i].executionTime;
-            if ((j == -1) ||
-                (minRemainingCompTime > remainingCompTime)) {
-                j = i;
-                minRemainingCompTime = remainingCompTime;
-            }
-        }
-    }
-    if (j != -1){
-        tasks[j].executionTime ++;
-        tasks[j].state = RUNNING;
-        return j;
-    }
-    
-    return -1;
-}
-
-
-int RR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime) {
-    //TODO
-    return -1;
-}
-
-int MFQ(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime) {
-    //TODO
-    return -1;
-}
-
-int IORR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime) {
+int MFQ(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int quantum) {
     //TODO
     return -1;
 }
