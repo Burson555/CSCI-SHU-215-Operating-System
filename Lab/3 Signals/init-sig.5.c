@@ -12,7 +12,7 @@ int n_alrm = 0;
 
 void sigalrm_handler (int sig) {
 	printf ("reception de SIGALRM\n");
-	alarm (5);
+	alarm (1);
 }
 
 void sigint_handler (int sig) {
@@ -29,12 +29,13 @@ int main () {
 
 	sigact_int.sa_handler = sigint_handler;
 	sigaction (SIGINT, &sigact_int, NULL);
-	
+
 	sigact_alrm.sa_handler = sigalrm_handler;
 	sigaction (SIGALRM, &sigact_alrm, NULL);
 
+	printf("starting\n");
 	alarm (5);
-	
+
 	while (1) {
 		sigsuspend (&sig);
 	}
