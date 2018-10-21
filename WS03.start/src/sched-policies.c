@@ -21,6 +21,7 @@ void print_queues(task tasks[], sched_data* schedData) {
 }
 
 
+
 int FCFS(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime) {
     
     int i, j;
@@ -81,6 +82,7 @@ int FCFS(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime) {
 }
 
 
+
 int RR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int quantum) {
     
     int i, j;
@@ -102,6 +104,7 @@ int RR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int 
         if ((tasks[i].state == UPCOMING) && (tasks[i].arrivalDate == currentTime)) {
             tasks[i].state = READY;
             schedData->queues[0][j] = i;
+            tasks[nbOfTasks].currentQuantum = 0;
             j++;
         }
     }
@@ -115,14 +118,13 @@ int RR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int 
         if (tasks[i].state == RUNNING) {
             if (tasks[i].executionTime == tasks[i].computationTime) {
                 tasks[i].state = TERMINATED;
-                // **************************************
                 tasks[i].turnaroundTime = currentTime - tasks[i].arrivalDate;
                 for (j = 0; j < MAX_NB_OF_TASKS - 1; j++) {
                     schedData->queues[0][j] = schedData->queues[0][j+1];
                 }
             } else {
                 /* still have quantum */
-                if (tasks[i].currentQuantum < 4){
+                if (tasks[i].currentQuantum < quantum){
                     tasks[i].executionTime ++;
                     tasks[i].currentQuantum ++;
                     return i;
@@ -159,7 +161,128 @@ int RR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int 
 }
 
 
+
+int currentQueue;
+int fine_current_queue(sched_data* schedData) {
+    currentQueue = 0;
+    int i = schedData->queues[currentQueue][0];
+    while(currentQueue < NB_OF_QUEUES){
+        if (schedData->queues[currentQueue][0] != -1){
+            i = schedData->queues[currentQueue][0];
+            break;
+        }
+        currentQueue++;
+    }
+    return i;
+}
+
 int MFQ(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int quantum) {
-    //TODO
+    
+    int i, j;
+    
+    // Initialize multi queue
+    if (currentTime == 0) {
+        printf("Initializing job queue\n");
+        schedData->nbOfQueues = NB_OF_QUEUES;
+        for (j = 0; j < NB_OF_QUEUES; j++){
+            for (i = 0; i < MAX_NB_OF_TASKS; i++) {
+                schedData->queues[j][i] = -1;
+            }
+        }
+        // assign priorities
+        for (j = 0; j < NB_OF_QUEUES; j++){
+            schedData->prioOfQueues[j] = j+1;
+        }
+    }
+    
+    // Admit new tasks (currentTime >= arrivalTime)
+    currentQueue = 0;
+    j = 0;
+    while (schedData->queues[0][j] != -1)
+        j++;
+    for(i = 0; i < nbOfTasks; i++) {
+        if ((tasks[i].state == UPCOMING) && (tasks[i].arrivalDate == currentTime)) {
+            tasks[i].state = READY;
+            schedData->queues[0][j] = i;
+            tasks[i].currentQuantum = schedData->prioOfQueues[0]*quantum;
+            printf("T%d%s%d\n", i + 1, " has quantum of ", tasks[i].currentQuantum);
+            if (j == 0){// the preemptive case
+                // elect the coming task
+                // AND change the state of the current running task
+                tasks[i].state = RUNNING;
+                for (currentQueue = 1; currentQueue < NB_OF_QUEUES; currentQueue++){
+                    if (schedData->queues[currentQueue][0] != -1){
+                        tasks[schedData->queues[currentQueue][0]].state = READY;
+                        break;
+                    }
+                }
+            }
+            j++;
+        }
+    }
+    print_queues(tasks, schedData);
+    
+    // Is the first task in the queue running? Has that task finished its computations?
+    //   If so, put it in terminated state and remove it from the queue
+    //   If not, CHECK THE QUANTUM
+    i = fine_current_queue(schedData);
+    if (i != -1) {
+        if (tasks[i].state == RUNNING) {
+            if (tasks[i].executionTime == tasks[i].computationTime) {
+                tasks[i].state = TERMINATED;
+                tasks[i].turnaroundTime = currentTime - tasks[i].arrivalDate;
+                for (j = 0; j < MAX_NB_OF_TASKS - 1; j++) {
+                    schedData->queues[currentQueue][j] = schedData->queues[currentQueue][j+1];
+                }
+            } else {
+                /* still have quantum */
+                if (tasks[i].currentQuantum != 0){
+                    tasks[i].executionTime ++;
+                    tasks[i].currentQuantum --;
+                    return i;
+                }
+    // ***********************************************************************
+                /* the ELSE case, no quantum left */
+                /* elect another task */
+                /* we have 2 cases: current is OR isn't the last task in queue */
+                /* both cases can be done with following codes */
+                else{                    j = 0;
+                    while (schedData->queues[currentQueue][j] != -1){
+                        schedData->queues[currentQueue][j] = schedData->queues[currentQueue][j+1];
+                        j++;
+                    }
+                    printf("T%d\n", schedData->queues[currentQueue][0] + 1);
+                    if (currentQueue == NB_OF_QUEUES - 1)
+                        currentQueue = 0;
+                    else
+                        currentQueue ++;
+                    // now we're at the queue to insert
+                    tasks[i].state = READY;
+                    tasks[i].currentQuantum = schedData->prioOfQueues[currentQueue]*quantum;
+                    printf("T%d%s%d\n", i + 1, " has quantum of ", tasks[i].currentQuantum);
+                    j = 0;
+                    // finding the correct place to insert
+                    for (; j < MAX_NB_OF_TASKS; j++){
+                        if (schedData->queues[currentQueue][j] == -1){
+                            schedData->queues[currentQueue][j] = i;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // ***********************************************************************
+    
+    // Otherwise, elect the first task in the queue
+    i = fine_current_queue(schedData);
+    if (i != -1){
+        tasks[i].executionTime ++;
+        tasks[i].currentQuantum --;
+        tasks[i].state = RUNNING;
+        return i;
+    }
+    
+    // No task could be elected
     return -1;
 }

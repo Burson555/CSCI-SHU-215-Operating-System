@@ -78,7 +78,7 @@ int main(int argc, char *argv[]){
 
     /**** Define Quantum ****/
     quantum = atoi(argv[3]);
-    printf("%s%d\n", "The Quantum is ", quantum);
+    printf("%s%d\n\n", "The Quantum is ", quantum);
 
     /**** Determin Scheduling Policy ****/
     // printf("%s\n\n", argv[2]);
@@ -105,7 +105,6 @@ int main(int argc, char *argv[]){
         sscanf(line, "%s %u %u\n", tasks[nbOfTasks].name, &(tasks[nbOfTasks].computationTime), &(tasks[nbOfTasks].arrivalDate));
         tasks[nbOfTasks].state = UPCOMING;
         tasks[nbOfTasks].executionTime = 0;
-        tasks[nbOfTasks].currentQuantum = 0;
         nbOfTasks ++;
     }
     fclose(file);
@@ -121,9 +120,9 @@ int main(int argc, char *argv[]){
                 printTasks(tasks, nbOfTasks);
                 taskIndex = schedulerRR(tasks, nbOfTasks, schedData, time, quantum);
                 if (taskIndex >= 0) {
-                    printf("\nTime %d: %s\n", time,  tasks[taskIndex].name);
+                    printf("Time %d: %s\n\n", time,  tasks[taskIndex].name);
                 } else {
-                    printf("\nTime %d: no task to schedule\n", time);
+                    printf("Time %d: no task to schedule\n\n", time);
                 }
                 time ++;
             }
@@ -134,9 +133,9 @@ int main(int argc, char *argv[]){
                 printTasks(tasks, nbOfTasks);
                 taskIndex = schedulerMFQ(tasks, nbOfTasks, schedData, time, quantum);
                 if (taskIndex >= 0) {
-                    printf("\nTime %d: %s\n", time,  tasks[taskIndex].name);
+                    printf("Time %d: %s\n\n", time,  tasks[taskIndex].name);
                 } else {
-                    printf("\nTime %d: no task to schedule\n", time);
+                    printf("Time %d: no task to schedule\n\n", time);
                 }
                 time ++;
             }
@@ -147,9 +146,9 @@ int main(int argc, char *argv[]){
                 printTasks(tasks, nbOfTasks);
                 taskIndex = scheduler(tasks, nbOfTasks, schedData, time);
                 if (taskIndex >= 0) {
-                    printf("\nTime %d: %s\n", time,  tasks[taskIndex].name);
+                    printf("Time %d: %s\n\n", time,  tasks[taskIndex].name);
                 } else {
-                    printf("\nTime %d: no task to schedule\n", time);
+                    printf("Time %d: no task to schedule\n\n", time);
                 }
                 time ++;
             }
@@ -164,7 +163,7 @@ int main(int argc, char *argv[]){
     printf("\nAll done after %d units of time\n", time);
     
     /**** Print the statistics ****/
-    printf("\nTask\tturnaroundTime\tpenaltyRate\n\n");
+    printf("\nTask\tturnaroundTime\tpenaltyRate\n");
     int k;
     double waitingTime = 0;
     for (k = 0; k < nbOfTasks; k++){

@@ -9,6 +9,7 @@
 #define MAX_NB_OF_TASKS 32
 #define MAX_TASK_NAME_SIZE 32
 #define MAX_NB_OF_QUEUES 8
+#define NB_OF_QUEUES 3
 
 #define UPCOMING 0
 #define READY 1
@@ -31,6 +32,7 @@ typedef struct task {
 typedef struct sched_data {
     int nbOfQueues;
     int queues[MAX_NB_OF_QUEUES][MAX_NB_OF_TASKS];
+    int prioOfQueues[MAX_NB_OF_QUEUES];
 } sched_data;
 
 int FCFS(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime);
