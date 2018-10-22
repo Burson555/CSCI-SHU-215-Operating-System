@@ -41,6 +41,9 @@ void printTasks(task tasks[], int nbOfTasks) {
 
 /* Returns the index of the elected task  */
 /*         -1 if no task could be elected */
+int schedulerIORR(task tasks[], int nbOfTasks, sched_data *schedData, int currentTime, int quantum) {
+    return IORR(tasks, nbOfTasks, schedData, currentTime, quantum);
+}
 int schedulerRR(task tasks[], int nbOfTasks, sched_data *schedData, int currentTime, int quantum) {
     return RR(tasks, nbOfTasks, schedData, currentTime, quantum);
 }
@@ -61,20 +64,6 @@ int main(int argc, char *argv[]){
     /********************************/
     int quantum;
     int nbPolicy;
-    
-    /**** Input Length Detection ****/
-    // if (file == NULL) {
-    //     printf("%s\n", "Noooooo");
-    //     perror(argv[1]);
-    //     return -1;
-    // }
-
-    /**** Cycle Value Checking ****/
-    // if (file == NULL) {
-    //     printf("%s\n", "Noooooo");
-    //     perror(argv[1]);
-    //     return -1;
-    // }
 
     /**** Define Quantum ****/
     quantum = atoi(argv[3]);
@@ -86,9 +75,11 @@ int main(int argc, char *argv[]){
         nbPolicy = 0;}
     else if (strncmp(argv[2], "MFQ", 3) == 0){
         nbPolicy = 1;}
+    else if (strncmp(argv[2], "IORR", 4) == 0){
+        nbPolicy = 2;}
     // Neither RR or MFQ are entered
     else{
-        nbPolicy = 2;}
+        nbPolicy = 3;}
     // printf("%s%d\n\n", "# of Policy ", nbPolicy);
 
     /**** Read the task file, and store into a struct ****/
@@ -132,6 +123,19 @@ int main(int argc, char *argv[]){
             while(hasTasksToSchedule(tasks, nbOfTasks) > 0) {
                 printTasks(tasks, nbOfTasks);
                 taskIndex = schedulerMFQ(tasks, nbOfTasks, schedData, time, quantum);
+                if (taskIndex >= 0) {
+                    printf("Time %d: %s\n\n", time,  tasks[taskIndex].name);
+                } else {
+                    printf("Time %d: no task to schedule\n\n", time);
+                }
+                time ++;
+            }
+            break;
+        case 2:
+            printf("%s\n\n", "Using Scheduling Policy Input/Output Round Robin");
+            while(hasTasksToSchedule(tasks, nbOfTasks) > 0) {
+                printTasks(tasks, nbOfTasks);
+                taskIndex = schedulerIORR(tasks, nbOfTasks, schedData, time, quantum);
                 if (taskIndex >= 0) {
                     printf("Time %d: %s\n\n", time,  tasks[taskIndex].name);
                 } else {
