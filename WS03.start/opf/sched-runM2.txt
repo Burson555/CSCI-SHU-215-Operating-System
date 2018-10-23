@@ -14,6 +14,7 @@ Nb of queues 3
 Q0 => 
 Q1 => 
 Q2 => 
+current queue: 0
 Time 0: no task to schedule
 
 Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
@@ -23,6 +24,7 @@ Nb of queues 3
 Q0 => 
 Q1 => 
 Q2 => 
+current queue: 0
 Time 1: no task to schedule
 
 Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
@@ -33,6 +35,7 @@ Nb of queues 3
 Q0 => T2 
 Q1 => 
 Q2 => 
+current queue: 0
 Time 2: T2
 
 Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
@@ -43,6 +46,7 @@ Nb of queues 3
 Q0 => T2 T3 
 Q1 => 
 Q2 => 
+current queue: 0
 Time 3: T2
 
 Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
@@ -52,6 +56,7 @@ Nb of queues 3
 Q0 => T2 T3 
 Q1 => 
 Q2 => 
+current queue: 0
 Time 4: T2
 
 Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
@@ -61,7 +66,7 @@ Nb of queues 3
 Q0 => T2 T3 
 Q1 => 
 Q2 => 
-T3
+current queue: 0
 T2 has quantum of 6
 Time 5: T3
 
@@ -72,6 +77,7 @@ Nb of queues 3
 Q0 => T3 
 Q1 => T2 
 Q2 => 
+current queue: 0
 Time 6: T3
 
 Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
@@ -81,6 +87,7 @@ Nb of queues 3
 Q0 => T3 
 Q1 => T2 
 Q2 => 
+current queue: 0
 Time 7: T3
 
 Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
@@ -90,7 +97,7 @@ Nb of queues 3
 Q0 => T3 
 Q1 => T2 
 Q2 => 
-T0
+current queue: 0
 T3 has quantum of 6
 Time 8: T2
 
@@ -101,6 +108,7 @@ Nb of queues 3
 Q0 => 
 Q1 => T2 T3 
 Q2 => 
+current queue: 1
 Time 9: T2
 
 Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
@@ -111,73 +119,79 @@ Nb of queues 3
 Q0 => T1 
 Q1 => T2 T3 
 Q2 => 
-Time 10: T1
+current queue: 1
+Time 10: T2
 
-Task: T1 	 arrivalDate:10    	 state:running    	 computations:1/10
-Task: T2 	 arrivalDate:2    	 state:ready      	 computations:5/12
-Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
-Nb of queues 3
-Q0 => T1 
-Q1 => T2 T3 
-Q2 => 
-Time 11: T1
-
-Task: T1 	 arrivalDate:10    	 state:running    	 computations:2/10
-Task: T2 	 arrivalDate:2    	 state:ready      	 computations:5/12
-Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
-Nb of queues 3
-Q0 => T1 
-Q1 => T2 T3 
-Q2 => 
-Time 12: T1
-
-Task: T1 	 arrivalDate:10    	 state:running    	 computations:3/10
-Task: T2 	 arrivalDate:2    	 state:ready      	 computations:5/12
-Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
-Nb of queues 3
-Q0 => T1 
-Q1 => T2 T3 
-Q2 => 
-T0
-T1 has quantum of 6
-Time 13: T2
-
-Task: T1 	 arrivalDate:10    	 state:ready      	 computations:3/10
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:0/10
 Task: T2 	 arrivalDate:2    	 state:running    	 computations:6/12
 Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
 Nb of queues 3
-Q0 => 
-Q1 => T2 T3 T1 
+Q0 => T1 
+Q1 => T2 T3 
 Q2 => 
-Time 14: T2
+current queue: 1
+Time 11: T2
 
-Task: T1 	 arrivalDate:10    	 state:ready      	 computations:3/10
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:0/10
 Task: T2 	 arrivalDate:2    	 state:running    	 computations:7/12
 Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
 Nb of queues 3
-Q0 => 
-Q1 => T2 T3 T1 
+Q0 => T1 
+Q1 => T2 T3 
 Q2 => 
-Time 15: T2
+current queue: 1
+Time 12: T2
 
-Task: T1 	 arrivalDate:10    	 state:ready      	 computations:3/10
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:0/10
 Task: T2 	 arrivalDate:2    	 state:running    	 computations:8/12
 Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
 Nb of queues 3
-Q0 => 
-Q1 => T2 T3 T1 
+Q0 => T1 
+Q1 => T2 T3 
 Q2 => 
-Time 16: T2
+current queue: 1
+Time 13: T2
 
-Task: T1 	 arrivalDate:10    	 state:ready      	 computations:3/10
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:0/10
 Task: T2 	 arrivalDate:2    	 state:running    	 computations:9/12
 Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
 Nb of queues 3
-Q0 => 
-Q1 => T2 T3 T1 
+Q0 => T1 
+Q1 => T2 T3 
 Q2 => 
-T3
+current queue: 1
 T2 has quantum of 9
+Time 14: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:1/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+Nb of queues 3
+Q0 => T1 
+Q1 => T3 
+Q2 => T2 
+current queue: 0
+Time 15: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:2/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+Nb of queues 3
+Q0 => T1 
+Q1 => T3 
+Q2 => T2 
+current queue: 0
+Time 16: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:3/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+Nb of queues 3
+Q0 => T1 
+Q1 => T3 
+Q2 => T2 
+current queue: 0
+T1 has quantum of 6
 Time 17: T3
 
 Task: T1 	 arrivalDate:10    	 state:ready      	 computations:3/10
@@ -187,6 +201,7 @@ Nb of queues 3
 Q0 => 
 Q1 => T3 T1 
 Q2 => T2 
+current queue: 1
 Time 18: T3
 
 Task: T1 	 arrivalDate:10    	 state:ready      	 computations:3/10
@@ -196,6 +211,7 @@ Nb of queues 3
 Q0 => 
 Q1 => T3 T1 
 Q2 => T2 
+current queue: 1
 Time 19: T1
 
 Task: T1 	 arrivalDate:10    	 state:running    	 computations:4/10
@@ -205,6 +221,7 @@ Nb of queues 3
 Q0 => 
 Q1 => T1 
 Q2 => T2 
+current queue: 1
 Time 20: T1
 
 Task: T1 	 arrivalDate:10    	 state:running    	 computations:5/10
@@ -214,6 +231,7 @@ Nb of queues 3
 Q0 => 
 Q1 => T1 
 Q2 => T2 
+current queue: 1
 Time 21: T1
 
 Task: T1 	 arrivalDate:10    	 state:running    	 computations:6/10
@@ -223,6 +241,7 @@ Nb of queues 3
 Q0 => 
 Q1 => T1 
 Q2 => T2 
+current queue: 1
 Time 22: T1
 
 Task: T1 	 arrivalDate:10    	 state:running    	 computations:7/10
@@ -232,6 +251,7 @@ Nb of queues 3
 Q0 => 
 Q1 => T1 
 Q2 => T2 
+current queue: 1
 Time 23: T1
 
 Task: T1 	 arrivalDate:10    	 state:running    	 computations:8/10
@@ -241,6 +261,7 @@ Nb of queues 3
 Q0 => 
 Q1 => T1 
 Q2 => T2 
+current queue: 1
 Time 24: T1
 
 Task: T1 	 arrivalDate:10    	 state:running    	 computations:9/10
@@ -250,7 +271,7 @@ Nb of queues 3
 Q0 => 
 Q1 => T1 
 Q2 => T2 
-T0
+current queue: 1
 T1 has quantum of 9
 Time 25: T2
 
@@ -261,6 +282,7 @@ Nb of queues 3
 Q0 => 
 Q1 => 
 Q2 => T2 T1 
+current queue: 2
 Time 26: T2
 
 Task: T1 	 arrivalDate:10    	 state:ready      	 computations:9/10
@@ -270,6 +292,7 @@ Nb of queues 3
 Q0 => 
 Q1 => 
 Q2 => T2 T1 
+current queue: 2
 Time 27: T2
 
 Task: T1 	 arrivalDate:10    	 state:ready      	 computations:9/10
@@ -279,6 +302,7 @@ Nb of queues 3
 Q0 => 
 Q1 => 
 Q2 => T2 T1 
+current queue: 2
 Time 28: T1
 
 Task: T1 	 arrivalDate:10    	 state:running    	 computations:10/10
@@ -288,6 +312,7 @@ Nb of queues 3
 Q0 => 
 Q1 => 
 Q2 => T1 
+current queue: 2
 Time 29: no task to schedule
 
 Task: T1 	 arrivalDate:10    	 state:terminated 	 computations:10/10

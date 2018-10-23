@@ -45,13 +45,13 @@ int FCFS(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime) {
             schedData->queues[0][j] = i;
             j++;
         }
-    }
+    }	
     print_queues(tasks, schedData);
-    
     // Is the first task in the queue running? Has that task finished its computations?
     //   If so, put it in terminated state and remove it from the queue
     //   If not, continue this task
     i = schedData->queues[0][0];
+    printf("i = %d\n", i + 1);
     if (i != -1) {
         if (tasks[i].state == RUNNING) {
             if (tasks[i].executionTime == tasks[i].computationTime) {
@@ -163,7 +163,7 @@ int RR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int 
 
 
 int currentQueue;
-int fine_current_queue(sched_data* schedData) {
+int elect(sched_data* schedData) {
     currentQueue = 0;
     int i = schedData->queues[currentQueue][0];
     while(currentQueue < NB_OF_QUEUES){
@@ -196,7 +196,8 @@ int MFQ(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int
     }
     
     // Admit new tasks (currentTime >= arrivalTime)
-    currentQueue = 0;
+    // // the preemptive case
+    // currentQueue = 0;
     j = 0;
     while (schedData->queues[0][j] != -1)
         j++;
@@ -206,17 +207,18 @@ int MFQ(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int
             schedData->queues[0][j] = i;
             tasks[i].currentQuantum = schedData->prioOfQueues[0]*quantum;
             printf("T%d%s%d\n", i + 1, " has quantum of ", tasks[i].currentQuantum);
-            if (j == 0){// the preemptive case
-                // elect the coming task
-                // AND change the state of the current running task
-                tasks[i].state = RUNNING;
-                for (currentQueue = 1; currentQueue < NB_OF_QUEUES; currentQueue++){
-                    if (schedData->queues[currentQueue][0] != -1){
-                        tasks[schedData->queues[currentQueue][0]].state = READY;
-                        break;
-                    }
-                }
-            }
+            // // the preemptive case
+            // // elect the coming task
+            // // AND change the state of the current running task
+            // if (j == 0){
+            //     tasks[i].state = RUNNING;
+            //     for (currentQueue = 1; currentQueue < NB_OF_QUEUES; currentQueue++){
+            //         if (schedData->queues[currentQueue][0] != -1){
+            //             tasks[schedData->queues[currentQueue][0]].state = READY;
+            //             break;
+            //         }
+            //     }
+            // }
             j++;
         }
     }
@@ -225,7 +227,12 @@ int MFQ(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int
     // Is the first task in the queue running? Has that task finished its computations?
     //   If so, put it in terminated state and remove it from the queue
     //   If not, CHECK THE QUANTUM
-    i = fine_current_queue(schedData);
+
+    /* i = elect(schedData);*/
+    /* the code wbove will locate the element with the highest prio */
+    // we modify it so that ti finds the RUNNING task
+    i = schedData->queues[currentQueue][0];
+    printf("current queue: %d\n", currentQueue);
     if (i != -1) {
         if (tasks[i].state == RUNNING) {
             if (tasks[i].executionTime == tasks[i].computationTime) {
@@ -235,6 +242,7 @@ int MFQ(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int
                     schedData->queues[currentQueue][j] = schedData->queues[currentQueue][j+1];
                 }
             } else {
+            	// NOT end the process
                 /* still have quantum */
                 if (tasks[i].currentQuantum != 0){
                     tasks[i].executionTime ++;
@@ -246,20 +254,22 @@ int MFQ(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int
                 /* elect another task */
                 /* we have 2 cases: current is OR isn't the last task in queue */
                 /* both cases can be done with following codes */
-                else{                    j = 0;
+                else{
+                	// move to another queue
+                	// traverse the whole queues to make election
+                	j = 0;
                     while (schedData->queues[currentQueue][j] != -1){
                         schedData->queues[currentQueue][j] = schedData->queues[currentQueue][j+1];
                         j++;
                     }
-                    printf("T%d\n", schedData->queues[currentQueue][0] + 1);
                     if (currentQueue == NB_OF_QUEUES - 1)
-                        currentQueue = 0;
+                    	currentQueue = 0;
                     else
-                        currentQueue ++;
-                    // now we're at the queue to insert
+                    	currentQueue ++;
                     tasks[i].state = READY;
-                    tasks[i].currentQuantum = schedData->prioOfQueues[currentQueue]*quantum;
-                    printf("T%d%s%d\n", i + 1, " has quantum of ", tasks[i].currentQuantum);
+	                tasks[i].currentQuantum = schedData->prioOfQueues[currentQueue]*quantum;
+	                printf("T%d%s%d\n", i + 1, " has quantum of ", tasks[i].currentQuantum);
+	                // now we're staying at the current queue
                     j = 0;
                     // finding the correct place to insert
                     for (; j < MAX_NB_OF_TASKS; j++){
@@ -275,13 +285,17 @@ int MFQ(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int
     // ***********************************************************************
     
     // Otherwise, elect the first task in the queue
-    i = fine_current_queue(schedData);
+    i = elect(schedData);
     if (i != -1){
         tasks[i].executionTime ++;
         tasks[i].currentQuantum --;
         tasks[i].state = RUNNING;
         return i;
-    }
+    } 
+    else
+    	currentQueue = 0;
+    // we need the ELSE case because under this condition currentQueue is 3
+    // we run into error at line 205
     
     // No task could be elected
     return -1;
@@ -313,7 +327,20 @@ int IORR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, in
         }
     }
     print_queues(tasks, schedData);
-    
+    /*******************************************************************/
+
+    // need codes here
+    // this block checks the IO status
+    // shoud do well with those non-IO tasks
+    // should end with: i = schedData->queues[0][j];
+    // where j is the index of the first non-SLEEPING element
+
+    // need more properties about I/O
+    // like timeIOStart (the time it sleeps)
+    // 		&& timeToRequest
+
+    /*******************************************************************/
+
     // Is the first task in the queue running? Has that task finished its computations?
     //   If so, put it in terminated state and remove it from the queue
     //   If not, CHECK THE QUANTUM

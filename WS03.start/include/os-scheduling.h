@@ -26,7 +26,12 @@ typedef struct task {
     unsigned int state;
     unsigned int executionTime; //nb of cycles on processor
     unsigned int turnaroundTime; //turnaround time for each task
-    unsigned int currentQuantum; //turnaround time for each task
+    unsigned int currentQuantum; //current quantum for each task
+    
+    unsigned int duratioinIO; //how long an IO request takes
+    unsigned int frequencyIO; //how oftern to make an IO
+    unsigned int timeIOStart; //time the task starts IO request
+    unsigned int timeToRequest; //time remaining to make IO request
 } task;
 
 typedef struct sched_data {
@@ -40,3 +45,5 @@ int FCFS(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime);
 int RR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int quantum);
 
 int MFQ(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int quantum);
+
+int IORR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, int quantum);

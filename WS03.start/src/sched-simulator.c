@@ -93,9 +93,13 @@ int main(int argc, char *argv[]){
     /* Read the file line by line */
     printf("Loading file of tasks\n");
     while (fgets(line, sizeof(line), file) != NULL ) {
-        sscanf(line, "%s %u %u\n", tasks[nbOfTasks].name, &(tasks[nbOfTasks].computationTime), &(tasks[nbOfTasks].arrivalDate));
+        sscanf(line, "%s %u %u %u %u\n", tasks[nbOfTasks].name, 
+        	&(tasks[nbOfTasks].computationTime), &(tasks[nbOfTasks].arrivalDate), 
+        	&(tasks[nbOfTasks].duratioinIO), &(tasks[nbOfTasks].frequencyIO));
         tasks[nbOfTasks].state = UPCOMING;
         tasks[nbOfTasks].executionTime = 0;
+        // printf("T%d - duratioinIO:%u; frequencyIO:%u.\n", nbOfTasks + 1, 
+        // 	tasks[nbOfTasks].duratioinIO, tasks[nbOfTasks].frequencyIO);
         nbOfTasks ++;
     }
     fclose(file);
