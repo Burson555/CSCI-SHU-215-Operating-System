@@ -29,7 +29,7 @@ typedef struct task {
     unsigned int currentQuantum; //current quantum for each task
     
     unsigned int duratioinIO; //how long an IO request takes
-    unsigned int frequencyIO; //how oftern to make an IO
+    unsigned int frequencyIO; //how often to make an IO
     unsigned int timeIOStart; //time the task starts IO request
     unsigned int timeToRequest; //time remaining to make IO request
 } task;
