@@ -37,7 +37,7 @@ typedef struct task {
 typedef struct sched_data {
     int nbOfQueues;
     int queues[MAX_NB_OF_QUEUES][MAX_NB_OF_TASKS];
-    int prioOfQueues[MAX_NB_OF_QUEUES];
+    int prioOfQueues[MAX_NB_OF_QUEUES]; //priorities of different queue
 } sched_data;
 
 int FCFS(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime);

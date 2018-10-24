@@ -308,8 +308,8 @@ int find_starting_position(task tasks[], sched_data* schedData, int currentTime)
 		i = schedData->queues[0][j];
 		if (i == -1)
 			break;
-		if (tasks[i].duratioinIO <= (currentTime - tasks[i].timeIOStart))
-			if (tasks[i].timeToRequest > 0)
+		if (tasks[i].state == SLEEPING)
+			if (tasks[i].duratioinIO <= (currentTime - tasks[i].timeIOStart))
 				tasks[i].state = READY;
 	}
 	// Mission 2: find the right task to return
@@ -345,18 +345,18 @@ int IORR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, in
         j++;
     for(i = 0; i < nbOfTasks; i++) {
         if ((tasks[i].state == UPCOMING) && (tasks[i].arrivalDate == currentTime)) {
-        	printf("\ti = %d\n", i);
+        	printf("\tT%d\n", i + 1);
     		printf("\tfrequency: %d\n", tasks[i].frequencyIO);
-            tasks[i].state = READY;
+    		printf("\tduration:  %d\n", tasks[i].duratioinIO);
             schedData->queues[0][j] = i;
-            tasks[nbOfTasks].currentQuantum = quantum;
-            tasks[nbOfTasks].timeToRequest = tasks[nbOfTasks].frequencyIO;
+            tasks[i].state = READY;
+            tasks[i].currentQuantum = quantum;
+            tasks[i].timeToRequest = tasks[i].frequencyIO;
             j++;
         }
     }
     print_queues(tasks, schedData);
     /*******************************************************************/
-
     // need codes here
     // this block checks the IO status
     // shoud do well with those non-IO tasks
@@ -373,21 +373,15 @@ int IORR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, in
     //   If so, put it in terminated state and remove it from the queue
     //   If not, CHECK THE QUANTUM
     // i = schedData->queues[0][0];
-    printf("i = %d\n", i);
-    printf("currentQuantum: %d\n", tasks[i].currentQuantum);
-    printf("timeToRequest: %d\n", tasks[i].timeToRequest);
     i = find_starting_position(tasks, schedData, currentTime);
-    printf("i = %d\n", i);
-    printf("currentQuantum: %d\n", tasks[i].currentQuantum);
-    printf("timeToRequest: %d\n", tasks[i].timeToRequest);
     if (i != -1) {
         if (tasks[i].state == RUNNING) {
-        	if (tasks[nbOfTasks].timeToRequest == 0){
+        	if (tasks[i].timeToRequest == 0){
             	// the IO case
             	tasks[i].state = SLEEPING;
             	tasks[i].currentQuantum = quantum;
             	tasks[i].timeIOStart = currentTime;
-            	tasks[nbOfTasks].timeToRequest = tasks[nbOfTasks].frequencyIO;
+            	tasks[i].timeToRequest = tasks[i].frequencyIO;
             	j = 0;
                 while (schedData->queues[0][j] != -1){
                     schedData->queues[0][j] = schedData->queues[0][j + 1];
@@ -409,7 +403,7 @@ int IORR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, in
                 if (tasks[i].currentQuantum != 0){
                     tasks[i].executionTime ++;
                     tasks[i].currentQuantum --;
-                    tasks[nbOfTasks].timeToRequest --;
+                    tasks[i].timeToRequest --;
                     return i;
                 }
                 /* the ELSE case, no quantum left */
@@ -433,15 +427,20 @@ int IORR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, in
     
     // Otherwise, elect the first task in the queue
     // i = schedData->queues[0][0];
-    printf("the above code is never run\n");
     i = find_starting_position(tasks, schedData, currentTime);
-    printf("i = %d\n", i);
-    printf("currentQuantum: %d\n", tasks[i].currentQuantum);
-    printf("timeToRequest: %d\n", tasks[i].timeToRequest);
     if (i != -1){
+        if (tasks[i].executionTime == tasks[i].computationTime) {
+            tasks[i].state = TERMINATED;
+            tasks[i].turnaroundTime = currentTime - tasks[i].arrivalDate;
+            for (j = 0; j < MAX_NB_OF_TASKS - 1; j++) {
+            schedData->queues[0][j] = schedData->queues[0][j + 1];
+            }
+            currentTask = -1;
+            return -1;
+	    }
         tasks[i].executionTime ++;
         tasks[i].currentQuantum --;
-        tasks[nbOfTasks].timeToRequest --;
+        tasks[i].timeToRequest --;
         tasks[i].state = RUNNING;
         return i;
     }
@@ -449,3 +448,6 @@ int IORR(task tasks[], int nbOfTasks, sched_data* schedData, int currentTime, in
     // No task could be elected
     return -1;
 }
+
+// deal with the condition where a task coming back from suspend 
+// WITH computationTime == execution time
