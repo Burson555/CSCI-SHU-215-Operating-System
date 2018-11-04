@@ -33,7 +33,7 @@ int main (int argc, char* argv []) {
     
     for (i=1; i <NSIG; i++)
         if (sigismember ( &sig_pend,i) )
-            printf("%d",i);
+            printf("%d ",i);
     printf ("\n");
 
     /**
