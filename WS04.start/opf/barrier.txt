@@ -1,0 +1,13 @@
+6092 starting calc1
+	6092 receiving signal 30
+6092 starting calc2
+End Process 6092 
+6093 starting calc1
+	6093 receiving signal 31
+6093 starting calc2
+End Process 6093 
+6091 starting calc1
+	6091 receiving signal 31
+	6091 receiving signal 30
+6091 starting calc2
+End Process 6091 

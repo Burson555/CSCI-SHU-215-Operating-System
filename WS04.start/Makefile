@@ -1,46 +1,31 @@
-CFLAGS=-Iinclude -Wall
+CFLAGS=-Iopf -Wall
 
-all:
+all: build run
 
-RR: runR1 runR2 runR3
-
-MFQ: runM1 runM2 runM3
+run: sleep wave barrier
 
 build: clean
-	mkdir obj
-	gcc $(CFLAGS) -c -o obj/policies.o src/sched-policies.c	
-	gcc $(CFLAGS) -c -o obj/simulator.o src/sched-simulator.c
-	mkdir bin
-	mkdir opf
-	gcc $(CFLAGS) -o bin/sched-simulator obj/simulator.o obj/policies.o
+	# build file sleep.c
+	gcc $(CFLAGS) -c -o obj/sleep.o src/sleep.c
+	gcc $(CFLAGS) -o bin/sleep obj/sleep.o
+	# build file wave.c
+	gcc $(CFLAGS) -c -o obj/wave.o src/wave.c -DnbProcesses=8
+	gcc $(CFLAGS) -o bin/wave obj/wave.o
+	# build file barrier.c
+	gcc $(CFLAGS) -c -o obj/barrier.o src/barrier.c
+	gcc $(CFLAGS) -o bin/barrier obj/barrier.o
 
-runR1:
-	bin/sched-simulator tsk/tasks1 RR 4 > opf/sched-runR1.txt
-	cat  opf/sched-runR1.txt
+sleep:
+	bin/sleep 1 > opf/sleep.txt
+	cat opf/sleep.txt
 
-runR2:
-	bin/sched-simulator tsk/tasks2 RR 4 > opf/sched-runR2.txt
-	cat  opf/sched-runR2.txt
+wave:
+	bin/wave 1 > opf/wave.txt
+	cat opf/wave.txt
 
-runR3:
-	bin/sched-simulator tsk/tasks3 RR 4 > opf/sched-runR3.txt
-	cat  opf/sched-runR3.txt
-
-runM1:
-	bin/sched-simulator tsk/tasks1 MFQ 3 > opf/sched-runM1.txt
-	cat  opf/sched-runM1.txt
-
-runM2:
-	bin/sched-simulator tsk/tasks2 MFQ 3 > opf/sched-runM2.txt
-	cat  opf/sched-runM2.txt
-
-runM3:
-	bin/sched-simulator tsk/tasks3 MFQ 3 > opf/sched-runM3.txt
-	cat  opf/sched-runM3.txt
-
-runIO:
-	bin/sched-simulator tsk/tasks4 IORR 4 > opf/sched-runIO.txt
-	cat  opf/sched-runIO.txt
+barrier:
+	bin/barrier 1 > opf/barrier.txt
+	cat opf/barrier.txt
 
 clean:
 	rm -rf bin/* obj/* opf/*
