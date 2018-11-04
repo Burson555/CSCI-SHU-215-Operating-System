@@ -7,6 +7,8 @@ compiling rules START
 
 make: running all sources files, i.e. files for all questions
 
+make build: transforming all source files into executable files
+
 make sleep: Q1
 make wave: Q2
 make barrier: Q3
@@ -34,12 +36,16 @@ src/wave: source file for Q2
 src/barrier: source file for Q3
 src/wait: source file for Q4
 
-opf/sleep: output file for Q1
-opf/wave: output file for Q2
-opf/barrier: output file for Q3
-opf/wait: output file for Q4
-
 ./makefile: contains the compilation instructions all questions
+
+Macros:
+	B1: -DtimeSet=5
+		total sleep time for function mysleep is 5 seconds
+	B2: -DnbProcesses=4
+		total number of descendant processes created
+	B2: -DN=4
+		total number of child processes(those directly forked from parent) created
+
 
 ####################################################################################################
 files description END

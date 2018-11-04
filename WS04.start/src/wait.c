@@ -5,8 +5,6 @@
 #include <stdio.h>
 #include <signal.h>
 
-#define N 4
-
 int i, j;
 
 void sig_hand(int sig) {
