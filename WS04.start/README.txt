@@ -67,7 +67,11 @@ Q1 COMMENTS END
 Q2 COMMENTS START
 ####################################################################################################
 
-Easy.
+I found the LINUX will automatically perform context switch after child processes run kill.
+Thus, some processes will receive and deliver the signal (SIGUSR1 or SIGUSR2) before calling pause.
+Then since there will no longer be signals arriving, the process will pause forever.
+Under this condition, I added some sleep in between to bring about the situation we want.
+I also did the same(inserting sleeps) for question 3 and question 4.
 
 ####################################################################################################
 Q2 COMMENTS END
@@ -102,7 +106,7 @@ Q3 COMMENTS END
 Q4 COMMENTS START
 ####################################################################################################
 
-
+Easy. Same as the last question of mock midterm.
 
 ####################################################################################################
 Q4 COMMENTS END

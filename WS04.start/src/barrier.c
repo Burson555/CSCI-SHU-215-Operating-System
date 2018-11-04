@@ -16,12 +16,12 @@ void sig_hand(int sig) {
 
 void calc1 () { 
 	int i; 
-	for (i = 0; i < 10; i ++); 
+	for (i = 0; i < 1E8; i ++); 
 } 
 
 void calc2 () { 
 	int i; 
-	for (i = 0; i < 10; i ++); 
+	for (i = 0; i < 1E8; i ++); 
 } 
 
 int main (int argc, char * argv []) { 
