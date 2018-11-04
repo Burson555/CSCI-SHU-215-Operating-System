@@ -9,23 +9,26 @@ build: clean
 	gcc $(CFLAGS) -c -o obj/sleep.o src/sleep.c
 	gcc $(CFLAGS) -o bin/sleep obj/sleep.o
 	# build file wave.c
-	gcc $(CFLAGS) -c -o obj/wave.o src/wave.c -DnbProcesses=8
+	gcc $(CFLAGS) -c -o obj/wave.o src/wave.c -DnbProcesses=4
 	gcc $(CFLAGS) -o bin/wave obj/wave.o
 	# build file barrier.c
 	gcc $(CFLAGS) -c -o obj/barrier.o src/barrier.c
 	gcc $(CFLAGS) -o bin/barrier obj/barrier.o
+	# build file wait.c
+	gcc $(CFLAGS) -c -o obj/wait.o src/wait.c
+	gcc $(CFLAGS) -o bin/wait obj/wait.o
 
 sleep:
-	bin/sleep 1 > opf/sleep.txt
-	cat opf/sleep.txt
+	bin/sleep
 
 wave:
-	bin/wave 1 > opf/wave.txt
-	cat opf/wave.txt
+	bin/wave
 
 barrier:
-	bin/barrier 1 > opf/barrier.txt
-	cat opf/barrier.txt
+	bin/barrier
+
+wait:
+	bin/wait
 
 clean:
 	rm -rf bin/* obj/* opf/*

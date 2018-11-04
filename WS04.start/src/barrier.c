@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/wait.h>
+#include <math.h>
 
 int counter = -2;
 
@@ -14,12 +16,12 @@ void sig_hand(int sig) {
 
 void calc1 () { 
 	int i; 
-	for (i = 0; i <1E8; i ++); 
+	for (i = 0; i < 10; i ++); 
 } 
 
 void calc2 () { 
 	int i; 
-	for (i = 0; i <1E8; i ++); 
+	for (i = 0; i < 10; i ++); 
 } 
 
 int main (int argc, char * argv []) { 
@@ -40,30 +42,35 @@ int main (int argc, char * argv []) {
 	int i = 0; 
 	pid_t pid_child [2]; 
 
-	while ((i < 2) && ((pid_child [i] = fork ()) != 0)) 
-		i ++; 
+	while (i < 2) {
+		if ((pid_child [i] = fork ()) == 0){
+			break;
+		}
+		i ++;
+	}
 
-	printf("%d starting calc1\n", getpid());
+	printf("%d starts calc1\n", getpid());
 	calc1 ();
 	if (i < 2) {
-		kill(getppid(), SIGUSR1 + i);
+		kill(getppid(), SIGUSR1 + i * 2);
 		pause();
 	} else {
 		while (counter != 0)
 			pause();
+		sleep(1);
 		for (i = 0; i < 2; i++)
-			kill(pid_child[i], SIGUSR1 + i);
+			kill(pid_child[i], SIGUSR1 + i * 2);
 	}
 
-	printf("%d starting calc2\n", getpid());
+	printf("%d starts calc2\n", getpid());
 	calc2 (); 
 
 	if (i == 2) {
 		wait(NULL);
 		wait(NULL);
+		printf ( "End Process\n"); 
 	}
 
-	printf ( "End Process %d \n", getpid()); 
 
 	return EXIT_SUCCESS; 
 

@@ -81,7 +81,7 @@ Q2 COMMENTS END
 Q3 COMMENTS START
 ####################################################################################################
 
-Q3.1:	the minimum number of signal emissions needed is 4.
+Q3.1:	4 is the minimum number of signal emissions needed.
 		The parent pauses for two signals from children after executing calc1,
 		and the send one signal to each child telling them to stop pausing and tun calc2.
 Q3.2:	No, we can't implement with SIGUSR1 only.

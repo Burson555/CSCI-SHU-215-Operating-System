@@ -69,33 +69,29 @@ int wave(int N) {
     // create lineage of processes
     for (i = 0; (i < N) && ((pid = fork()) == 0); i++)
         ppid = getppid();
+    // printf("%d\n", i);
 
-    // ***************** 1st wave *****************
+    // ***************** waves *****************
     if (pid == 0) {
+        printf("\nFirst wave starting\n");
         kill(ppid, SIGUSR1);
-    } else {
         pause();
-    }
-    // ***************** 1st wave *****************
-
-    // ***************** 2nd wave *****************
-    if (ppid == 0) {
-        kill(pid, SIGUSR2);
-    } else {
-        pause();
-    }
-    // ***************** 2nd wave *****************
-
-    // ***************** 3rd wave *****************
-    // sending SIGINT is necessary
-    // because only in this way can the SIGINT be passed on to PP
-    // of course we change the handler of SIGINT
-    if (pid == 0) {
+        sleep(1);
+        printf("\nThird wave starting\n");
         kill(ppid, SIGINT);
     } else {
         pause();
+        if (ppid == 0){
+            sleep(1);
+            printf("\nSecond wave starting\n");
+            kill(pid, SIGUSR2);
+        } else {
+            pause();
+        }
+        pause();
     }
-    // ***************** 3rd wave *****************
+    // ***************** waves *****************
+
 
     if (ppid == 0)
         printf("End of program\n");
