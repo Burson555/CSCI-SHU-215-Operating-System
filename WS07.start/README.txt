@@ -1,114 +1,94 @@
 Bosen Yang by570
 
 
+####################################################################################################
+compiling rules START
+####################################################################################################
 
+make: running RR, MFQ and IORR algorithms on task files
 
-Detailed List of Files
-/include/*
-	stack.h
-	list.h
-	fifo.h
+make RR: Q1, running RR on 3 task files and produce 3 output files in folder opf
+make MFQ: Q2, running MFQ on 3 task files and produce 3 output files in folder opf
+make runIO: Q3, running IORR on task file tasks4 and produce an output file in folder opf
 
-/lib/*
-	libstack0.a		Question 2
-	libstack.a		Question 5
-	libfifo.a		Question 6
+make clean: remove all files in bin/, src/ and lib/ for a fresh restart
 
-/src/*
-	stack_test.c		Question 3 5
-	stack_list.c		Question 5
-	stack_array.c		Question 2 3
-	list_impl.c		Question 4 5 6
-	fifo_test.c		Question 6
-	fifo_list.c		Question 6
+####################################################################################################
+compiling rules END
+####################################################################################################
 
 
 
+####################################################################################################
+files description START
+####################################################################################################
 
+include/os-scheduling.h: header file for all questions
 
-Explanation of compilation rules && Answer for Question 7
-Question 1
-	No compilation rule written for this question.
-Question 2
-	${LIB}/libstack.a: ${OBJ}/stack_array.o
-		ar rs ${LIB}/libstack.a ${OBJ}/stack_array.o
-	The rule above archives object file obj/stack_array.o by creating a static library called libstack.a
+bin/sched-simulator: executable file for all questions
 
-Question 3
-	${OBJ}/stack_array.o: ${INC}/stack.h ${SRC}/stack_array.c
-		${CC} -c -o ${OBJ}/stack_array.o ${SRC}/stack_array.c -I${INC} -DSTACK_SIZE=3
-	I added a term "-DSTACK_NAME=3" to the end of the original code, changing the value of a variable/macro called STACK_SIZE to 3.
-Question 4
-	No compilation rule written for this question.
-Question 5
-	${LIB}/libstack.a: ${OBJ}/list_impl.o ${OBJ}/stack_list.o
-		ar rs ${LIB}/libstack.a ${OBJ}/list_impl.o ${OBJ}/stack_list.o
-	${OBJ}/list_impl.o: ${INC}/list.h ${SRC}/list_impl.c
-		${CC} -c -o ${OBJ}/list_impl.o ${SRC}/list_impl.c -I${INC}
-	${OBJ}/stack_list.o: ${INC}/list.h ${INC}/stack.h ${SRC}/stack_list.c
-		${CC} -c -o ${OBJ}/stack_list.o ${SRC}/stack_list.c -I${INC}
-	...(unimportant codes that compiles stack_test.c)
-	${BIN}/stack_test: ${OBJ}/stack_test.o ${LIB}/libstack.a
-		${CC} -o ${BIN}/stack_test ${OBJ}/stack_test.o ${LIB}/libstack.a
+src/sched-policies.c: source file for all questions
+src/sched-simulator.c: source file for all questions
 
-	The second and third lines of code compile the source files into object files.
-	The first line of code archives the object files in a library called libstack.a
-	The last line of code creates an executable file with the stack_test.o object file and the staic library we just created.
+opf/sched-runR1.txt: results of RR on tasks1
+opf/sched-runR2.txt: results of RR on tasks2
+opf/sched-runR3.txt: results of RR on tasks3
 
-Question 6
-	${LIB}/libfifo.a: ${OBJ}/list_impl.o ${OBJ}/fifo_list.o
-		ar rs ${LIB}/libfifo.a ${OBJ}/list_impl.o ${OBJ}/fifo_list.o
-	This line archives the object files into a static library called libfifo.a
+opf/sched-runM1.txt: results of MFQ on tasks1
+opf/sched-runM2.txt: results of MFQ on tasks2
+opf/sched-runM3.txt: results of MFQ on tasks3
 
-	${OBJ}/list_impl.o: ${INC}/list.h ${SRC}/list_impl.c
-		${CC} -c -o ${OBJ}/list_impl.o ${SRC}/list_impl.c -I${INC}
-	This line creates an object file from source file list_impl.c
+opf/sched-runIO.txt: results of IORR on tasks4
 
-	${OBJ}/fifo_list.o: ${INC}/list.h ${INC}/fifo.h ${SRC}/fifo_list.c
-		${CC} -c -o ${OBJ}/fifo_list.o ${SRC}/fifo_list.c -I${INC}
-	This line compiles source file fifo_list.c to derive object file fifo_list.o
+./makefile: contains the compilation instructions all questions
 
-	${OBJ}/fifo_test.o: ${INC}/fifo.h ${SRC}/fifo_test.c
-		${CC} -c -o ${OBJ}/fifo_test.o ${SRC}/fifo_test.c -I${INC}
-	This line compiles source file fifo_test.c to derive object file fifo_test.o
-
-	${BIN}/fifo_test: ${OBJ}/fifo_test.o ${LIB}/libfifo.a
-		${CC} -o ${BIN}/fifo_test ${OBJ}/fifo_test.o ${LIB}/libfifo.a
-	This line links fifo_test.o object file and the library we just created to derive an executable file fifo_test
-
-Question 7
-	I would make the change in file list.h by adding a new integer variable into struct list_type.
-	This variable will be initialized as 0.
-	When inserting a new element into the list, the value of this variable increases by 1.
-	When extracting an element from the list, the value of this variable decreases by 1.
-	The value of this variable will always be equal to the number of elements in the list.
-	If we want to know the size of the list, we can just return this variable value, and it takes only O(1).
+####################################################################################################
+files description END
+####################################################################################################
 
 
 
+####################################################################################################
+Q1 COMMENTS START
+####################################################################################################
 
-Comments
-Question 1
-	While trying to compile the program by calling make, Terminal tells me there's no makefile file found.
-	I know the file called makefile.ini is exactly what I need.
-	Then I tried entering make makefile.ini, but failed too.
-	I finally succeeded by calling make after changing file name of makefile.ini into makefile using mv.
-Question 2
-	This one actually a bit tricky.
-	I did wrote a line "${LIB}/libstack.a: ${OBJ}/stack_array.o\n\tar rs ${LIB}/libstack.a ${OBJ}/stack_array.o" in Makefile.
-	There's no problem with this code, but the archiving just doesn't happen.
-	Finally I found it's because I didn't include ${LIB}/libstack.a as a prerequisite under target all.
-Question 3
-	No comments. This one is easy if you know how to use -D.
-	The tricky point is that we should delete the line "#define STACK_SIZE 12" in stack_array.c.
-	Or variable STACK_SIZE would be redefine back to 12 while compiling.
-Question 4
-	A refresher on Data Structure, which one shouldn't have trouble of.
-Question 5
-	While compiling source file and header file into object file, I forgot to include -I${INC} in the instruction.
-	It turned out that the program can't find the header file.	
-	Everything's coming back to normal after I added -I${INC}.
-Question 6
-	Easy. No comments.
+Easy.
 
+####################################################################################################
+Q1 COMMENTS END
+####################################################################################################
+
+
+
+####################################################################################################
+Q2 COMMENTS START
+####################################################################################################
+
+At first, I implemented the MFQ algorithm in a preemptive way.
+Actually it turned out to be easier than the non-preemptive way, which the assignment asks us to do.
+Because, when a new task is inserted into a higher priority queue and the current task hasn't finished its quantum, we have to skip the new task while calling scheduler function, searching for next task to process.
+Such requirement takes extra work, which in my implementation needs a static variable (called currentQueue).
+
+####################################################################################################
+Q2 COMMENTS END
+####################################################################################################
+
+
+
+####################################################################################################
+Q3 COMMENTS START
+####################################################################################################
+
+This question shouldn't be hard if we do it step by step:
+	1. add IO related properties to data type task
+	2. modify the sscanf function in sched-simulator.c so the program task IO data
+	3. add an if under condition if (tasks[i].state == RUNNING), to start an IO
+	4. add an external funtion which can find the correct task to run, because in our case, the first task in queue may not be runable if it's waiting for an IO
+	5. also the function checks whether the task finishes its IO request
+	6. consider the case when a task comes back from IO with tasks[i].executionTime == tasks[i].computationTime. Without this condition checking, such tasks can fall into infinite executions even if tasks[i].executionTime > tasks[i].computationTime
+** the steps talked about above are important ones. I've omitted some easy and common-sense ones
+
+####################################################################################################
+Q3 COMMENTS END
+####################################################################################################
 

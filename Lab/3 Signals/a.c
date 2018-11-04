@@ -116,24 +116,23 @@
 // }
 
 // Page 32 example timer notification
-// void sig_hand (int sig) { 
-//   printf ( "received signal% d \n", sig); 
-//   alarm (1); 
-// }
-//  int main (int argc, char ** argv) { 
-//    sigset_t sig_proc;
-//    struct sigaction action; 
-//    sigemptyset (& sig_proc); 
-//    action.sa_mask = sig_proc; 
-//    action.sa_flags = 0; 
-//    action.sa_handler = sig_hand; 
-//    sigaction (SIGALRM, & action, 0);
-//    while (1) {
-//      alarm(1);
-//      pause ();
-//   } 
-//   return EXIT_SUCCESS;
-// } 
+void sig_hand (int sig) {
+  printf ( "received signal% d \n", sig);
+}
+ int main (int argc, char ** argv) {
+   sigset_t sig_proc;
+   struct sigaction action;
+   sigemptyset (& sig_proc);
+   action.sa_mask = sig_proc;
+   action.sa_flags = 0;
+   action.sa_handler = sig_hand;
+   sigaction (SIGALRM, & action, 0);
+   while (1) {
+     alarm(1);
+     pause ();
+  }
+  return EXIT_SUCCESS;
+}
 
 // Page 37 example loss of pending signals
 // int cont;

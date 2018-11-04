@@ -18,8 +18,8 @@ int main () {
 	
  	sigemptyset (& sig_proc); 
  	action.sa_mask = sig_proc; 
-  action.sa_flags = 0; 
-  action.sa_handler = sig_hand; 
+	action.sa_flags = 0; 
+	action.sa_handler = sig_hand; 
 	sigaction(SIGINT, &action, 0);
 
 	// mask all but SIGINT
