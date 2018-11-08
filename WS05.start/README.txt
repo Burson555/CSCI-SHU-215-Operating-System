@@ -5,11 +5,14 @@ Bosen Yang by570
 compiling rules START
 ####################################################################################################
 
-make: running RR, MFQ and IORR algorithms on task files
+make: running all sources files, i.e. files for all questions
 
-make RR: Q1, running RR on 3 task files and produce 3 output files in folder opf
-make MFQ: Q2, running MFQ on 3 task files and produce 3 output files in folder opf
-make runIO: Q3, running IORR on task file tasks4 and produce an output file in folder opf
+make build: transforming all source files into executable files
+
+make sleep: Q1
+make wave: Q2
+make barrier: Q3
+make wait: Q4
 
 make clean: remove all files in bin/, src/ and lib/ for a fresh restart
 
@@ -23,24 +26,26 @@ compiling rules END
 files description START
 ####################################################################################################
 
-include/os-scheduling.h: header file for all questions
+bin/sleep: executable file for Q1
+bin/wave: executable file for Q2
+bin/barrier: executable file for Q3
+bin/wait: executable file for Q4
 
-bin/sched-simulator: executable file for all questions
-
-src/sched-policies.c: source file for all questions
-src/sched-simulator.c: source file for all questions
-
-opf/sched-runR1.txt: results of RR on tasks1
-opf/sched-runR2.txt: results of RR on tasks2
-opf/sched-runR3.txt: results of RR on tasks3
-
-opf/sched-runM1.txt: results of MFQ on tasks1
-opf/sched-runM2.txt: results of MFQ on tasks2
-opf/sched-runM3.txt: results of MFQ on tasks3
-
-opf/sched-runIO.txt: results of IORR on tasks4
+src/sleep: source file for Q1
+src/wave: source file for Q2
+src/barrier: source file for Q3
+src/wait: source file for Q4
 
 ./makefile: contains the compilation instructions all questions
+
+Macros:
+	B1: -DtimeSet=5
+		total sleep time for function mysleep is 5 seconds
+	B2: -DnbProcesses=4
+		total number of descendant processes created
+	B2: -DN=4
+		total number of child processes(those directly forked from parent) created
+
 
 ####################################################################################################
 files description END
@@ -48,11 +53,13 @@ files description END
 
 
 
+
+
 ####################################################################################################
 Q1 COMMENTS START
 ####################################################################################################
 
-Easy.
+Confuseing question.
 
 ####################################################################################################
 Q1 COMMENTS END
@@ -60,14 +67,17 @@ Q1 COMMENTS END
 
 
 
+
+
 ####################################################################################################
 Q2 COMMENTS START
 ####################################################################################################
 
-At first, I implemented the MFQ algorithm in a preemptive way.
-Actually it turned out to be easier than the non-preemptive way, which the assignment asks us to do.
-Because, when a new task is inserted into a higher priority queue and the current task hasn't finished its quantum, we have to skip the new task while calling scheduler function, searching for next task to process.
-Such requirement takes extra work, which in my implementation needs a static variable (called currentQueue).
+I found the LINUX will automatically perform context switch after child processes run kill.
+Thus, some processes will receive and deliver the signal (SIGUSR1 or SIGUSR2) before calling pause.
+Then since there will no longer be signals arriving, the process will pause forever.
+Under this condition, I added some sleep in between to bring about the situation we want.
+I also did the same(inserting sleeps) for question 3 and question 4.
 
 ####################################################################################################
 Q2 COMMENTS END
@@ -75,20 +85,36 @@ Q2 COMMENTS END
 
 
 
+
+
 ####################################################################################################
 Q3 COMMENTS START
 ####################################################################################################
 
-This question shouldn't be hard if we do it step by step:
-	1. add IO related properties to data type task
-	2. modify the sscanf function in sched-simulator.c so the program task IO data
-	3. add an if under condition if (tasks[i].state == RUNNING), to start an IO
-	4. add an external funtion which can find the correct task to run, because in our case, the first task in queue may not be runable if it's waiting for an IO
-	5. also the function checks whether the task finishes its IO request
-	6. consider the case when a task comes back from IO with tasks[i].executionTime == tasks[i].computationTime. Without this condition checking, such tasks can fall into infinite executions even if tasks[i].executionTime > tasks[i].computationTime
-** the steps talked about above are important ones. I've omitted some easy and common-sense ones
+Q3.1:	4 is the minimum number of signal emissions needed.
+		The parent pauses for two signals from children after executing calc1,
+		and the send one signal to each child telling them to stop pausing and tun calc2.
+Q3.2:	No, we can't implement with SIGUSR1 only.
+		In this program there's definitely one process that receives 2 signals, 
+		each from one of the other two processes.
+		If we only have SIGUSR1, because one signal can hide another,
+		one out of two SIGUSR1's will be discarded and thus cause some information to be lost.
 
 ####################################################################################################
 Q3 COMMENTS END
+####################################################################################################
+
+
+
+
+
+####################################################################################################
+Q4 COMMENTS START
+####################################################################################################
+
+Easy. Same as the last question of mock midterm.
+
+####################################################################################################
+Q4 COMMENTS END
 ####################################################################################################
 

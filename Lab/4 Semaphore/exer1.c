@@ -1,8 +1,11 @@
+#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #define N 10
 
 
@@ -32,27 +35,28 @@ int main () {
 
 	for (i = 0; (i < N) && (fork() > 0); i++);
 
-	if ( i < 10){
+	if ( i < N){
 		srand(getpid());
-		sp[i] = (int) (10 * (float) rand () / RAND_MAX);
+		sp[i] = rand() % 10;
 		printf("%d | Child %d: %d\n", getpid(), i, sp[i]);
-		exit(2);
+		return 0;
 	}
+	// child processes end here
 
-	// / * Await children * /
+	// Await children
 	for (i = 0; i < N; i++)
 		wait(NULL);
 
-	// / * Access segment * /
+	// Access segment
 	int sum = 0;
 	for (i = 0; i < N; i++)
 		sum += sp[i];
 	printf("Parent says: the sum is %d\n", sum);
 
-	// / * "Detach" segment * / 
+	// "Detach" segment
 	munmap (sp, N * sizeof (int));
 
-	// / * Destroy * the segment / 
+	// Destroy the segment
 	shm_unlink ("myshm");
 	return 0;
 }

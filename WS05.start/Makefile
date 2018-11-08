@@ -1,73 +1,41 @@
-CC=gcc -Wall -ansi
-BIN=bin
-INC=include
-LIB=lib
-OBJ=obj
-SRC=src
+CFLAGS1 =-Wall -lrt
+CFLAGS2 =-Wall -lpthred
+CFLAGS3 =-Wall -lpthred -lrt
 
 
-all: runstack# ${LIB}/libstack.a
-#all: ${LIB}/libstack.a ${LIB}/libfifo.a
+all: build run
 
+run: sleep wave barrier wait
 
-# ${LIB}/libstack.a: ${OBJ}/list_impl.o ${OBJ}/stack_list.o
-	# ar rs ${LIB}/libstack.a ${OBJ}/list_impl.o ${OBJ}/stack_list.o
+build: clean B1 B2 B3 B4
 
-# ${OBJ}/list_impl.o: ${INC}/list.h ${SRC}/list_impl.c
-	# ${CC} -c -o ${OBJ}/list_impl.o ${SRC}/list_impl.c -I${INC}
+B1: # build file sleep.c
+	gcc $(CFLAGS) -c -o obj/sleep.o src/sleep.c -DtimeSet=5
+	gcc $(CFLAGS) -o bin/sleep obj/sleep.o
 
-# ${OBJ}/stack_list.o: ${INC}/list.h ${INC}/stack.h ${SRC}/stack_list.c
-	# ${CC} -c -o ${OBJ}/stack_list.o ${SRC}/stack_list.c -I${INC}
+B2: # build file wave.c
+	gcc $(CFLAGS) -c -o obj/wave.o src/wave.c -DnbProcesses=4
+	gcc $(CFLAGS) -o bin/wave obj/wave.o
 
+B3: # build file barrier.c
+	gcc $(CFLAGS) -c -o obj/barrier.o src/barrier.c
+	gcc $(CFLAGS) -o bin/barrier obj/barrier.o
 
+B4: # build file wait.c
+	gcc $(CFLAGS) -c -o obj/wait.o src/wait.c -DN=4
+	gcc $(CFLAGS) -o bin/wait obj/wait.o
 
-#${LIB}/libstack.a: ${OBJ}/stack_array.o
-#	ar rs ${LIB}/libstack0.a ${OBJ}/stack_array.o
-#${OBJ}/stack_array.o: ${INC}/stack.h ${SRC}/stack_array.c
-#	${CC} -c -o ${OBJ}/stack_array.o ${SRC}/stack_array.c -I${INC} -DSTACK_SIZE=12
+sleep:
+	bin/sleep
 
+wave:
+	bin/wave
 
+barrier:
+	bin/barrier
 
-${LIB}/libfifo.a: ${OBJ}/list_impl.o ${OBJ}/fifo_list.o
-	ar rs ${LIB}/libfifo.a ${OBJ}/list_impl.o ${OBJ}/fifo_list.o
-
-${OBJ}/list_impl.o: ${INC}/list.h ${SRC}/list_impl.c
-	${CC} -c -o ${OBJ}/list_impl.o ${SRC}/list_impl.c -I${INC}
-
-${OBJ}/fifo_list.o: ${INC}/list.h ${INC}/fifo.h ${SRC}/fifo_list.c
-	${CC} -c -o ${OBJ}/fifo_list.o ${SRC}/fifo_list.c -I${INC}
-
-
-
-
-
-# ${OBJ}/stack_test.o: ${INC}/stack.h ${SRC}/stack_test.c
-	# ${CC} -c -o ${OBJ}/stack_test.o ${SRC}/stack_test.c -I${INC}
-${OBJ}/fifo_test.o: ${INC}/fifo.h ${SRC}/fifo_test.c
-	${CC} -c -o ${OBJ}/fifo_test.o ${SRC}/fifo_test.c -I${INC}
-
-
-
-
-
-
-#${BIN}/stack_test: ${OBJ}/stack_test.o ${OBJ}/stack_array.o
-#	${CC} -o ${BIN}/stack_test ${OBJ}/stack_test.o ${OBJ}/stack_array.o
-
-
-# ${BIN}/stack_test: ${OBJ}/stack_test.o ${LIB}/libstack.a
-	# ${CC} -o ${BIN}/stack_test ${OBJ}/stack_test.o ${LIB}/libstack.a
-${BIN}/fifo_test: ${OBJ}/fifo_test.o ${LIB}/libfifo.a
-	${CC} -o ${BIN}/fifo_test ${OBJ}/fifo_test.o ${LIB}/libfifo.a
-
-
-runstack: ${BIN}/fifo_test
-	echo "Testing Fifo"
-	${BIN}/fifo_test
-
-# runstack: ${BIN}/stack_test
-	# echo "Testing Stack"
-	# ${BIN}/stack_test
+wait:
+	bin/wait
 
 clean:
-	rm -f ${OBJ}/* ${BIN}/* ${LIB}/*
+	rm -rf bin/* obj/* opf/*
