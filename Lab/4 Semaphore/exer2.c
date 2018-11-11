@@ -49,26 +49,26 @@ int main () {
     // 			V1(allow parent to reap)
 
     sem_t * semprod[N];
-    sem_t * semcons;
-    char sem_name[N][15];
-    if ((semP = sem_open ( "semP", O_CREAT | O_EXCL | O_RDWR, 0666, 0)) == SEM_FAILED) { 
-        if (errno != EEXIST) {
-            perror ( "sem_open"); 
-            exit (1); 
-        }
-        semP = sem_open("semP", O_RDWR);
-    }
+    sem_t * semcons[N];
+    char* sem_name = (char*) malloc(16 * sizeof(char));
     for (i = 0; i < N; i++){
-    	char nb[3] = "";
-    	itoa(i, nb, 10);
-    	strcat(sem_name[i], "sem");
-    	strcat(sem_name[i], nb);
-	    if ((semprod[i] = sem_open ( sem_name[i], O_CREAT | O_EXCL | O_RDWR, 0666, 0)) == SEM_FAILED) { 
+    	sprintf(sem_name, "semprod%d", i);
+        printf("semaphore name == %s\n", sem_name);
+	    if ((semprod[i] = sem_open ( sem_name, O_CREAT | O_EXCL | O_RDWR, 0666, 1)) == SEM_FAILED) { 
 	        if (errno != EEXIST) {
 	            perror ( "sem_open"); 
 	            exit (1); 
 	        }
-	        semprod[i] = sem_open(sem_name[i], O_RDWR);
+	        semprod[i] = sem_open(sem_name, O_RDWR);
+	    }
+	    sprintf(sem_name, "semcons%d", i);
+        printf("semaphore name == %s\n", sem_name);
+	    if ((semcons[i] = sem_open ( sem_name, O_CREAT | O_EXCL | O_RDWR, 0666, 0)) == SEM_FAILED) { 
+	        if (errno != EEXIST) {
+	            perror ( "sem_open"); 
+	            exit (1); 
+	        }
+	        semcons[i] = sem_open(sem_name, O_RDWR);
 	    }
     }
 	
@@ -80,25 +80,23 @@ int main () {
 			srand(getpid() * rand());
 			sp[i] = rand() % 10;
 			printf("%d-Child %d | Number %d: %d\n", getpid(), i, j, sp[i]);
-			sem_post(semprod[i]);
+			sem_post(semcons[i]);
 		}
 		return 0;
 	} // child processes end here
 	else {
-		for (i = 0; i < N; i++)
-			sem_post(semprod[i]);
 		for (j = 0; j < N; j++){
 			for (i = 0; i < N; i++)
-				sem_wait(semP);
-			for (i = 0; i < N; i++)
+				sem_wait(semcons[i]);
+			for (i = 0; i < N; i++) {
+                printf("PP> child %d - %d\n", i, sp[i]);
 				sum += sp[i];
+			}
 			printf("Parent says: the sum is %d\n", sum);
 			for (i = 0; i < N; i++)
 				sem_post(semprod[i]);
 		}
 	}
-
-	printf("Parent says: the sum is %d\n", sum);
 
 	// Await children
 	for (i = 0; i < N; i++)
@@ -110,80 +108,15 @@ int main () {
 	// Destroy the segment
 	shm_unlink ("myshm");
 
-	// Close the semaphore
-    sem_close (semP);
-    for (i = 0; i < N; i++)
+	// Close & Destroy the semaphore
+    for (i = 0; i < N; i++){
 		sem_close(semprod[i]);
-    // Destroy the semaphore
-    sem_unlink ("semP");
-    for (i = 0; i < N; i++)
-		sem_unlink(sem_name[i]);
-
-
- //    sem_t * semP, * semC;
- //    if ((semP = sem_open ( "semP", O_CREAT | O_EXCL | O_RDWR, 0666, 0)) == SEM_FAILED) { 
- //        if (errno != EEXIST) {
- //            perror ( "sem_open"); 
- //            exit (1); 
- //        }
- //        semP = sem_open("semP", O_RDWR);
- //    }
- //    if ((semC = sem_open ( "semC", O_CREAT | O_EXCL | O_RDWR, 0666, 0)) == SEM_FAILED) { 
- //        if (errno != EEXIST) {
- //            perror ( "sem_open"); 
- //            exit (1); 
- //        }
- //        semC = sem_open("semC", O_RDWR);
- //    }
-
-	// for (i = 0; (i < N) && (fork() > 0); i++);
-
-	// if (i < N){
-	// 	for (j = 0; j < N; j++) {
-	// 		sem_wait(semC);
-	// 		srand(getpid() * rand());
-	// 		sp[i] = rand() % 10;
-	// 		printf("%d-Child %d | Number %d: %d\n", getpid(), i, j, sp[i]);
-	// 		sem_post(semP);
-	// 	}
-	// 	return 0;
-	// } // child processes end here
-	// else {
-	// 	for (i = 0; i < N; i++)
-	// 		sem_post(semC);
-	// 	for (j = 0; j < N; j++){
-	// 		for (i = 0; i < N; i++)
-	// 			sem_wait(semP);
-	// 		for (i = 0; i < N; i++)
-	// 			sum += sp[i];
-	// 		printf("Parent says: the sum is %d\n", sum);
-	// 		for (i = 0; i < N; i++)
-	// 			sem_post(semC);
-	// 	}
-	// }
-
-	// printf("Parent says: the sum is %d\n", sum);
-
-	// // Await children
-	// for (i = 0; i < N; i++)
-	// 	wait(NULL);
-
-	// // "Detach" segment
-	// munmap (sp, N * sizeof (int));
-
-	// // Destroy the segment
-	// shm_unlink ("myshm");
-
-	// // Close the semaphore
- //    sem_close (semP);
- //    sem_close (semC);
- //    // Destroy the semaphore
- //    sem_unlink ("semP");
- //    sem_unlink ("semC");
+		sem_close(semcons[i]);
+    	sprintf(sem_name, "semprod%d", i);
+		sem_unlink(sem_name);
+    	sprintf(sem_name, "semcons%d", i);
+		sem_unlink(sem_name);
+    }
 
 	return 0;
 }
-
-// each cell of the shared memory 
-// only contains the sum of N random integers the process created
-// the random integers are local to the child process but not the parent

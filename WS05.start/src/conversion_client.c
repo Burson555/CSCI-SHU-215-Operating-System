@@ -1,10 +1,10 @@
-// do I need extra data structures?
-// leave the error detection to the last step
+// do I need extra data structures?   YES
+// leave the error detection to the last step   ---   ******************
 
 // FIRST parse every input argument and store them into local variables
-// i.e.,    int server_id
-//          char* client_id
-//          int currency
+// i.e.,    char server_id[]
+//          char client_id[]
+//          char currency[]
 //          float amount
 
 // NOTE
@@ -13,165 +13,62 @@
 
 // SECOND create shared memory
 
-char * getStateString(int state) {
-    return states[state];
-}
-
-/* Returns the number of tasks that still have to be run, */
-/* that is, all tasks which still have computations to perform */
-int hasTasksToSchedule(task tasks[], int nbOfTasks) {
-    int total = 0;
-    int i;
-    
-    for(i=0; i<nbOfTasks; i++) {
-        if (tasks[i].state != TERMINATED) {
-            total ++;
-        }
-    }
-    return total;
-}
-
-
-void printTasks(task tasks[], int nbOfTasks) {
-    int i;
-    
-    for(i=0; i<nbOfTasks; i++) {
-        printf("Task: %s \t arrivalDate:%d    \t state:%s \t computations:%d/%d\n",
-               tasks[i].name, tasks[i].arrivalDate, getStateString(tasks[i].state),
-               tasks[i].executionTime, tasks[i].computationTime);
-    }
-}
-
+#include <conversion.h>
 
 int main(int argc, char *argv[]){
 
-    char line [MAX_LINE_SIZE]; /* or other suitable maximum line size */
+    // creating shared memory file
+    int fd_client;
+    int * sp_client;
+    char shm_client[MAX_NAME_SIZE + 6];
+    sprintf(shm_client, "%s_shm:0", argv[2]);
+    fd_client = shm_open(shm_client, O_CREAT|O_RDWR, 0666);
+    ftruncate(fd_client, sizeof(info_struct));
+    sp_client = (info_struct*)mmap(0, sizeof(info_struct), PROT_READ|PROT_WRITE, MAP_SHARED, fd_client, 0);
 
-    sched_data *schedData = (sched_data*)malloc(sizeof(sched_data));
-    int nbOfTasks = 0;
-    int time = 0;
-    int taskIndex;
-    /********************************/
-    int quantum;
-    int nbPolicy;
+    // constructing data structure of conversion information
+    float init_value = atof(argv[4]);
+    sp_client->server_id = argv[1];
+    sp_client->client_id = argv[2];
+    sp_client->currency = argv[3];
+    sp_client->amount = init_value;
+    // sp_client->amount = atof(argv[4]);
 
-    /**** Define Quantum ****/
-    quantum = atoi(argv[3]);
-    printf("%s%d\n\n", "The Quantum is ", quantum);
+    // open server shared memory and write into it
+    int fd_server;
+    int * sp_server;
+    char shm_server[MAX_NAME_SIZE + 6];
+    sprintf(shm_server, "%s_shm:0", argv[1]);
+    fd_server = shm_open(shm_server, O_RDWR, 0);
+    ftruncate(fd_server, sizeof(info_struct));
+    sp_server = (info_struct*)mmap(0, sizeof(info_struct), PROT_READ|PROT_WRITE, MAP_SHARED, fd_server, 0);
+    sp_server->server_id = sp_client->server_id;
+    sp_server->client_id = sp_client->client_id;
+    sp_server->currency = sp_client->currency;
+    sp_server->amount = sp_client->amount;
 
-    /**** Determin Scheduling Policy ****/
-    // printf("%s\n\n", argv[2]);
-    if (strncmp(argv[2], "RR", 2) == 0){
-        nbPolicy = 0;}
-    else if (strncmp(argv[2], "MFQ", 3) == 0){
-        nbPolicy = 1;}
-    else if (strncmp(argv[2], "IORR", 4) == 0){
-        nbPolicy = 2;}
-    // Neither RR or MFQ are entered
-    else{
-        nbPolicy = 3;}
-    // printf("%s%d\n\n", "# of Policy ", nbPolicy);
+    // create client comsumption semaphore
+    char sem_client[MAX_NAME_SIZE + 6];
+    sprintf(sem_client, "%s_sem:0", argv[2]);
+    sem_t *cons;
+    cons = sem_open(sem_client, O_CREAT|O_RDWR, 0666, 0);
 
-    /**** Read the task file, and store into a struct ****/
-    FILE *file = fopen (argv[1], "r" );
-    if (file == NULL) {
-        printf("%s\n", "Noooooo");
-        perror(argv[1]);
-        return -1;
-    }
-    
-    /* Read the file line by line */
-    printf("Loading file of tasks\n");
-    while (fgets(line, sizeof(line), file) != NULL ) {
-        sscanf(line, "%s %u %u %u %u\n", tasks[nbOfTasks].name, 
-        	&(tasks[nbOfTasks].computationTime), &(tasks[nbOfTasks].arrivalDate), 
-        	&(tasks[nbOfTasks].duratioinIO), &(tasks[nbOfTasks].frequencyIO));
-        tasks[nbOfTasks].state = UPCOMING;
-        tasks[nbOfTasks].executionTime = 0;
-        // printf("T%d - duratioinIO:%u; frequencyIO:%u.\n", nbOfTasks + 1, 
-        // 	tasks[nbOfTasks].duratioinIO, tasks[nbOfTasks].frequencyIO);
-        nbOfTasks ++;
-    }
-    fclose(file);
-    printf("%d tasks loaded\n\n", nbOfTasks);
-    
-    /**** Schedule the set of tasks ****/
-    printf("Scheduling the set of tasks\n");
-    
-    switch (nbPolicy){
-        case 0:
-            printf("%s\n\n", "Using Scheduling Policy Round Robin");
-            while(hasTasksToSchedule(tasks, nbOfTasks) > 0) {
-                printTasks(tasks, nbOfTasks);
-                taskIndex = schedulerRR(tasks, nbOfTasks, schedData, time, quantum);
-                if (taskIndex >= 0) {
-                    printf("Time %d: %s\n\n", time,  tasks[taskIndex].name);
-                } else {
-                    printf("Time %d: no task to schedule\n\n", time);
-                }
-                time ++;
-            }
-            break;
-        case 1:
-            printf("%s\n\n", "Using Scheduling Policy Multilevel Feedback Queue");
-            while(hasTasksToSchedule(tasks, nbOfTasks) > 0) {
-                printTasks(tasks, nbOfTasks);
-                taskIndex = schedulerMFQ(tasks, nbOfTasks, schedData, time, quantum);
-                if (taskIndex >= 0) {
-                    printf("Time %d: %s\n\n", time,  tasks[taskIndex].name);
-                } else {
-                    printf("Time %d: no task to schedule\n\n", time);
-                }
-                time ++;
-            }
-            break;
-        case 2:
-            printf("%s\n\n", "Using Scheduling Policy Input/Output Round Robin");
-            while(hasTasksToSchedule(tasks, nbOfTasks) > 0) {
-                printTasks(tasks, nbOfTasks);
-                taskIndex = schedulerIORR(tasks, nbOfTasks, schedData, time, quantum);
-                if (taskIndex >= 0) {
-                    printf("Time %d: %s\n\n", time,  tasks[taskIndex].name);
-                } else {
-                    printf("Time %d: no task to schedule\n\n", time);
-                }
-                time ++;
-            }
-            break;
-        default:
-            printf("%s\n\n", "Using Scheduling Policy First Come First Serve");
-            while(hasTasksToSchedule(tasks, nbOfTasks) > 0) {
-                printTasks(tasks, nbOfTasks);
-                taskIndex = scheduler(tasks, nbOfTasks, schedData, time);
-                if (taskIndex >= 0) {
-                    printf("Time %d: %s\n\n", time,  tasks[taskIndex].name);
-                } else {
-                    printf("Time %d: no task to schedule\n\n", time);
-                }
-                time ++;
-            }
-            break;
-    }
-    
-    
-    
-    /**** That's all folks ****/
-    printTasks(tasks, nbOfTasks);
-    time --;
-    printf("\nAll done after %d units of time\n", time);
-    
-    /**** Print the statistics ****/
-    printf("\nTask\tturnaroundTime\tpenaltyRate\n");
-    int k;
-    double waitingTime = 0;
-    for (k = 0; k < nbOfTasks; k++){
-        printf("%s\t", tasks[k].name);
-        printf("%d\t\t", tasks[k].turnaroundTime);
-        printf("%.2f\t\t", (double)(tasks[k].turnaroundTime)/(double)tasks[k].computationTime);
-        printf("\n");
-        waitingTime += (tasks[k].turnaroundTime - tasks[k].computationTime);
-    }
-    printf("\nAverage waiting time: %.2f\n\n", waitingTime/nbOfTasks);
+    // opening server semaphore and V the server
+    char sem_server[MAX_NAME_SIZE + 6];
+    sprintf(sem_server, "%s_sem:0", argv[1]);
+    sem_t *prod;
+    prod = sem_open(sem_server, O_RDWR);
+    sem_post(prod);
+
+    // P itself
+    sem_wait(cons);
+
+    // display the converion result
+    printf("%f CNY ---> %f %s\n", init_value, sp_client->amount, sp_client->currency);
+    munmap(sp_client, sizeof(info_struct));
+    shm_unlink(shm_client);
+    sem_close(cons);
+    sem_unlinck(sem_client);
     
     return 0;
 }
