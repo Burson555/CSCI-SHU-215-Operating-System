@@ -2,6 +2,7 @@
 
 // $ conversion_server <server_id>
 int i;
+pid_t children[CURRENCY_NUMBER];
 char* currencies[] = {"USD", "EUR", "JPY", "GBP"};
 float rates[] = {0.143767, 0.126796, 16.3601, 0.110813};
 
@@ -20,14 +21,23 @@ int get_currency_index(char* currency){
     return -1;
 }
 void usr1Handler (int sig) {
-    printf("Converting to %s\n", currencies[i]);
+    printf("Converting to %s by child %d\n", currencies[i], getpid());
+}
+void intHandler (int sig) {
+	int j;
+	for (j = 0; j < CURRENCY_NUMBER; j++){
+	    printf("Killing child %d\n", children[j]);
+		kill(children[j], SIGKILL);
+	}
+	printf("Killing parent %d\n", getpid());
+    kill(getpid(), SIGKILL);
 }
 
 int main(int argc, char const *argv[])
 {
 	// open server shared memory
 	int fd_server;
-	int * sp_server;
+	info_struct * sp_server;
     char shm_server[MAX_NAME_SIZE + 6];
     sprintf(shm_server, "%s_shm:0", argv[1]);
     fd_server = shm_open(shm_server, O_CREAT|O_RDWR, 0666);
@@ -35,16 +45,31 @@ int main(int argc, char const *argv[])
     sp_server = (info_struct*)mmap(0, sizeof(info_struct), PROT_READ|PROT_WRITE, MAP_SHARED, fd_server, 0);
 
     // create child processes
-    pid_t children[CURRENCY_NUMBER];
     for (i = 0; (i < CURRENCY_NUMBER) && ((children[i] = fork()) > 0); i++);
 
     // parent process loops with P's
     if (i == CURRENCY_NUMBER){
+    	// set mask: only allow SIGINT
+    	// uption receiving SIGINT: kill all children
+    	sigset_t generalMask;
+		sigfillset (& generalMask);
+	    sigdelset (& generalMask, SIGINT);
+    	sigprocmask (SIG_SETMASK, & generalMask, NULL);
+	    struct sigaction actionINT;
+	    actionINT.sa_mask = generalMask;
+	    actionINT.sa_flags = 0;
+	    actionINT.sa_handler = intHandler;
+		sigaction (SIGINT, & actionINT, 0);
+		// task of the parent
+		// wait until a client sends the info of conversion
+		// wake up and assign the task to a child
+		// go back to waiting again
         char sem_server[MAX_NAME_SIZE + 6];
         sprintf(sem_server, "%s_sem:0", argv[1]);
         sem_t *prod;
         prod = sem_open(sem_server, O_CREAT|O_RDWR, 0666, 0);
         while (1){
+        	printf("parent start waiting\n");
             sem_wait(prod);
             sp_server = (info_struct*)mmap(0, sizeof(info_struct), PROT_READ|PROT_WRITE, MAP_SHARED, fd_server, 0);
             int currency_index = get_currency_index(sp_server->currency);
@@ -52,11 +77,11 @@ int main(int argc, char const *argv[])
         }
     } else {
     	// set mask: only allow SIGUSR1
+    	// uption receiving SIGUSR1: awake and calculate
     	sigset_t generalMask;
 		sigfillset (& generalMask);
 	    sigdelset (& generalMask, SIGUSR1);
     	sigprocmask (SIG_SETMASK, & generalMask, NULL);
-
 	    struct sigaction actionUSR1;
 	    actionUSR1.sa_mask = generalMask;
 	    actionUSR1.sa_flags = 0;
@@ -64,23 +89,25 @@ int main(int argc, char const *argv[])
 		sigaction (SIGUSR1, & actionUSR1, 0);
 
 		// create data structure and store currency info
-    	info_struct* info = malloc(sizeof(info_struct));
+    	info_struct* info = (info_struct*)malloc(sizeof(info_struct));
     	while (1){
+        	printf("child %s start waiting\n", currencies[i]);
     		pause();
     		// store info
-		    info->server_id = sp_server->server_id;
-			info->client_id = sp_server->client_id;
-			info->currency = sp_client->currency;
+		    strcpy(info->server_id, sp_server->server_id);
+		    strcpy(info->client_id, sp_server->client_id);
+		    strcpy(info->currency, sp_server->currency);
 			info->amount = sp_server->amount;
 			// open client shared memory
 			int fd_client;
-			int * sp_client;
+			info_struct * sp_client;
 		    char shm_client[MAX_NAME_SIZE + 6];
 		    sprintf(shm_client, "%s_shm:0", info->client_id);
 		    fd_client = shm_open(shm_client, O_RDWR, 0);
 		    ftruncate(fd_client, sizeof(info_struct));
 		    sp_client = (info_struct*)mmap(0, sizeof(info_struct), PROT_READ|PROT_WRITE, MAP_SHARED, fd_client, 0);
-		    sp_client->amount = rates[i] * info->amount;
+    		float conversion_result = rates[i] * info->amount;
+    		sp_client->amount = conversion_result;
 		    munmap(sp_client, sizeof(info_struct));
 			// release the waiting client
 			char sem_client[MAX_NAME_SIZE + 6];
@@ -88,7 +115,7 @@ int main(int argc, char const *argv[])
 		    sem_t *cons;
 		    cons = sem_open(sem_client, O_RDWR);
 		    sem_post(cons);
-		    sem_close(sem_client);
+		    sem_close(cons);
 		}
     }
 }
