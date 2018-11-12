@@ -42,6 +42,13 @@ int main(int argc, char *argv[]){
     fd_server = shm_open(shm_server, O_RDWR, 0);
     ftruncate(fd_server, sizeof(info_struct));
     sp_server = (info_struct*)mmap(0, sizeof(info_struct), PROT_READ|PROT_WRITE, MAP_SHARED, fd_server, 0);
+    // P the server mutex
+    char sem_server_mutex[MAX_NAME_SIZE + 11];
+    sprintf(sem_server_mutex, "%s_sem:mutex", argv[1]);
+    sem_t *mutex;
+    mutex = sem_open(sem_server_mutex, O_RDWR);
+    sem_post(mutex);
+    // store the data "safely"
     strcpy(sp_server->server_id, sp_client->server_id);
     strcpy(sp_server->client_id, sp_client->client_id);
     strcpy(sp_server->currency, sp_client->currency);

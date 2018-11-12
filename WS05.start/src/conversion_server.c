@@ -5,6 +5,10 @@ int i;
 pid_t children[CURRENCY_NUMBER];
 char* currencies[] = {"USD", "EUR", "JPY", "GBP"};
 float rates[] = {0.143767, 0.126796, 16.3601, 0.110813};
+char shm_server[MAX_NAME_SIZE + 6];
+char sem_server[MAX_NAME_SIZE + 6];
+char sem_server_mutex[MAX_NAME_SIZE + 11];
+char sem_child_protect[MAX_NAME_SIZE + 19][CURRENCY_NUMBER];
 
 int get_currency_index(char* currency){
 	if (strncmp(currency, "USD", 3) == 0){
@@ -29,20 +33,43 @@ void intHandler (int sig) {
 	    printf("Killing child %d\n", children[j]);
 		kill(children[j], SIGKILL);
 	}
-	printf("Killing parent %d\n", getpid());
+	printf("Destroying shm's and sem's\n");
+    shm_unlink(shm_server);
+    sem_unlink(sem_server);
+    sem_unlink(sem_server_mutex);
+    for (i = 0; i < CURRENCY_NUMBER; i++)
+		sem_unlink(sem_child_protect[i]);
+	printf("Killing PARENT %d\n", getpid());
     kill(getpid(), SIGKILL);
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
+	int currency_index;
+
 	// open server shared memory
 	int fd_server;
 	info_struct * sp_server;
-    char shm_server[MAX_NAME_SIZE + 6];
     sprintf(shm_server, "%s_shm:0", argv[1]);
     fd_server = shm_open(shm_server, O_CREAT|O_RDWR, 0666);
     ftruncate(fd_server, sizeof(info_struct));
     sp_server = (info_struct*)mmap(0, sizeof(info_struct), PROT_READ|PROT_WRITE, MAP_SHARED, fd_server, 0);
+
+    // mutex semaphore for this server
+    // here the critical resource is server shared memory
+    sprintf(sem_server_mutex, "%s_sem:mutex", argv[1]);
+    sem_t *mutex;
+    mutex = sem_open(sem_server_mutex, O_CREAT|O_RDWR, 0666, 1);
+
+    // child protection semaphores
+    // here the critical resource is the child lock memmory
+    // if parent has to assign a working child new work
+    // we have to make sure parent wait until this child finishes
+    sem_t *child_protect[CURRENCY_NUMBER];
+    for (i = 0; i < CURRENCY_NUMBER; i++){
+    	// sem_child_protect 
+    	sprintf(sem_child_protect[i], "%s_sem:child_protect", argv[1]);
+	    child_protect[i] = sem_open(sem_child_protect[i], O_CREAT|O_RDWR, 0666, 1);
+    }
 
     // create child processes
     for (i = 0; (i < CURRENCY_NUMBER) && ((children[i] = fork()) > 0); i++);
@@ -64,7 +91,6 @@ int main(int argc, char const *argv[])
 		// wait until a client sends the info of conversion
 		// wake up and assign the task to a child
 		// go back to waiting again
-        char sem_server[MAX_NAME_SIZE + 6];
         sprintf(sem_server, "%s_sem:0", argv[1]);
         sem_t *prod;
         prod = sem_open(sem_server, O_CREAT|O_RDWR, 0666, 0);
@@ -72,7 +98,8 @@ int main(int argc, char const *argv[])
         	printf("parent start waiting\n");
             sem_wait(prod);
             sp_server = (info_struct*)mmap(0, sizeof(info_struct), PROT_READ|PROT_WRITE, MAP_SHARED, fd_server, 0);
-            int currency_index = get_currency_index(sp_server->currency);
+            currency_index = get_currency_index(sp_server->currency);
+            sem_wait(child_protect[currency_index]);
             kill(children[currency_index], SIGUSR1);
         }
     } else {
@@ -93,11 +120,12 @@ int main(int argc, char const *argv[])
     	while (1){
         	printf("child %s start waiting\n", currencies[i]);
     		pause();
-    		// store info
+    		// store info and V the server mutex
 		    strcpy(info->server_id, sp_server->server_id);
 		    strcpy(info->client_id, sp_server->client_id);
 		    strcpy(info->currency, sp_server->currency);
 			info->amount = sp_server->amount;
+			sem_post(mutex);
 			// open client shared memory
 			int fd_client;
 			info_struct * sp_client;
@@ -116,6 +144,10 @@ int main(int argc, char const *argv[])
 		    cons = sem_open(sem_client, O_RDWR);
 		    sem_post(cons);
 		    sem_close(cons);
+		    // release child protection
+		    // this child can load other works
+		    currency_index = get_currency_index(info->currency);
+            sem_post(child_protect[currency_index]);
 		}
     }
 }
