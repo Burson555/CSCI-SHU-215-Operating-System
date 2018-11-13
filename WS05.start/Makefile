@@ -2,7 +2,14 @@ CFLAGS =-Iinclude -Wall -lpthread -lrt
 
 all: build run
 
-run: sleep wave barrier wait
+test_conversion: build_conversion
+	bin/conversion_server aa
+	bin/conversion_client aa bb USD 100
+	bin/conversion_client aa bb EUR 100
+	bin/conversion_client aa bb JPY 100
+	bin/conversion_client aa bb GBP 100
+	bin/conversion_client aa bb GBP 100
+	bin/conversion_client aa bb GBP 100
 
 build_conversion: clean build_server build_client
 

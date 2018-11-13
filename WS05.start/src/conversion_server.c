@@ -61,7 +61,7 @@ int main(int argc, char const *argv[]) {
     mutex = sem_open(sem_server_mutex, O_CREAT|O_RDWR, 0666, 1);
 
     // child protection semaphores
-    // here the critical resource is the child lock memmory
+    // here the critical resource is the child local memmory
     // if parent has to assign a working child new work
     // we have to make sure parent wait until this child finishes
     sem_t *child_protect[CURRENCY_NUMBER];
