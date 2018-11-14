@@ -3,8 +3,8 @@
 // $ conversion_server <server_id>
 int i;
 pid_t children[CURRENCY_NUMBER];
-char* currencies[] = {"USD", "EUR", "JPY", "GBP"};
-float rates[] = {0.143767, 0.126796, 16.3601, 0.110813};
+char* currencies[] = {"USD", "EUR", "JPY", "GBP", "CNY"};
+float rates[] = {USD_rate, EUR_rate, JPY_rate, GBP_rate, CNY_rate};
 char shm_server[MAX_NAME_SIZE + 6];
 char sem_server[MAX_NAME_SIZE + 6];
 char sem_server_mutex[MAX_NAME_SIZE + 11];
@@ -19,8 +19,10 @@ int get_currency_index(char* currency){
         return 2;}
     else if (strncmp(currency, "GBP", 3) == 0){
         return 3;}
+    else if (strncmp(currency, "CNY", 3) == 0){
+        return 4;}
     else{
-        perror( "currency");
+        perror("currency");
     }
     return -1;
 }
@@ -44,8 +46,6 @@ void intHandler (int sig) {
 }
 
 int main(int argc, char const *argv[]) {
-	int currency_index;
-
 	// open server shared memory
 	int fd_server;
 	info_struct * sp_server;
@@ -68,7 +68,7 @@ int main(int argc, char const *argv[]) {
     for (i = 0; i < CURRENCY_NUMBER; i++){
     	// sem_child_protect 
     	sprintf(sem_child_protect[i], "%s_sem:child_protect", argv[1]);
-	    child_protect[i] = sem_open(sem_child_protect[i], O_CREAT|O_RDWR, 0666, 1);
+	    child_protect[i] = sem_open(sem_child_protect[i], O_CREAT|O_RDWR, 0666, 0);
     }
 
     // create child processes
@@ -97,10 +97,19 @@ int main(int argc, char const *argv[]) {
         while (1){
         	printf("parent start waiting\n");
             sem_wait(prod);
-            sp_server = (info_struct*)mmap(0, sizeof(info_struct), PROT_READ|PROT_WRITE, MAP_SHARED, fd_server, 0);
-            currency_index = get_currency_index(sp_server->currency);
-            sem_wait(child_protect[currency_index]);
-            kill(children[currency_index], SIGUSR1);
+            for (i = 0; i < CURRENCY_NUMBER; i++) 
+                kill(children[i], SIGUSR1);
+            for (i = 0; i < CURRENCY_NUMBER; i++) 
+                sem_wait(child_protect[i]);
+            // release the waiting client
+            char sem_client[MAX_NAME_SIZE + 6];
+            sprintf(sem_client, "%s_sem:0", sp_server->client_id);
+            sem_post(mutex);
+            sem_t *cons;
+            cons = sem_open(sem_client, O_RDWR);
+            sem_post(cons);
+            sem_close(cons);
+            printf("\n");
         }
     } else {
     	// set mask: only allow SIGUSR1
@@ -120,34 +129,26 @@ int main(int argc, char const *argv[]) {
     	while (1){
         	printf("child %s start waiting\n", currencies[i]);
     		pause();
-    		// store info and V the server mutex
+    		// store info 
 		    strcpy(info->server_id, sp_server->server_id);
 		    strcpy(info->client_id, sp_server->client_id);
 		    strcpy(info->currency, sp_server->currency);
 			info->amount = sp_server->amount;
-			sem_post(mutex);
 			// open client shared memory
 			int fd_client;
-			info_struct * sp_client;
+			float * sp_client;
 		    char shm_client[MAX_NAME_SIZE + 6];
 		    sprintf(shm_client, "%s_shm:0", info->client_id);
 		    fd_client = shm_open(shm_client, O_RDWR, 0);
-		    ftruncate(fd_client, sizeof(info_struct));
-		    sp_client = (info_struct*)mmap(0, sizeof(info_struct), PROT_READ|PROT_WRITE, MAP_SHARED, fd_client, 0);
-    		float conversion_result = rates[i] * info->amount;
-    		sp_client->amount = conversion_result;
-		    munmap(sp_client, sizeof(info_struct));
-			// release the waiting client
-			char sem_client[MAX_NAME_SIZE + 6];
-		    sprintf(sem_client, "%s_sem:0", info->client_id);
-		    sem_t *cons;
-		    cons = sem_open(sem_client, O_RDWR);
-		    sem_post(cons);
-		    sem_close(cons);
+		    ftruncate(fd_client, CURRENCY_NUMBER * sizeof(float));
+		    sp_client = (float*)mmap(0, CURRENCY_NUMBER * sizeof(float), PROT_READ|PROT_WRITE, MAP_SHARED, fd_client, 0);
+            int input_currency = get_currency_index(info->currency);
+            float conversion_result = (info->amount * rates[i]) / rates[input_currency];
+            sp_client[i] = conversion_result;
+		    munmap(sp_client, CURRENCY_NUMBER * sizeof(float));
 		    // release child protection
 		    // this child can load other works
-		    currency_index = get_currency_index(info->currency);
-            sem_post(child_protect[currency_index]);
+            sem_post(child_protect[i]);
 		}
     }
 }

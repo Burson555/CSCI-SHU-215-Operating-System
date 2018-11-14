@@ -15,24 +15,43 @@
 
 #include <conversion.h>
 
+char* currencies[] = {"USD", "EUR", "JPY", "GBP", "CNY"};
+float rates[] = {USD_rate, EUR_rate, JPY_rate, GBP_rate, CNY_rate};
+
+int get_currency_index(char* currency){
+    if (strncmp(currency, "USD", 3) == 0){
+        return 0;}
+    else if (strncmp(currency, "EUR", 3) == 0){
+        return 1;}
+    else if (strncmp(currency, "JPY", 3) == 0){
+        return 2;}
+    else if (strncmp(currency, "GBP", 3) == 0){
+        return 3;}
+    else if (strncmp(currency, "CNY", 3) == 0){
+        return 4;}
+    else{
+        perror("currency");
+    }
+    return -1;
+}
+
 int main(int argc, char *argv[]){
 
     // creating shared memory file
-    int fd_client;
-    info_struct * sp_client;
-    char shm_client[MAX_NAME_SIZE + 6];
-    sprintf(shm_client, "%s_shm:0", argv[2]);
-    fd_client = shm_open(shm_client, O_CREAT|O_RDWR, 0666);
-    ftruncate(fd_client, sizeof(info_struct));
-    sp_client = (info_struct*)mmap(0, sizeof(info_struct), PROT_READ|PROT_WRITE, MAP_SHARED, fd_client, 0);
+    int i;
+    int currency_type;
+
+    int fd_client_array;
+    float * flt_array;
+    char shm_client_array[MAX_NAME_SIZE + 6];
+    sprintf(shm_client_array, "%s_shm:0", argv[2]);
+    fd_client_array = shm_open(shm_client_array, O_CREAT|O_RDWR, 0666);
+    ftruncate(fd_client_array, CURRENCY_NUMBER * sizeof(float));
+    flt_array = (float*)mmap(0, CURRENCY_NUMBER * sizeof(float), PROT_READ|PROT_WRITE, MAP_SHARED, fd_client_array, 0);
 
     // constructing data structure of conversion information
+    currency_type = get_currency_index(argv[3]);
     float init_value = atof(argv[4]);
-    sp_client->amount = init_value;
-    strcpy(sp_client->server_id, argv[1]);
-    strcpy(sp_client->client_id, argv[2]);
-    strcpy(sp_client->currency, argv[3]);
-    // sp_client->amount = atof(argv[4]);
 
     // open server shared memory and write into it
     int fd_server;
@@ -42,17 +61,18 @@ int main(int argc, char *argv[]){
     fd_server = shm_open(shm_server, O_RDWR, 0);
     ftruncate(fd_server, sizeof(info_struct));
     sp_server = (info_struct*)mmap(0, sizeof(info_struct), PROT_READ|PROT_WRITE, MAP_SHARED, fd_server, 0);
-    // P the server mutex
+
+    
+    // P the server mutex and store the data "safely"
     char sem_server_mutex[MAX_NAME_SIZE + 11];
     sprintf(sem_server_mutex, "%s_sem:mutex", argv[1]);
     sem_t *mutex;
     mutex = sem_open(sem_server_mutex, O_RDWR);
-    sem_post(mutex);
-    // store the data "safely"
-    strcpy(sp_server->server_id, sp_client->server_id);
-    strcpy(sp_server->client_id, sp_client->client_id);
-    strcpy(sp_server->currency, sp_client->currency);
-    sp_server->amount = sp_client->amount;
+    sem_wait(mutex);
+    strcpy(sp_server->server_id, argv[1]);
+    strcpy(sp_server->client_id, argv[2]);
+    strcpy(sp_server->currency, argv[3]);
+    sp_server->amount = init_value;
 
     // create client comsumption semaphore
     char sem_client[MAX_NAME_SIZE + 6];
@@ -71,9 +91,14 @@ int main(int argc, char *argv[]){
     sem_wait(cons);
 
     // display the converion result
-    printf("%f CNY ---> %f %s\n", init_value, sp_client->amount, sp_client->currency);
-    munmap(sp_client, sizeof(info_struct));
-    shm_unlink(shm_client);
+    for (i = 0; i < CURRENCY_NUMBER; i++){
+        if (i != currency_type)
+            printf("%f %s ---> %f %s\n", init_value, argv[3], flt_array[i], currencies[i]);
+    }
+    printf("\n");
+
+    munmap(flt_array, sizeof(info_struct));
+    shm_unlink(shm_client_array);
     sem_close(cons);
     sem_unlink(sem_client);
     
