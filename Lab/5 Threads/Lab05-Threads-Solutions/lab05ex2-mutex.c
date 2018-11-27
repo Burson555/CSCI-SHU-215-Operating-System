@@ -1,3 +1,5 @@
+// modified by myself
+//  not the code provided by the professor
 #define _XOPEN_SOURCE 700
 
 #include <unistd.h>
@@ -7,21 +9,21 @@
 
 #define N 5
 
-
+int sum = 0;
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-int val;
 
-void* thread_rand(void* arg) {
-    int *tmp;
-    int local_val;
-    
-    tmp = (int*)arg;
-    local_val = 
+void* rand_thread(void* arg) {
+    int random_val;
+
+    srand((long)pthread_self());
+    random_val = rand() % 11;
+    printf("tid = %ld -- val %d\n", (long)pthread_self(), random_val);
+
     pthread_mutex_lock(&mutex);
-    val += (*tmp)*2;
+    sum += random_val;
     pthread_mutex_unlock(&mutex);
-    printf("tid = %ld -- val %d\n", (long)pthread_self(), val);
-    pthread_exit((void*)0);
+    
+    pthread_exit((void*)random_val);
 }
 
 
@@ -29,24 +31,27 @@ int main(int argc, char** argv) {
     
     int i;
     int *pt_i;
+    int return_value;
     pthread_t tid[N];
-    
-    val = 0;
     
     for (i = 0; i < N; i++){
         pt_i = (int*)malloc(sizeof(i));
         *pt_i = i;
-        pthread_create((pthread_t*)&tid[i], NULL, thread_rand, (void*)pt_i);
+        pthread_create(&tid[i], NULL, rand_thread, NULL);
     }
     
     for (i = 0; i < N; i++) {
-        printf("tid[%d] = %ld\n", i, (long)tid[i]);
-        if(pthread_join(tid[i], NULL) != 0) {
+        printf("MT> tid[%d] = %ld\n", i, (long)tid[i]);
+        if(pthread_join(tid[i], (void**)&return_value) != 0) {
             perror("join");
             exit(1);
         }
+        printf("MT> val -- %d\n", return_value);
     }
-    printf("val -- %d\n", val);
+
+    printf("MT> Sum of return values: %d\n", sum);
+    printf("MT> End of program\n");
     
     return 0;
 }
+
