@@ -52,11 +52,10 @@ int main (int argc, char ** argv) {
     count = argc - 1;
     pthread_t tid[count];
 
+    pthread_mutex_lock(&mutex);
     for (i = 1; i < argc; i++){
         pthread_create(&tid[i], NULL, convert, argv[i]);
     }
-
-    pthread_mutex_lock(&mutex);
     pthread_cond_wait(&cond, &mutex);
     pthread_mutex_unlock(&mutex);
 
