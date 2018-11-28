@@ -66,6 +66,7 @@ int main(int argc, char** argv) {
         pt_i = (int*)malloc(sizeof(i));
         *pt_i = i;
         pthread_create(&tid[i], NULL, rand_thread, NULL);
+        pthread_detach(tid[i]);
     }
 
     if(pthread_join(tidp, (void**)&return_value) != 0) {
