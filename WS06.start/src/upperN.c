@@ -64,12 +64,12 @@ int main (int argc, char ** argv) {
     nb_files = argc - 1;
     count = (int*)malloc(sizeof(int));
     pthread_t tid[nb_files];
-    for (i = 0; i < argc - 1; i ++)
+    for (i = 0; i < nb_files; i ++)
         strcpy(file_arr[i], argv[i + 1]);
     pthread_mutex_lock(&mutex);
     for (i = 0; i < NB_THREAD; i++){
         pthread_create(&tid[i], NULL, convert, (void*) count);
-        if (i == argc - 2)
+        if (i == nb_files - 1)
             break;
     }
     *count = 0;
