@@ -1,0 +1,41 @@
+A - B C - D E F
+
+A B C D E F
+fghie123
+
+A B D C E F
+fghie123
+
+A B D E C F
+45hie123
+
+A B D E F C
+45hie123
+
+A D B C E F
+453fghi
+
+A D B E C F
+453fghi
+
+A D B E F C
+453fghi
+
+A D E B C F
+45123hi
+
+A D E B F C
+45123hi
+
+A D E F B C
+45hi123
+
+
+5 affichages possibles
+fghie123
+45hie123
+453fghi
+45123hi
+45hi123
+
+Pour garantir que le fichier sera de taille 8, il fait que la lignes D soit exécutée après la ligne B.
