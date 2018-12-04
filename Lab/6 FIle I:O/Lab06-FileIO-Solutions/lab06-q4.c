@@ -25,6 +25,10 @@ int checkfile(char* fname, char* input) {
         if (strstr(buffer, input) != NULL) {
             return 1;
         }
+<<<<<<< HEAD
+=======
+        // to avoid the case when a targeted array is half in half out
+>>>>>>> 1e4ebc99c714ddaa2fa4cbbacd2fda868d46978a
         if (or == BUFSZ)
             lseek(fd, -strlen(input), SEEK_CUR);
     }

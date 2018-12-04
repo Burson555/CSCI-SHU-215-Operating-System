@@ -16,6 +16,10 @@ int main(int argc, char** argv) {
     int fd1, fd2, or = 1;
     struct stat info1, info2;
     void* buffer = malloc(BUFSZ);
+<<<<<<< HEAD
+=======
+    // this means the buffer content can be any data type
+>>>>>>> 1e4ebc99c714ddaa2fa4cbbacd2fda868d46978a
     
     fd1 = open(argv[1], O_RDWR, 0600);
     if (fd1 == -1) {
@@ -28,7 +32,11 @@ int main(int argc, char** argv) {
         exit(1);
     }
     
+<<<<<<< HEAD
     if (stat(argv[2], &info2) != -1) {
+=======
+    if (stat(argv[2], &info2) != -1) { // check if the file exists
+>>>>>>> 1e4ebc99c714ddaa2fa4cbbacd2fda868d46978a
         perror("Fichier cible existe");
         exit(3);
     }
