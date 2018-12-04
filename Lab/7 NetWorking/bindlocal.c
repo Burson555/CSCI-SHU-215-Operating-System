@@ -13,7 +13,7 @@ int main(int argc, const char **argv)
 	struct sockaddr addr;
 
 	addr.sa_family = AF_UNIX;
-	strcpy(addr.sa_data, "MySocket");	
+	strcpy(addr.sa_data, "./MySocket");	
 
 	sock = socket(AF_UNIX, SOCK_STREAM, 0);
 	if (sock == -1) {

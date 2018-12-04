@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	char host[64];
 	
 	memset((void*)&sin, 0, sizeof(sin));
-	sin.sin_addr.s_addr = inet_addr(argv[1]);
+	sin.sin_addr.s_addr = (argv[1]);
 	sin.sin_family = AF_INET;
 	
 	if (getnameinfo((struct sockaddr*)&sin, sizeof(sin), host, sizeof(host), 0, 0, 0) != 0) {

@@ -64,9 +64,10 @@ int main(int argc, char *argv[])
     sin.sin_port = htons(PORTSERV);
     sin.sin_family = AF_INET;
     
+    // lease the address if someone else wanna use it
+    // not directly sent to router 
     int reuse = 1;
     setsockopt(sc, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(int));
-    
     
     /* Register server on DNS svc */
     if (bind(sc,(struct sockaddr *)&sin,sizeof(sin)) < 0) {
@@ -74,6 +75,8 @@ int main(int argc, char *argv[])
         exit(2);
     }
     
+    // five connections at most
+    // not sent to router
     listen(sc, 5);
     
     /* Main loop */
