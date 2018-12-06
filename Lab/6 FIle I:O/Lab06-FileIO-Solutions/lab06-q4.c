@@ -25,10 +25,7 @@ int checkfile(char* fname, char* input) {
         if (strstr(buffer, input) != NULL) {
             return 1;
         }
-<<<<<<< HEAD
-=======
         // to avoid the case when a targeted array is half in half out
->>>>>>> 1e4ebc99c714ddaa2fa4cbbacd2fda868d46978a
         if (or == BUFSZ)
             lseek(fd, -strlen(input), SEEK_CUR);
     }
@@ -46,14 +43,16 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
     
-    while ((dirEnt= readdir(pt_Dir)) !=NULL) {
+    while ((dirEnt = readdir(pt_Dir)) !=NULL) {
+        printf("checking entry...\n");
         stat(dirEnt->d_name, &info);
         if (S_ISREG(info.st_mode)) {
+            printf("find a regular file\n");
             printf ("Checking %s... ", dirEnt->d_name);
             if (checkfile(dirEnt->d_name, argv[1]) == 1)
                 printf("Yes!\n");
             else
-                printf("nope\n");
+                printf("Nope\n");
         }
     }
     closedir (pt_Dir);

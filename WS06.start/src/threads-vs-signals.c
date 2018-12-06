@@ -1,3 +1,8 @@
+#Chain of threads and signals
+#"All my descendants are created."
+#SIGINT
+#"All my descendants have ended."
+
 #define _XOPEN_SOURCE 700
 #include <stdio.h>
 #include <stdlib.h>

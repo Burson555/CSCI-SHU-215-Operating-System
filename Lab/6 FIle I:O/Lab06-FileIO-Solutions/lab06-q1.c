@@ -28,6 +28,7 @@ int main (void) {
     return EXIT_FAILURE;
   if (write (fd1,"abcde", strlen ("abcde")) == -1) /* A */
     return EXIT_FAILURE;
+    
   if (fork () == 0) {
     if ((fd2 = open ("./fich1", O_RDWR)) == -1)
       return EXIT_FAILURE;

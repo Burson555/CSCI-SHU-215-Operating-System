@@ -23,17 +23,16 @@ int main(int argc, char** argv) {
     }
     
     /* creation des fils */
-    for (i = 0; ((i < N) && ((pid = fork()) > 0)); i++)
-        ;
+    for (i = 0; ((i < N) && ((pid = fork()) > 0)); i++);
     
     if (pid == 0) {
         srand(getpid());
         buffer = (rand()%10)+1;
         printf("%d> val = %d\n", getpid(), buffer);
-<<<<<<< HEAD
-=======
-        // remark: read and write are not atomic
->>>>>>> 1e4ebc99c714ddaa2fa4cbbacd2fda868d46978a
+// <<<<<<< HEAD
+// =======
+//         // remark: read and write are not atomic
+// >>>>>>> 1e4ebc99c714ddaa2fa4cbbacd2fda868d46978a
         if (write(fd, &buffer, sizeof(int)) == 0)
             perror("write zero");
         close(fd);
@@ -43,10 +42,10 @@ int main(int argc, char** argv) {
     for (i = 0; i < N; i++)
         wait(0);
     
-<<<<<<< HEAD
-=======
-    // go back to the beginning
->>>>>>> 1e4ebc99c714ddaa2fa4cbbacd2fda868d46978a
+// <<<<<<< HEAD
+// =======
+//     // go back to the beginning
+// >>>>>>> 1e4ebc99c714ddaa2fa4cbbacd2fda868d46978a
     if (lseek(fd, SEEK_SET, 0) == -1)
         perror("lseek");
     
@@ -61,11 +60,10 @@ int main(int argc, char** argv) {
     
     close(fd);
     unlink("./xchg");
-<<<<<<< HEAD
-=======
+// <<<<<<< HEAD
+// =======
     // destroy the file after use
-    
->>>>>>> 1e4ebc99c714ddaa2fa4cbbacd2fda868d46978a
+// >>>>>>> 1e4ebc99c714ddaa2fa4cbbacåd2fda868d46978a
     return 0;
     
 }

@@ -1,3 +1,5 @@
+#lab05ex3-synchrodetach
+
 #define _XOPEN_SOURCE 700
 
 #include <unistd.h>

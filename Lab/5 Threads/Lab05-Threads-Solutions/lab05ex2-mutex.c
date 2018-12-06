@@ -1,3 +1,5 @@
+#lab05ex2-mutex
+
 // modified by myself
 //  not the code provided by the professor
 #define _XOPEN_SOURCE 700
