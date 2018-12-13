@@ -1,27 +1,7 @@
 /** Example of multi-threaded TCP server */
 /** Processes 4 client requests and then terminates **/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <fcntl.h>
-#include <string.h>
-#include <pthread.h>
-#include <sys/stat.h>
-#include <sys/mman.h>
-#include <sys/wait.h>
-
-
-#define PORTSERV 8080
-#define BUFSZ 1024
-
-#define DEPLOY 0
-#define STATUS 1
-#define RESULT 2
+#include "server.h"
 
 int sum = 0;
 
@@ -48,7 +28,7 @@ void* process_request(void* arg) {
         printf("DEPLOY\n");
         fd2 = open("haha", O_RDWR|O_CREAT|O_TRUNC, 0600);
         if (fd2 == -1) {
-            perror("Pb à l'ouverture du fichier cible");
+            perror("open");
             exit(3);
         }
         while(or == BUFSZ) {
@@ -68,8 +48,8 @@ void* process_request(void* arg) {
     sum += signal;
     printf("sum = %d\n", sum);
     if (write(sock, &sum, sizeof(sum)) == -1) {
-	       perror("write");
-	       exit(2);
+           perror("write");
+           exit(2);
     }
     
     /* Close connection */
@@ -85,7 +65,7 @@ int main(int argc, char *argv[])
     struct sockaddr_in sin;  /* Name of the connection socket (Server address) */
     struct sockaddr_in exp;  /* Client address */
     int sc ;                 /* Connection socket */
-    int scom;		      /* Communication socket */
+    int scom;             /* Communication socket */
     int fromlen = sizeof (exp);
     int i;
     pthread_t tid[5];
@@ -115,11 +95,10 @@ int main(int argc, char *argv[])
     
     // five connections at most
     // not sent to router
-    listen(sc, 5);
+    listen(sc, MAX_CONNECTION);
     
     /* Main loop */
-    
-    for (i = 0;i < 4; i++) {
+    for (i = 0;i < MAX_CONNECTION - 1; i++) {
         if ( (scom = accept(sc, (struct sockaddr *)&exp, (socklen_t *) &fromlen))== -1) {
             perror("accept");
             exit(2);
@@ -132,7 +111,7 @@ int main(int argc, char *argv[])
         
     }
     
-    for (i = 0;i < 4; i++)
+    for (i = 0;i < MAX_CONNECTION - 1; i++)
     pthread_join((pthread_t) tid[i], 0);
     
     close(sc);

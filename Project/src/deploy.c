@@ -1,26 +1,7 @@
 /** Simple TCP client **/
 
-#define _XOPEN_SOURCE 700
+#include "server.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <fcntl.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/mman.h>
-#include <sys/wait.h>
-
-#define PORTSERV 8080
-#define BUFSZ 1024
-
-#define DEPLOY 0
-#define STATUS 1
-#define RESULT 2
 
 int main(int argc, char *argv[])
 {
@@ -35,22 +16,19 @@ int main(int argc, char *argv[])
 	// file I/O variables
     int fd1;
     int or;
-    // int fileSZ;
     struct stat info1;
     void* buffer = malloc(BUFSZ);
 	
-	if ((argc != (atoi(argv[1]) + 2)) || (argc < 4)) {
-		fprintf(stderr, "Missing files\n");
+	if (argc != 3) {
+		fprintf(stderr, "Invalid input\n");
 		exit(1);
 	}
-	
 	if ((sock = socket(AF_INET,SOCK_STREAM,0)) == -1) {
 		perror("socket");
 		exit(1);
 	}
 	
 	/* Find server address and use it to fill in structure dest */
-	
 	struct addrinfo hints = {};
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
@@ -73,18 +51,16 @@ int main(int argc, char *argv[])
 	}
 
 // **********************************************************
-	// below I should send the files to the master server
-	service = DEPLOY;		
+	// send the file to master server
 	/* tell the master this is a deploy request */
-	if (write(sock,&service,sizeof(service)) == -1) {
+	service = DEPLOY;		
+	if (write(sock, &service, sizeof(service)) == -1) {
 		perror("write");
 		exit(1);
 	}
 	for (i = 2; i < argc; i++){
 
 		or = BUFSZ;
-		// fileSZ = 0;
-
 	    fd1 = open(argv[i], O_RDWR, 0600);
 	    if (fd1 == -1) {
 	        perror("open");
@@ -95,16 +71,13 @@ int main(int argc, char *argv[])
 	        perror("regular file");
 	        exit(1);
 	    }
-	    
 	    while(or == BUFSZ) {
 	        or = read(fd1, buffer, BUFSZ);
-	        // fileSZ += or;
 			if (write(sock, buffer, or) == -1) {
 				perror("write");
 				exit(1);
 			}
 	    }
-	    
 	    close(fd1);
 	}
 	// **********************************************************
@@ -128,3 +101,9 @@ int main(int argc, char *argv[])
 	close(sock);
 	return(0);
 }
+
+// I'll have to figure out file size control
+// file name transform
+// on the server side, figure out file storation and job ticket
+
+
