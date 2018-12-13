@@ -16,9 +16,11 @@
 #include <netinet/in.h>
 
 #define PORTSERV 8080
+#define PORTWRKR 8400
 #define MAX_CONNECTION 9999
 
 #define BUFSZ 1024
+#define MAX_NAME_SIZE 128
 
 #define COMPLETED 0
 #define RUNNING 1

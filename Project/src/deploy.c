@@ -3,10 +3,8 @@
 #include "server.h"
 
 
-int main(int argc, char *argv[])
-{
-	int i;
-
+int main(int argc, char *argv[]){
+	
 	struct sockaddr_in dest; /* Server address */
 	struct addrinfo *result;
 	int sock;
@@ -16,10 +14,12 @@ int main(int argc, char *argv[])
 	// file I/O variables
     int fd1;
     int or;
+    int nb_replicas;
     struct stat info1;
     void* buffer = malloc(BUFSZ);
 	
-	if (argc != 3) {
+	// $deploy <server_name> <#replicas> <compressed_file>
+	if (argc != 4) {
 		fprintf(stderr, "Invalid input\n");
 		exit(1);
 	}
@@ -58,28 +58,32 @@ int main(int argc, char *argv[])
 		perror("write");
 		exit(1);
 	}
-	for (i = 2; i < argc; i++){
-
-		or = BUFSZ;
-	    fd1 = open(argv[i], O_RDWR, 0600);
-	    if (fd1 == -1) {
-	        perror("open");
-	        exit(1);
-	    }
-	    fstat(fd1, &info1);
-	    if (!(S_ISREG(info1.st_mode))) {
-	        perror("regular file");
-	        exit(1);
-	    }
-	    while(or == BUFSZ) {
-	        or = read(fd1, buffer, BUFSZ);
-			if (write(sock, buffer, or) == -1) {
-				perror("write");
-				exit(1);
-			}
-	    }
-	    close(fd1);
+	nb_replicas = atoi(argv[2]);
+	if (write(sock, &nb_replicas, sizeof(nb_replicas)) == -1) {
+		perror("write");
+		exit(1);
 	}
+	// start sending file to socket
+	or = BUFSZ;
+    fd1 = open(argv[3], O_RDWR, 0600);
+    if (fd1 == -1) {
+        perror("open");
+        exit(1);
+    }
+    fstat(fd1, &info1);
+    if (!(S_ISREG(info1.st_mode))) {
+        perror("regular file");
+        exit(1);
+    }
+    while(or == BUFSZ) {
+        or = read(fd1, buffer, BUFSZ);
+		if (write(sock, buffer, or) == -1) {
+			perror("write");
+			exit(1);
+		}
+    }
+    close(fd1);
+
 	// **********************************************************
 	
 	// **********************************************************

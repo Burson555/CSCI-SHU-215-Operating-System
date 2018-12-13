@@ -1,74 +1,79 @@
 /** Simple TCP client **/
 
-#define _XOPEN_SOURCE 700
+#include "server.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <string.h>
-
-#define PORTSERV 7200
-
-int main(int argc, char *argv[])
-{
-	struct sockaddr_in dest; /* Server address */
-	struct addrinfo *result;
-	int sock;
-	int msg; 
-	int reply;
-	
-	if (argc != 2) {
-		fprintf(stderr, "Usage: %s machine\n", argv[0]);
-		exit(1);
-	}
-	
-	if ((sock = socket(AF_INET,SOCK_STREAM,0)) == -1) {
-		perror("socket");
-		exit(1);
-	}
-	
-	/* Find server address and use it to fill in structure dest */
-	
-	struct addrinfo hints = {};
-    hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_flags = AI_ADDRCONFIG | AI_CANONNAME;
-    hints.ai_protocol = 0;
-	
-	if (getaddrinfo(argv[1], 0, &hints, &result) != 0) {
-		perror("getaddrinfo");
-		exit(EXIT_FAILURE);
+int main(int argc, char *argv[]){
+    
+    // networking variables
+    struct sockaddr_in sin;  /* Name of the connection socket (Server address) */
+    struct sockaddr_in exp;  /* Master address */
+    int sc ;                 /* Connection socket */
+    int scom;             /* Communication socket */
+    int fromlen = sizeof (exp);
+    int i;
+    
+    /* Create socket */
+	// if (argc != 2) {
+	// 	fprintf(stderr, "Invalid input\n");
+	// 	exit(1);
+	// }
+    if ((sc = socket(AF_INET,SOCK_STREAM,0)) < 0) {
+        perror("socket");
+        exit(1); 
     }
-	memset((void *)&dest,0, sizeof(dest));
-	memcpy((void*)&((struct sockaddr_in*)result->ai_addr)->sin_addr,(void*)&dest.sin_addr,sizeof(dest));
-	dest.sin_family = AF_INET;
-	dest.sin_port = htons(PORTSERV);
-	
-	/* Establish connection */
-	if (connect(sock, (struct sockaddr *) &dest, sizeof(dest)) == -1) {
-		perror("connect");
-		exit(1);
-	}
-	msg = 10;				
-	/* Send message (here it's an int)*/
-	if (write(sock,&msg,sizeof(msg)) == -1) {
-		perror("write");
-		exit(1);
-	}
-	
-	/* Receive reply */			
-	if (read(sock,&reply,sizeof(reply)) == -1) {
-		perror("recvfrom");
-		exit(1);
-	}
-	printf("reply : %d\n", reply);
-	
-	/* Close connection */
-	shutdown(sock,2);
-	close(sock);
-	return(0);
+    
+    memset((void*)&sin, 0, sizeof(sin));
+    sin.sin_addr.s_addr = htonl(INADDR_ANY);
+    sin.sin_port = htons(PORTWRKR);
+    sin.sin_family = AF_INET;
+    
+    // lease the address if someone else wanna use it
+    // not directly sent to router 
+    int reuse = 1;
+    setsockopt(sc, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(int));
+    
+    /* Register server on DNS svc */
+    if (bind(sc,(struct sockaddr *)&sin,sizeof(sin)) < 0) {
+        perror("bind");
+        exit(2);
+    }
+    
+    // five connections at most
+    // not sent to router
+    listen(sc, MAX_CONNECTION);
+    
+    /* Main loop */
+    for (i = 0;i < MAX_CONNECTION - 1; i++) {
+        if ( (scom = accept(sc, (struct sockaddr *)&exp, (socklen_t *) &fromlen))== -1) {
+            perror("accept");
+            exit(2);
+        }
+        
+        /* Start working */
+        printf("Upon recrption\n");
+        int fd2;
+        int or = BUFSZ;
+        void* buffer = malloc(BUFSZ);
+
+        char worker_file[MAX_NAME_SIZE];
+        sprintf(worker_file, "worker_file-%d", PORTWRKR);
+
+        fd2 = open(worker_file, O_RDWR|O_CREAT|O_TRUNC, 0600);
+        if (fd2 == -1) {
+            perror("open");
+            exit(3);
+        }
+        while(or == BUFSZ) {
+            or = read(scom, buffer, BUFSZ);
+            if (write(fd2, buffer, or) == -1) {
+                perror("write");
+                exit(1);
+            }
+        }
+        close(fd2);
+    }
+    
+    close(sc);
+    
+    return 0;
 }

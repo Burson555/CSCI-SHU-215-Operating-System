@@ -7,11 +7,12 @@ int main(int argc, char *argv[])
 	struct sockaddr_in dest; /* Server address */
 	struct addrinfo *result;
 	int sock;
-	int msg; 
+	int ticket;
+	int service; 
 	int reply;
 	
 	if (argc != 2) {
-		fprintf(stderr, "Usage: %s machine\n", argv[0]);
+		fprintf(stderr, "Invalid input\n");
 		exit(1);
 	}
 	
@@ -42,9 +43,14 @@ int main(int argc, char *argv[])
 		perror("connect");
 		exit(1);
 	}
-	msg = atoi(argv[2]);				
 	/* Send message (here it's an int)*/
-	if (write(sock,&msg,sizeof(msg)) == -1) {
+	service = DEPLOY;		
+	if (write(sock, &service, sizeof(service)) == -1) {
+		perror("write");
+		exit(1);
+	}
+	ticket = atoi(argv[2]);
+	if (write(sock, &ticket, sizeof(ticket)) == -1) {
 		perror("write");
 		exit(1);
 	}
@@ -58,15 +64,15 @@ int main(int argc, char *argv[])
 	switch(reply) {
 
 		case COMPLETED:
-			printf("JOB#%d - COMPLETED\n", msg);
+			printf("JOB#%d - COMPLETED\n", reply);
 			break;
 
 		case RUNNING:
-			printf("JOB#%d - RUNNING\n", msg);
+			printf("JOB#%d - RUNNING\n", reply);
 			break;
 
 		case INVALID:
-			printf("JOB#%d - INVALID\n", msg);
+			printf("JOB#%d - INVALID\n", reply);
 			break;
 
 		default:
