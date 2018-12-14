@@ -17,7 +17,7 @@
 
 #define PORTSERV 8080
 #define PORTWRKR 8400
-#define MAX_CONNECTION 9999
+#define MAX_CONNECTION 999
 
 #define BUFSZ 1024
 #define MAX_NAME_SIZE 128

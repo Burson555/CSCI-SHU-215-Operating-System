@@ -4,7 +4,7 @@
 
 
 int main(int argc, char *argv[]){
-	
+
 	struct sockaddr_in dest; /* Server address */
 	struct addrinfo *result;
 	int sock;
@@ -88,10 +88,8 @@ int main(int argc, char *argv[]){
 	
 	// **********************************************************
 	/* Receive ticket */			
-	// below I should be receiving job ticket from the server
-	// I don't have to write a struct for that
-	// because the ticket number is an integer
-	// in all cases where the deployment isn't successfukl
+	// below I should be receiving job ticket (int) from the server
+	// in all cases where the deployment isn't successful
 	// the master server returns a -1
 	if (read(sock, &ticket, sizeof(ticket)) == -1) {
 		perror("read");

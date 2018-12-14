@@ -1,17 +1,17 @@
 /** Example of multi-threaded TCP server */
 /** Processes 4 client requests and then terminates **/
 
+// before I write the socket list
+
 #include "server.h"
 
 int ticket = 0;
 pthread_mutex_t mutex_ticket = PTHREAD_MUTEX_INITIALIZER;
 // pthread_mutex_t mutex_node = PTHREAD_MUTEX_INITIALIZER;
-int nodes[2] = {8400, 8401};
+int nodes[8400, 8401];
 
 
 void* process_request(void* arg) {
-    
-    int i;
 
     int sock_client;
     int service;
@@ -40,31 +40,29 @@ void* process_request(void* arg) {
         /* Connect worker */
         struct sockaddr_in dest; /* Server address */
         struct addrinfo *result;
-        int sock_worker[nb_replicas];
-        for (i = 0; i < nb_replicas; i++){
-            if ((sock_worker[i] = socket(AF_INET,SOCK_STREAM,0)) == -1) {
-                perror("socket");
-                exit(1);
-            }
-                /* Find server address and use it to fill in structure dest */
-            struct addrinfo hints = {};
-            hints.ai_family = AF_INET;
-            hints.ai_socktype = SOCK_STREAM;
-            hints.ai_flags = AI_ADDRCONFIG | AI_CANONNAME;
-            hints.ai_protocol = 0;
-            if (getaddrinfo("localhost", 0, &hints, &result) != 0) {
-                perror("getaddrinfo");
-                exit(EXIT_FAILURE);
-            }
-            memset((void *)&dest, 0, sizeof(dest));
-            memcpy((void*)&((struct sockaddr_in*)result->ai_addr)->sin_addr,(void*)&dest.sin_addr,sizeof(dest));
-            dest.sin_family = AF_INET;
-            dest.sin_port = htons(PORTWRKR);
-                /* Establish connection */
-            if (connect(sock_worker[i], (struct sockaddr *) &dest, sizeof(dest)) == -1) {
-                perror("connect");
-                exit(1);
-            }
+        int sock_worker;
+        if ((sock_worker = socket(AF_INET,SOCK_STREAM,0)) == -1) {
+            perror("socket");
+            exit(1);
+        }
+            /* Find server address and use it to fill in structure dest */
+        struct addrinfo hints = {};
+        hints.ai_family = AF_INET;
+        hints.ai_socktype = SOCK_STREAM;
+        hints.ai_flags = AI_ADDRCONFIG | AI_CANONNAME;
+        hints.ai_protocol = 0;
+        if (getaddrinfo("localhost", 0, &hints, &result) != 0) {
+            perror("getaddrinfo");
+            exit(EXIT_FAILURE);
+        }
+        memset((void *)&dest, 0, sizeof(dest));
+        memcpy((void*)&((struct sockaddr_in*)result->ai_addr)->sin_addr,(void*)&dest.sin_addr,sizeof(dest));
+        dest.sin_family = AF_INET;
+        dest.sin_port = htons(PORTWRKR);
+            /* Establish connection */
+        if (connect(sock_worker, (struct sockaddr *) &dest, sizeof(dest)) == -1) {
+            perror("connect");
+            exit(1);
         }
         /* Read from the client */
         int fd2;
@@ -83,11 +81,9 @@ void* process_request(void* arg) {
                 perror("write_client");
                 exit(1);
             }
-            for (i = 0; i < nb_replicas; i++){
-                if (write(sock_worker[i], buffer, or) == -1) {
-                    perror("write_worker");
-                    exit(1);
-                }
+            if (write(sock_worker, buffer, or) == -1) {
+                perror("write_worker");
+                exit(1);
             }
         }
         close(fd2);
@@ -98,24 +94,19 @@ void* process_request(void* arg) {
                exit(2);
         }
         /* Read stdout from the worker */
-        for (i = 0; i < nb_replicas; i++){
-            or = BUFSZ;
-            sprintf(master_file, "stdout-%d-%d", local_ticket, i);
-            fd2 = open(master_file, O_RDWR|O_CREAT|O_TRUNC, 0600);
-             while(or == BUFSZ) {
-                or = read(sock_worker[i], buffer, BUFSZ);
-                if (write(fd2, buffer, or) == -1) {
-                    perror("write_client");
-                    exit(1);
-                }
+        or = BUFSZ;
+        sprintf(master_file, "stdout-%d", local_ticket);
+        fd2 = open(master_file, O_RDWR|O_CREAT|O_TRUNC, 0600);
+         while(or == BUFSZ) {
+            or = read(sock_worker, buffer, BUFSZ);
+            if (write(fd2, buffer, or) == -1) {
+                perror("write_client");
+                exit(1);
             }
-            close(fd2);
         }
         /* Close connection */
-        for (i = 0; i < nb_replicas; i++){
-            shutdown(sock_worker[i], 2);
-            close(sock_worker[i]);
-        }
+        shutdown(sock_worker,2);
+        close(sock_worker);
         /* Wait for the results from workers */
 
     // DEPLOY ******************************************************************
@@ -130,7 +121,7 @@ void* process_request(void* arg) {
     // RESULT ******************************************************************
     
     /* Close connection */
-    shutdown(sock_client, 2);
+    shutdown(sock_client,2);
     close(sock_client);
     pthread_exit(0);
 }
