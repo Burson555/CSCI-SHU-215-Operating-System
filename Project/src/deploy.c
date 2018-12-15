@@ -104,8 +104,4 @@ int main(int argc, char *argv[]){
 	return(0);
 }
 
-// I'll have to figure out file size control
-// file name transform
-// on the server side, figure out file storation and job ticket
-
 

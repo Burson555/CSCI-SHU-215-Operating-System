@@ -1,0 +1,3484 @@
+rm -rf bin obj opf
+mkdir obj
+gcc -Iinclude -Wall -c -o obj/policies.o src/sched-policies.c	
+gcc -Iinclude -Wall -c -o obj/simulator.o src/sched-simulator.c
+mkdir bin
+mkdir opf
+gcc -Iinclude -Wall -o bin/sched-simulator obj/simulator.o obj/policies.o
+bin/sched-simulator tsk/tasks1 RR 4 > opf/sched-runR1.txt
+cat  opf/sched-runR1.txt
+The Quantum is 4
+
+Loading file of tasks
+4 tasks loaded
+
+Scheduling the set of tasks
+Using Scheduling Policy Round Robin
+
+Task: T1 	 arrivalDate:0    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:upcoming   	 computations:0/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:upcoming   	 computations:0/7
+Initializing job queue
+Nb of queues 1
+Q0 => T1 
+Time 0: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:1/10
+Task: T2 	 arrivalDate:2    	 state:upcoming   	 computations:0/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:upcoming   	 computations:0/7
+Nb of queues 1
+Q0 => T1 
+Time 1: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:2/10
+Task: T2 	 arrivalDate:2    	 state:upcoming   	 computations:0/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:upcoming   	 computations:0/7
+Nb of queues 1
+Q0 => T1 T2 T4 
+Time 2: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:3/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:0/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:0/7
+Nb of queues 1
+Q0 => T1 T2 T4 
+Time 3: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:0/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:0/7
+Nb of queues 1
+Q0 => T1 T2 T4 
+Time 4: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:1/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:0/7
+Nb of queues 1
+Q0 => T2 T4 T1 
+Time 5: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:2/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:0/7
+Nb of queues 1
+Q0 => T2 T4 T1 
+Time 6: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:3/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:0/7
+Nb of queues 1
+Q0 => T2 T4 T1 
+Time 7: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:4/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:0/7
+Nb of queues 1
+Q0 => T2 T4 T1 
+Time 8: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:4/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:running    	 computations:1/7
+Nb of queues 1
+Q0 => T4 T1 T2 
+Time 9: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:4/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:running    	 computations:2/7
+Nb of queues 1
+Q0 => T4 T1 T2 
+Time 10: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:4/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:running    	 computations:3/7
+Nb of queues 1
+Q0 => T4 T1 T2 
+Time 11: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:5/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:4/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 1
+Q0 => T1 T2 T4 
+Time 12: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:6/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:4/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 1
+Q0 => T1 T2 T4 
+Time 13: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:7/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:4/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 1
+Q0 => T1 T2 T4 
+Time 14: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:8/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:4/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 1
+Q0 => T1 T2 T4 
+Time 15: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:8/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:5/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 1
+Q0 => T2 T4 T1 
+Time 16: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:8/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:6/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 1
+Q0 => T2 T4 T1 
+Time 17: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:8/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:7/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 1
+Q0 => T2 T4 T1 
+Time 18: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:8/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 1
+Q0 => T2 T4 T1 
+Time 19: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:8/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:running    	 computations:4/7
+Nb of queues 1
+Q0 => T4 T1 
+Time 20: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:8/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:running    	 computations:5/7
+Nb of queues 1
+Q0 => T4 T1 
+Time 21: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:8/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:running    	 computations:6/7
+Nb of queues 1
+Q0 => T4 T1 
+Time 22: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:8/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:running    	 computations:7/7
+Nb of queues 1
+Q0 => T4 T1 
+Time 23: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+Nb of queues 1
+Q0 => T1 
+Time 24: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+Nb of queues 1
+Q0 => T1 
+Time 25: no task to schedule
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+Nb of queues 1
+Q0 => T3 
+Time 26: T3
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:running    	 computations:1/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+Nb of queues 1
+Q0 => T3 
+Time 27: T3
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:running    	 computations:2/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+Nb of queues 1
+Q0 => T3 
+Time 28: T3
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:running    	 computations:3/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+Nb of queues 1
+Q0 => T3 
+Time 29: T3
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:running    	 computations:4/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+Nb of queues 1
+Q0 => T3 
+Time 30: T3
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:running    	 computations:5/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+Nb of queues 1
+Q0 => T3 
+Time 31: no task to schedule
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:terminated 	 computations:5/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+
+All done after 31 units of time
+
+Task	turnaroundTime	penaltyRate
+T1	25		2.50		
+T2	17		2.12		
+T3	5		1.00		
+T4	21		3.00		
+
+Average waiting time: 9.50
+
+bin/sched-simulator tsk/tasks2 RR 4 > opf/sched-runR2.txt
+cat  opf/sched-runR2.txt
+The Quantum is 4
+
+Loading file of tasks
+3 tasks loaded
+
+Scheduling the set of tasks
+Using Scheduling Policy Round Robin
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:upcoming   	 computations:0/12
+Task: T3 	 arrivalDate:3    	 state:upcoming   	 computations:0/5
+Initializing job queue
+Nb of queues 1
+Q0 => 
+Time 0: no task to schedule
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:upcoming   	 computations:0/12
+Task: T3 	 arrivalDate:3    	 state:upcoming   	 computations:0/5
+Nb of queues 1
+Q0 => 
+Time 1: no task to schedule
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:upcoming   	 computations:0/12
+Task: T3 	 arrivalDate:3    	 state:upcoming   	 computations:0/5
+Nb of queues 1
+Q0 => T2 
+Time 2: T2
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:1/12
+Task: T3 	 arrivalDate:3    	 state:upcoming   	 computations:0/5
+Nb of queues 1
+Q0 => T2 T3 
+Time 3: T2
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:2/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:0/5
+Nb of queues 1
+Q0 => T2 T3 
+Time 4: T2
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:3/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:0/5
+Nb of queues 1
+Q0 => T2 T3 
+Time 5: T2
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:4/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:0/5
+Nb of queues 1
+Q0 => T2 T3 
+Time 6: T3
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:4/12
+Task: T3 	 arrivalDate:3    	 state:running    	 computations:1/5
+Nb of queues 1
+Q0 => T3 T2 
+Time 7: T3
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:4/12
+Task: T3 	 arrivalDate:3    	 state:running    	 computations:2/5
+Nb of queues 1
+Q0 => T3 T2 
+Time 8: T3
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:4/12
+Task: T3 	 arrivalDate:3    	 state:running    	 computations:3/5
+Nb of queues 1
+Q0 => T3 T2 
+Time 9: T2
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:5/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+Nb of queues 1
+Q0 => T2 T3 T1 
+Time 10: T2
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:6/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+Nb of queues 1
+Q0 => T2 T3 T1 
+Time 11: T2
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:7/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+Nb of queues 1
+Q0 => T2 T3 T1 
+Time 12: T2
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:8/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+Nb of queues 1
+Q0 => T2 T3 T1 
+Time 13: T3
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:8/12
+Task: T3 	 arrivalDate:3    	 state:running    	 computations:4/5
+Nb of queues 1
+Q0 => T3 T1 T2 
+Time 14: T3
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:8/12
+Task: T3 	 arrivalDate:3    	 state:running    	 computations:5/5
+Nb of queues 1
+Q0 => T3 T1 T2 
+Time 15: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:1/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:8/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 T2 
+Time 16: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:2/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:8/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 T2 
+Time 17: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:3/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:8/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 T2 
+Time 18: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:8/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 T2 
+Time 19: T2
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T2 T1 
+Time 20: T2
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:10/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T2 T1 
+Time 21: T2
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:11/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T2 T1 
+Time 22: T2
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T2 T1 
+Time 23: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:5/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 
+Time 24: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:6/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 
+Time 25: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:7/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 
+Time 26: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:8/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 
+Time 27: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 
+Time 28: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 
+Time 29: no task to schedule
+
+Task: T1 	 arrivalDate:10    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+
+All done after 29 units of time
+
+Task	turnaroundTime	penaltyRate
+T1	19		1.90		
+T2	21		1.75		
+T3	12		2.40		
+
+Average waiting time: 8.33
+
+bin/sched-simulator tsk/tasks3 RR 4 > opf/sched-runR3.txt
+cat  opf/sched-runR3.txt
+The Quantum is 4
+
+Loading file of tasks
+4 tasks loaded
+
+Scheduling the set of tasks
+Using Scheduling Policy Round Robin
+
+Task: T1 	 arrivalDate:0    	 state:upcoming   	 computations:0/40
+Task: T2 	 arrivalDate:5    	 state:upcoming   	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Initializing job queue
+Nb of queues 1
+Q0 => T1 
+Time 0: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:1/40
+Task: T2 	 arrivalDate:5    	 state:upcoming   	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 
+Time 1: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:2/40
+Task: T2 	 arrivalDate:5    	 state:upcoming   	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 
+Time 2: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:3/40
+Task: T2 	 arrivalDate:5    	 state:upcoming   	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 
+Time 3: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:4/40
+Task: T2 	 arrivalDate:5    	 state:upcoming   	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 
+Time 4: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:5/40
+Task: T2 	 arrivalDate:5    	 state:upcoming   	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T2 
+Time 5: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:6/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T2 
+Time 6: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:7/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T2 
+Time 7: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:8/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T2 
+Time 8: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:8/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:1/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T2 T1 
+Time 9: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:8/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:2/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T2 T1 
+Time 10: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:8/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:3/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T2 T1 
+Time 11: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:8/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:4/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T2 T1 
+Time 12: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:9/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:4/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T2 
+Time 13: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:10/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:4/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T2 
+Time 14: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:11/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:4/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T2 
+Time 15: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:12/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:4/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T2 
+Time 16: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:12/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:5/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T2 T1 
+Time 17: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:12/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:6/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T2 T1 
+Time 18: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:12/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:7/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T2 T1 
+Time 19: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:12/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:8/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T2 T1 T3 
+Time 20: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:13/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:8/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T3 T2 
+Time 21: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:14/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:8/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T3 T2 
+Time 22: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:15/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:8/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T3 T2 
+Time 23: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:16/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:8/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T3 T2 
+Time 24: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:16/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:8/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:1/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T3 T2 T1 
+Time 25: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:16/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:8/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:2/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T3 T2 T1 
+Time 26: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:16/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:8/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:3/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T3 T2 T1 
+Time 27: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:16/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:3/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T2 T1 T3 
+Time 28: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:16/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:10/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:3/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T2 T1 T3 
+Time 29: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:16/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:11/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:3/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T2 T1 T3 
+Time 30: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:16/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:12/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:3/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T2 T1 T3 
+Time 31: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:17/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:12/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:3/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T3 T2 
+Time 32: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:18/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:12/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:3/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T3 T2 
+Time 33: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:19/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:12/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:3/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T3 T2 
+Time 34: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:20/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:12/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:3/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T1 T3 T2 
+Time 35: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:20/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:12/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:4/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T3 T2 T1 
+Time 36: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:20/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:12/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:5/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T3 T2 T1 
+Time 37: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:20/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:12/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:6/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T3 T2 T1 
+Time 38: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:20/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:12/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:7/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T3 T2 T1 
+Time 39: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:20/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:13/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:7/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 1
+Q0 => T2 T1 T3 T4 
+Time 40: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:20/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:14/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:7/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:0/20
+Nb of queues 1
+Q0 => T2 T1 T3 T4 
+Time 41: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:20/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:7/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:0/20
+Nb of queues 1
+Q0 => T2 T1 T3 T4 
+Time 42: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:21/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:7/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:0/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 43: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:22/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:7/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:0/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 44: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:23/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:7/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:0/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 45: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:24/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:7/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:0/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 46: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:24/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:8/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:0/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 47: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:24/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:0/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 48: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:24/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:10/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:0/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 49: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:24/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:11/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:0/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 50: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:24/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:11/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:1/20
+Nb of queues 1
+Q0 => T4 T1 T3 
+Time 51: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:24/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:11/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:2/20
+Nb of queues 1
+Q0 => T4 T1 T3 
+Time 52: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:24/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:11/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:3/20
+Nb of queues 1
+Q0 => T4 T1 T3 
+Time 53: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:25/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:11/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:3/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 54: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:26/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:11/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:3/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 55: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:11/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:3/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 56: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:28/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:11/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:3/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 57: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:28/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:12/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:3/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 58: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:28/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:13/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:3/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 59: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:28/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:14/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:3/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 60: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:28/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:15/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:3/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 61: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:28/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:15/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:4/20
+Nb of queues 1
+Q0 => T4 T1 T3 
+Time 62: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:28/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:15/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:5/20
+Nb of queues 1
+Q0 => T4 T1 T3 
+Time 63: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:28/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:15/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:6/20
+Nb of queues 1
+Q0 => T4 T1 T3 
+Time 64: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:28/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:15/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:7/20
+Nb of queues 1
+Q0 => T4 T1 T3 
+Time 65: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:29/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:15/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:7/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 66: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:30/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:15/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:7/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 67: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:31/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:15/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:7/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 68: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:32/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:15/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:7/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 69: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:32/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:16/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:7/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 70: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:32/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:17/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:7/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 71: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:32/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:18/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:7/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 72: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:32/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:19/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:7/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 73: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:32/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:19/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:8/20
+Nb of queues 1
+Q0 => T4 T1 T3 
+Time 74: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:32/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:19/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:9/20
+Nb of queues 1
+Q0 => T4 T1 T3 
+Time 75: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:32/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:19/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:10/20
+Nb of queues 1
+Q0 => T4 T1 T3 
+Time 76: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:32/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:19/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:11/20
+Nb of queues 1
+Q0 => T4 T1 T3 
+Time 77: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:33/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:19/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:11/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 78: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:34/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:19/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:11/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 79: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:35/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:19/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:11/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 80: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:36/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:19/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:11/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 81: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:36/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:20/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:11/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 82: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:36/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:21/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:11/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 83: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:36/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:22/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:11/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 84: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:36/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:23/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:11/20
+Nb of queues 1
+Q0 => T3 T4 T1 
+Time 85: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:36/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:23/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:12/20
+Nb of queues 1
+Q0 => T4 T1 T3 
+Time 86: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:36/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:23/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:13/20
+Nb of queues 1
+Q0 => T4 T1 T3 
+Time 87: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:36/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:23/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:14/20
+Nb of queues 1
+Q0 => T4 T1 T3 
+Time 88: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:36/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:23/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:15/20
+Nb of queues 1
+Q0 => T4 T1 T3 
+Time 89: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:37/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:23/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:15/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 90: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:38/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:23/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:15/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 91: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:39/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:23/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:15/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 92: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:23/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:15/20
+Nb of queues 1
+Q0 => T1 T3 T4 
+Time 93: T3
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:24/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:15/20
+Nb of queues 1
+Q0 => T3 T4 
+Time 94: T3
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:15/20
+Nb of queues 1
+Q0 => T3 T4 
+Time 95: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:16/20
+Nb of queues 1
+Q0 => T4 
+Time 96: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:17/20
+Nb of queues 1
+Q0 => T4 
+Time 97: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:18/20
+Nb of queues 1
+Q0 => T4 
+Time 98: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:19/20
+Nb of queues 1
+Q0 => T4 
+Time 99: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:20/20
+Nb of queues 1
+Q0 => T4 
+Time 100: no task to schedule
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:terminated 	 computations:20/20
+
+All done after 100 units of time
+
+Task	turnaroundTime	penaltyRate
+T1	93		2.33		
+T2	37		2.47		
+T3	75		3.00		
+T4	60		3.00		
+
+Average waiting time: 41.25
+
+bin/sched-simulator tsk/tasks1 MFQ 3 > opf/sched-runM1.txt
+cat  opf/sched-runM1.txt
+The Quantum is 3
+
+Loading file of tasks
+4 tasks loaded
+
+Scheduling the set of tasks
+Using Scheduling Policy Multilevel Feedback Queue
+
+Task: T1 	 arrivalDate:0    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:upcoming   	 computations:0/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:upcoming   	 computations:0/7
+Initializing job queue
+T1 has quantum of 3
+Nb of queues 3
+Q0 => T1 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 0: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:1/10
+Task: T2 	 arrivalDate:2    	 state:upcoming   	 computations:0/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:upcoming   	 computations:0/7
+Nb of queues 3
+Q0 => T1 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 1: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:2/10
+Task: T2 	 arrivalDate:2    	 state:upcoming   	 computations:0/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:upcoming   	 computations:0/7
+T2 has quantum of 3
+T4 has quantum of 3
+Nb of queues 3
+Q0 => T1 T2 T4 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 2: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:3/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:0/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:0/7
+Nb of queues 3
+Q0 => T1 T2 T4 
+Q1 => 
+Q2 => 
+current queue: 0
+T1 has quantum of 6
+Time 3: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:3/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:1/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:0/7
+Nb of queues 3
+Q0 => T2 T4 
+Q1 => T1 
+Q2 => 
+current queue: 0
+Time 4: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:3/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:2/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:0/7
+Nb of queues 3
+Q0 => T2 T4 
+Q1 => T1 
+Q2 => 
+current queue: 0
+Time 5: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:3/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:3/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:0/7
+Nb of queues 3
+Q0 => T2 T4 
+Q1 => T1 
+Q2 => 
+current queue: 0
+T2 has quantum of 6
+Time 6: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:3/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:3/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:running    	 computations:1/7
+Nb of queues 3
+Q0 => T4 
+Q1 => T1 T2 
+Q2 => 
+current queue: 0
+Time 7: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:3/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:3/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:running    	 computations:2/7
+Nb of queues 3
+Q0 => T4 
+Q1 => T1 T2 
+Q2 => 
+current queue: 0
+Time 8: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:3/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:3/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:running    	 computations:3/7
+Nb of queues 3
+Q0 => T4 
+Q1 => T1 T2 
+Q2 => 
+current queue: 0
+T4 has quantum of 6
+Time 9: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:3/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 3
+Q0 => 
+Q1 => T1 T2 T4 
+Q2 => 
+current queue: 1
+Time 10: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:5/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:3/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 3
+Q0 => 
+Q1 => T1 T2 T4 
+Q2 => 
+current queue: 1
+Time 11: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:6/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:3/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 3
+Q0 => 
+Q1 => T1 T2 T4 
+Q2 => 
+current queue: 1
+Time 12: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:7/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:3/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 3
+Q0 => 
+Q1 => T1 T2 T4 
+Q2 => 
+current queue: 1
+Time 13: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:8/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:3/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 3
+Q0 => 
+Q1 => T1 T2 T4 
+Q2 => 
+current queue: 1
+Time 14: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:3/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 3
+Q0 => 
+Q1 => T1 T2 T4 
+Q2 => 
+current queue: 1
+T1 has quantum of 9
+Time 15: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:4/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 3
+Q0 => 
+Q1 => T2 T4 
+Q2 => T1 
+current queue: 1
+Time 16: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:5/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 3
+Q0 => 
+Q1 => T2 T4 
+Q2 => T1 
+current queue: 1
+Time 17: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:6/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 3
+Q0 => 
+Q1 => T2 T4 
+Q2 => T1 
+current queue: 1
+Time 18: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:7/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 3
+Q0 => 
+Q1 => T2 T4 
+Q2 => T1 
+current queue: 1
+Time 19: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:ready      	 computations:3/7
+Nb of queues 3
+Q0 => 
+Q1 => T2 T4 
+Q2 => T1 
+current queue: 1
+Time 20: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:running    	 computations:4/7
+Nb of queues 3
+Q0 => 
+Q1 => T4 
+Q2 => T1 
+current queue: 1
+Time 21: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:running    	 computations:5/7
+Nb of queues 3
+Q0 => 
+Q1 => T4 
+Q2 => T1 
+current queue: 1
+Time 22: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:running    	 computations:6/7
+Nb of queues 3
+Q0 => 
+Q1 => T4 
+Q2 => T1 
+current queue: 1
+Time 23: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:running    	 computations:7/7
+Nb of queues 3
+Q0 => 
+Q1 => T4 
+Q2 => T1 
+current queue: 1
+Time 24: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T1 
+current queue: 2
+Time 25: no task to schedule
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:upcoming   	 computations:0/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+T3 has quantum of 3
+Nb of queues 3
+Q0 => T3 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 26: T3
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:running    	 computations:1/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+Nb of queues 3
+Q0 => T3 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 27: T3
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:running    	 computations:2/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+Nb of queues 3
+Q0 => T3 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 28: T3
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:running    	 computations:3/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+Nb of queues 3
+Q0 => T3 
+Q1 => 
+Q2 => 
+current queue: 0
+T3 has quantum of 6
+Time 29: T3
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:running    	 computations:4/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+Nb of queues 3
+Q0 => 
+Q1 => T3 
+Q2 => 
+current queue: 1
+Time 30: T3
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:running    	 computations:5/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+Nb of queues 3
+Q0 => 
+Q1 => T3 
+Q2 => 
+current queue: 1
+Time 31: no task to schedule
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:8/8
+Task: T3 	 arrivalDate:26    	 state:terminated 	 computations:5/5
+Task: T4 	 arrivalDate:2    	 state:terminated 	 computations:7/7
+
+All done after 31 units of time
+
+Task	turnaroundTime	penaltyRate
+T1	25		2.50		
+T2	18		2.25		
+T3	5		1.00		
+T4	22		3.14		
+
+Average waiting time: 10.00
+
+bin/sched-simulator tsk/tasks2 MFQ 3 > opf/sched-runM2.txt
+cat  opf/sched-runM2.txt
+The Quantum is 3
+
+Loading file of tasks
+3 tasks loaded
+
+Scheduling the set of tasks
+Using Scheduling Policy Multilevel Feedback Queue
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:upcoming   	 computations:0/12
+Task: T3 	 arrivalDate:3    	 state:upcoming   	 computations:0/5
+Initializing job queue
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 0: no task to schedule
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:upcoming   	 computations:0/12
+Task: T3 	 arrivalDate:3    	 state:upcoming   	 computations:0/5
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 1: no task to schedule
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:upcoming   	 computations:0/12
+Task: T3 	 arrivalDate:3    	 state:upcoming   	 computations:0/5
+T2 has quantum of 3
+Nb of queues 3
+Q0 => T2 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 2: T2
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:1/12
+Task: T3 	 arrivalDate:3    	 state:upcoming   	 computations:0/5
+T3 has quantum of 3
+Nb of queues 3
+Q0 => T2 T3 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 3: T2
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:2/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:0/5
+Nb of queues 3
+Q0 => T2 T3 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 4: T2
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:3/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:0/5
+Nb of queues 3
+Q0 => T2 T3 
+Q1 => 
+Q2 => 
+current queue: 0
+T2 has quantum of 6
+Time 5: T3
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:3/12
+Task: T3 	 arrivalDate:3    	 state:running    	 computations:1/5
+Nb of queues 3
+Q0 => T3 
+Q1 => T2 
+Q2 => 
+current queue: 0
+Time 6: T3
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:3/12
+Task: T3 	 arrivalDate:3    	 state:running    	 computations:2/5
+Nb of queues 3
+Q0 => T3 
+Q1 => T2 
+Q2 => 
+current queue: 0
+Time 7: T3
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:3/12
+Task: T3 	 arrivalDate:3    	 state:running    	 computations:3/5
+Nb of queues 3
+Q0 => T3 
+Q1 => T2 
+Q2 => 
+current queue: 0
+T3 has quantum of 6
+Time 8: T2
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:4/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+Nb of queues 3
+Q0 => 
+Q1 => T2 T3 
+Q2 => 
+current queue: 1
+Time 9: T2
+
+Task: T1 	 arrivalDate:10    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:5/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+T1 has quantum of 3
+Nb of queues 3
+Q0 => T1 
+Q1 => T2 T3 
+Q2 => 
+current queue: 1
+Time 10: T2
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:6/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+Nb of queues 3
+Q0 => T1 
+Q1 => T2 T3 
+Q2 => 
+current queue: 1
+Time 11: T2
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:7/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+Nb of queues 3
+Q0 => T1 
+Q1 => T2 T3 
+Q2 => 
+current queue: 1
+Time 12: T2
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:8/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+Nb of queues 3
+Q0 => T1 
+Q1 => T2 T3 
+Q2 => 
+current queue: 1
+Time 13: T2
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+Nb of queues 3
+Q0 => T1 
+Q1 => T2 T3 
+Q2 => 
+current queue: 1
+T2 has quantum of 9
+Time 14: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:1/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+Nb of queues 3
+Q0 => T1 
+Q1 => T3 
+Q2 => T2 
+current queue: 0
+Time 15: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:2/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+Nb of queues 3
+Q0 => T1 
+Q1 => T3 
+Q2 => T2 
+current queue: 0
+Time 16: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:3/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:3/5
+Nb of queues 3
+Q0 => T1 
+Q1 => T3 
+Q2 => T2 
+current queue: 0
+T1 has quantum of 6
+Time 17: T3
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:3/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:running    	 computations:4/5
+Nb of queues 3
+Q0 => 
+Q1 => T3 T1 
+Q2 => T2 
+current queue: 1
+Time 18: T3
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:3/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:running    	 computations:5/5
+Nb of queues 3
+Q0 => 
+Q1 => T3 T1 
+Q2 => T2 
+current queue: 1
+Time 19: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 3
+Q0 => 
+Q1 => T1 
+Q2 => T2 
+current queue: 1
+Time 20: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:5/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 3
+Q0 => 
+Q1 => T1 
+Q2 => T2 
+current queue: 1
+Time 21: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:6/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 3
+Q0 => 
+Q1 => T1 
+Q2 => T2 
+current queue: 1
+Time 22: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:7/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 3
+Q0 => 
+Q1 => T1 
+Q2 => T2 
+current queue: 1
+Time 23: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:8/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 3
+Q0 => 
+Q1 => T1 
+Q2 => T2 
+current queue: 1
+Time 24: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 3
+Q0 => 
+Q1 => T1 
+Q2 => T2 
+current queue: 1
+T1 has quantum of 9
+Time 25: T2
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:10/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T2 T1 
+current queue: 2
+Time 26: T2
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:11/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T2 T1 
+current queue: 2
+Time 27: T2
+
+Task: T1 	 arrivalDate:10    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T2 T1 
+current queue: 2
+Time 28: T1
+
+Task: T1 	 arrivalDate:10    	 state:running    	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T1 
+current queue: 2
+Time 29: no task to schedule
+
+Task: T1 	 arrivalDate:10    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+
+All done after 29 units of time
+
+Task	turnaroundTime	penaltyRate
+T1	19		1.90		
+T2	26		2.17		
+T3	16		3.20		
+
+Average waiting time: 11.33
+
+bin/sched-simulator tsk/tasks3 MFQ 3 > opf/sched-runM3.txt
+cat  opf/sched-runM3.txt
+The Quantum is 3
+
+Loading file of tasks
+4 tasks loaded
+
+Scheduling the set of tasks
+Using Scheduling Policy Multilevel Feedback Queue
+
+Task: T1 	 arrivalDate:0    	 state:upcoming   	 computations:0/40
+Task: T2 	 arrivalDate:5    	 state:upcoming   	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Initializing job queue
+T1 has quantum of 3
+Nb of queues 3
+Q0 => T1 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 0: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:1/40
+Task: T2 	 arrivalDate:5    	 state:upcoming   	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T1 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 1: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:2/40
+Task: T2 	 arrivalDate:5    	 state:upcoming   	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T1 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 2: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:3/40
+Task: T2 	 arrivalDate:5    	 state:upcoming   	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T1 
+Q1 => 
+Q2 => 
+current queue: 0
+T1 has quantum of 6
+Time 3: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:4/40
+Task: T2 	 arrivalDate:5    	 state:upcoming   	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => 
+Q1 => T1 
+Q2 => 
+current queue: 1
+Time 4: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:5/40
+Task: T2 	 arrivalDate:5    	 state:upcoming   	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+T2 has quantum of 3
+Nb of queues 3
+Q0 => T2 
+Q1 => T1 
+Q2 => 
+current queue: 1
+Time 5: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:6/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T2 
+Q1 => T1 
+Q2 => 
+current queue: 1
+Time 6: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:7/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T2 
+Q1 => T1 
+Q2 => 
+current queue: 1
+Time 7: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:8/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T2 
+Q1 => T1 
+Q2 => 
+current queue: 1
+Time 8: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:9/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:0/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T2 
+Q1 => T1 
+Q2 => 
+current queue: 1
+T1 has quantum of 9
+Time 9: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:1/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T2 
+Q1 => 
+Q2 => T1 
+current queue: 0
+Time 10: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:2/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T2 
+Q1 => 
+Q2 => T1 
+current queue: 0
+Time 11: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:3/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T2 
+Q1 => 
+Q2 => T1 
+current queue: 0
+T2 has quantum of 6
+Time 12: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:4/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => 
+Q1 => T2 
+Q2 => T1 
+current queue: 1
+Time 13: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:5/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => 
+Q1 => T2 
+Q2 => T1 
+current queue: 1
+Time 14: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:6/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => 
+Q1 => T2 
+Q2 => T1 
+current queue: 1
+Time 15: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:7/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => 
+Q1 => T2 
+Q2 => T1 
+current queue: 1
+Time 16: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:8/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => 
+Q1 => T2 
+Q2 => T1 
+current queue: 1
+Time 17: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => 
+Q1 => T2 
+Q2 => T1 
+current queue: 1
+T2 has quantum of 9
+Time 18: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:10/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T1 T2 
+current queue: 2
+Time 19: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:11/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:upcoming   	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+T3 has quantum of 3
+Nb of queues 3
+Q0 => T3 
+Q1 => 
+Q2 => T1 T2 
+current queue: 2
+Time 20: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:12/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T3 
+Q1 => 
+Q2 => T1 T2 
+current queue: 2
+Time 21: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:13/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T3 
+Q1 => 
+Q2 => T1 T2 
+current queue: 2
+Time 22: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:14/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T3 
+Q1 => 
+Q2 => T1 T2 
+current queue: 2
+Time 23: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:15/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T3 
+Q1 => 
+Q2 => T1 T2 
+current queue: 2
+Time 24: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:16/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T3 
+Q1 => 
+Q2 => T1 T2 
+current queue: 2
+Time 25: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:17/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T3 
+Q1 => 
+Q2 => T1 T2 
+current queue: 2
+Time 26: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:18/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:0/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T3 
+Q1 => 
+Q2 => T1 T2 
+current queue: 2
+T1 has quantum of 3
+Time 27: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:18/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:1/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T3 T1 
+Q1 => 
+Q2 => T2 
+current queue: 0
+Time 28: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:18/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:2/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T3 T1 
+Q1 => 
+Q2 => T2 
+current queue: 0
+Time 29: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:18/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:3/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T3 T1 
+Q1 => 
+Q2 => T2 
+current queue: 0
+T3 has quantum of 6
+Time 30: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:19/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:3/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T1 
+Q1 => T3 
+Q2 => T2 
+current queue: 0
+Time 31: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:20/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:3/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T1 
+Q1 => T3 
+Q2 => T2 
+current queue: 0
+Time 32: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:21/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:3/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => T1 
+Q1 => T3 
+Q2 => T2 
+current queue: 0
+T1 has quantum of 6
+Time 33: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:21/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:4/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => 
+Q1 => T3 T1 
+Q2 => T2 
+current queue: 1
+Time 34: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:21/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:5/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => 
+Q1 => T3 T1 
+Q2 => T2 
+current queue: 1
+Time 35: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:21/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:6/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => 
+Q1 => T3 T1 
+Q2 => T2 
+current queue: 1
+Time 36: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:21/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:7/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => 
+Q1 => T3 T1 
+Q2 => T2 
+current queue: 1
+Time 37: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:21/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:8/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => 
+Q1 => T3 T1 
+Q2 => T2 
+current queue: 1
+Time 38: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:21/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+Nb of queues 3
+Q0 => 
+Q1 => T3 T1 
+Q2 => T2 
+current queue: 1
+T3 has quantum of 9
+Time 39: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:22/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:upcoming   	 computations:0/20
+T4 has quantum of 3
+Nb of queues 3
+Q0 => T4 
+Q1 => T1 
+Q2 => T2 T3 
+current queue: 1
+Time 40: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:23/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:0/20
+Nb of queues 3
+Q0 => T4 
+Q1 => T1 
+Q2 => T2 T3 
+current queue: 1
+Time 41: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:24/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:0/20
+Nb of queues 3
+Q0 => T4 
+Q1 => T1 
+Q2 => T2 T3 
+current queue: 1
+Time 42: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:25/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:0/20
+Nb of queues 3
+Q0 => T4 
+Q1 => T1 
+Q2 => T2 T3 
+current queue: 1
+Time 43: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:26/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:0/20
+Nb of queues 3
+Q0 => T4 
+Q1 => T1 
+Q2 => T2 T3 
+current queue: 1
+Time 44: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:0/20
+Nb of queues 3
+Q0 => T4 
+Q1 => T1 
+Q2 => T2 T3 
+current queue: 1
+T1 has quantum of 9
+Time 45: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:1/20
+Nb of queues 3
+Q0 => T4 
+Q1 => 
+Q2 => T2 T3 T1 
+current queue: 0
+Time 46: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:2/20
+Nb of queues 3
+Q0 => T4 
+Q1 => 
+Q2 => T2 T3 T1 
+current queue: 0
+Time 47: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:3/20
+Nb of queues 3
+Q0 => T4 
+Q1 => 
+Q2 => T2 T3 T1 
+current queue: 0
+T4 has quantum of 6
+Time 48: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:4/20
+Nb of queues 3
+Q0 => 
+Q1 => T4 
+Q2 => T2 T3 T1 
+current queue: 1
+Time 49: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:5/20
+Nb of queues 3
+Q0 => 
+Q1 => T4 
+Q2 => T2 T3 T1 
+current queue: 1
+Time 50: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:6/20
+Nb of queues 3
+Q0 => 
+Q1 => T4 
+Q2 => T2 T3 T1 
+current queue: 1
+Time 51: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:7/20
+Nb of queues 3
+Q0 => 
+Q1 => T4 
+Q2 => T2 T3 T1 
+current queue: 1
+Time 52: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:8/20
+Nb of queues 3
+Q0 => 
+Q1 => T4 
+Q2 => T2 T3 T1 
+current queue: 1
+Time 53: T4
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:ready      	 computations:9/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => T4 
+Q2 => T2 T3 T1 
+current queue: 1
+T4 has quantum of 9
+Time 54: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:10/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T2 T3 T1 T4 
+current queue: 2
+Time 55: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:11/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T2 T3 T1 T4 
+current queue: 2
+Time 56: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:12/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T2 T3 T1 T4 
+current queue: 2
+Time 57: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:13/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T2 T3 T1 T4 
+current queue: 2
+Time 58: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:14/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T2 T3 T1 T4 
+current queue: 2
+Time 59: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:running    	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:ready      	 computations:9/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T2 T3 T1 T4 
+current queue: 2
+Time 60: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:10/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T3 T1 T4 
+current queue: 2
+Time 61: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:11/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T3 T1 T4 
+current queue: 2
+Time 62: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:12/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T3 T1 T4 
+current queue: 2
+Time 63: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:13/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T3 T1 T4 
+current queue: 2
+Time 64: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:14/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T3 T1 T4 
+current queue: 2
+Time 65: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:15/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T3 T1 T4 
+current queue: 2
+Time 66: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:16/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T3 T1 T4 
+current queue: 2
+Time 67: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:17/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T3 T1 T4 
+current queue: 2
+Time 68: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:18/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T3 T1 T4 
+current queue: 2
+T3 has quantum of 3
+Time 69: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:19/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => T3 
+Q1 => 
+Q2 => T1 T4 
+current queue: 0
+Time 70: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:20/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => T3 
+Q1 => 
+Q2 => T1 T4 
+current queue: 0
+Time 71: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:21/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => T3 
+Q1 => 
+Q2 => T1 T4 
+current queue: 0
+T3 has quantum of 6
+Time 72: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:22/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => T3 
+Q2 => T1 T4 
+current queue: 1
+Time 73: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:23/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => T3 
+Q2 => T1 T4 
+current queue: 1
+Time 74: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:24/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => T3 
+Q2 => T1 T4 
+current queue: 1
+Time 75: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:27/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:running    	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => T3 
+Q2 => T1 T4 
+current queue: 1
+Time 76: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:28/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T1 T4 
+current queue: 2
+Time 77: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:29/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T1 T4 
+current queue: 2
+Time 78: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:30/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T1 T4 
+current queue: 2
+Time 79: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:31/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T1 T4 
+current queue: 2
+Time 80: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:32/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T1 T4 
+current queue: 2
+Time 81: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:33/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T1 T4 
+current queue: 2
+Time 82: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:34/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T1 T4 
+current queue: 2
+Time 83: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:35/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T1 T4 
+current queue: 2
+Time 84: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:36/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T1 T4 
+current queue: 2
+T1 has quantum of 3
+Time 85: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:37/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => T1 
+Q1 => 
+Q2 => T4 
+current queue: 0
+Time 86: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:38/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => T1 
+Q1 => 
+Q2 => T4 
+current queue: 0
+Time 87: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:39/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => T1 
+Q1 => 
+Q2 => T4 
+current queue: 0
+T1 has quantum of 6
+Time 88: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:ready      	 computations:9/20
+Nb of queues 3
+Q0 => 
+Q1 => T1 
+Q2 => T4 
+current queue: 1
+Time 89: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:10/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T4 
+current queue: 2
+Time 90: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:11/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T4 
+current queue: 2
+Time 91: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:12/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T4 
+current queue: 2
+Time 92: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:13/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T4 
+current queue: 2
+Time 93: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:14/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T4 
+current queue: 2
+Time 94: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:15/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T4 
+current queue: 2
+Time 95: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:16/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T4 
+current queue: 2
+Time 96: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:17/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T4 
+current queue: 2
+Time 97: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:18/20
+Nb of queues 3
+Q0 => 
+Q1 => 
+Q2 => T4 
+current queue: 2
+T4 has quantum of 3
+Time 98: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:19/20
+Nb of queues 3
+Q0 => T4 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 99: T4
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:running    	 computations:20/20
+Nb of queues 3
+Q0 => T4 
+Q1 => 
+Q2 => 
+current queue: 0
+Time 100: no task to schedule
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:40/40
+Task: T2 	 arrivalDate:5    	 state:terminated 	 computations:15/15
+Task: T3 	 arrivalDate:20    	 state:terminated 	 computations:25/25
+Task: T4 	 arrivalDate:40    	 state:terminated 	 computations:20/20
+
+All done after 100 units of time
+
+Task	turnaroundTime	penaltyRate
+T1	89		2.23		
+T2	55		3.67		
+T3	56		2.24		
+T4	60		3.00		
+
+Average waiting time: 40.00
+
+bin/sched-simulator tsk/tasks4 IORR 4 > opf/sched-runIO.txt
+cat  opf/sched-runIO.txt
+The Quantum is 4
+
+Loading file of tasks
+3 tasks loaded
+
+Scheduling the set of tasks
+Using Scheduling Policy Input/Output Round Robin
+
+Task: T1 	 arrivalDate:0    	 state:upcoming   	 computations:0/10
+Task: T2 	 arrivalDate:2    	 state:upcoming   	 computations:0/12
+Task: T3 	 arrivalDate:3    	 state:upcoming   	 computations:0/5
+Initializing job queue
+Quantum: 4
+	T1
+	frequency: 5
+	duration:  3
+Nb of queues 1
+Q0 => T1 
+Time 0: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:1/10
+Task: T2 	 arrivalDate:2    	 state:upcoming   	 computations:0/12
+Task: T3 	 arrivalDate:3    	 state:upcoming   	 computations:0/5
+Nb of queues 1
+Q0 => T1 
+Time 1: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:2/10
+Task: T2 	 arrivalDate:2    	 state:upcoming   	 computations:0/12
+Task: T3 	 arrivalDate:3    	 state:upcoming   	 computations:0/5
+	T2
+	frequency: 4
+	duration:  2
+Nb of queues 1
+Q0 => T1 T2 
+Time 2: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:3/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:0/12
+Task: T3 	 arrivalDate:3    	 state:upcoming   	 computations:0/5
+	T3
+	frequency: 0
+	duration:  0
+Nb of queues 1
+Q0 => T1 T2 T3 
+Time 3: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:0/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:0/5
+Nb of queues 1
+Q0 => T1 T2 T3 
+Time 4: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:1/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:0/5
+Nb of queues 1
+Q0 => T2 T3 T1 
+Time 5: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:2/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:0/5
+Nb of queues 1
+Q0 => T2 T3 T1 
+Time 6: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:3/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:0/5
+Nb of queues 1
+Q0 => T2 T3 T1 
+Time 7: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:4/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:0/5
+Nb of queues 1
+Q0 => T2 T3 T1 
+Time 8: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:suspended  	 computations:4/12
+Task: T3 	 arrivalDate:3    	 state:running    	 computations:1/5
+Nb of queues 1
+Q0 => T3 T1 T2 
+Time 9: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:suspended  	 computations:4/12
+Task: T3 	 arrivalDate:3    	 state:running    	 computations:2/5
+Nb of queues 1
+Q0 => T3 T1 T2 
+Time 10: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:4/12
+Task: T3 	 arrivalDate:3    	 state:running    	 computations:3/5
+Nb of queues 1
+Q0 => T3 T1 T2 
+Time 11: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:4/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:4/12
+Task: T3 	 arrivalDate:3    	 state:running    	 computations:4/5
+Nb of queues 1
+Q0 => T3 T1 T2 
+Time 12: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:5/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:4/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:4/5
+Nb of queues 1
+Q0 => T1 T2 T3 
+Time 13: T2
+
+Task: T1 	 arrivalDate:0    	 state:suspended  	 computations:5/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:5/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:4/5
+Nb of queues 1
+Q0 => T2 T3 T1 
+Time 14: T2
+
+Task: T1 	 arrivalDate:0    	 state:suspended  	 computations:5/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:6/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:4/5
+Nb of queues 1
+Q0 => T2 T3 T1 
+Time 15: T2
+
+Task: T1 	 arrivalDate:0    	 state:suspended  	 computations:5/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:7/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:4/5
+Nb of queues 1
+Q0 => T2 T3 T1 
+Time 16: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:5/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:8/12
+Task: T3 	 arrivalDate:3    	 state:ready      	 computations:4/5
+Nb of queues 1
+Q0 => T2 T3 T1 
+Time 17: T3
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:5/10
+Task: T2 	 arrivalDate:2    	 state:suspended  	 computations:8/12
+Task: T3 	 arrivalDate:3    	 state:running    	 computations:5/5
+Nb of queues 1
+Q0 => T3 T1 T2 
+Time 18: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:6/10
+Task: T2 	 arrivalDate:2    	 state:suspended  	 computations:8/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 T2 
+Time 19: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:7/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:8/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 T2 
+Time 20: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:8/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:8/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 T2 
+Time 21: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:ready      	 computations:8/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 T2 
+Time 22: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:9/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T2 T1 
+Time 23: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:10/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T2 T1 
+Time 24: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:11/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T2 T1 
+Time 25: T2
+
+Task: T1 	 arrivalDate:0    	 state:ready      	 computations:9/10
+Task: T2 	 arrivalDate:2    	 state:running    	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T2 T1 
+Time 26: T1
+
+Task: T1 	 arrivalDate:0    	 state:running    	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:suspended  	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 T2 
+Time 27: no task to schedule
+
+Task: T1 	 arrivalDate:0    	 state:suspended  	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:suspended  	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T2 T1 
+Time 28: no task to schedule
+
+Task: T1 	 arrivalDate:0    	 state:suspended  	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 
+Time 29: no task to schedule
+
+Task: T1 	 arrivalDate:0    	 state:suspended  	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+Nb of queues 1
+Q0 => T1 
+Time 30: no task to schedule
+
+Task: T1 	 arrivalDate:0    	 state:terminated 	 computations:10/10
+Task: T2 	 arrivalDate:2    	 state:terminated 	 computations:12/12
+Task: T3 	 arrivalDate:3    	 state:terminated 	 computations:5/5
+
+All done after 30 units of time
+
+Task	turnaroundTime	penaltyRate
+T1	30		3.00		
+T2	26		2.17		
+T3	15		3.00		
+
+Average waiting time: 14.67
+

@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	int service; 
 	int reply;
 	
-	if (argc != 2) {
+	if (argc != 3) {
 		fprintf(stderr, "Invalid input\n");
 		exit(1);
 	}
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 	/* Send message (here it's an int)*/
-	service = DEPLOY;		
+	service = STATUS;		
 	if (write(sock, &service, sizeof(service)) == -1) {
 		perror("write");
 		exit(1);
@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 	}
 	
 	/* Receive reply */			
-	if (read(sock,&reply,sizeof(reply)) == -1) {
+	if (read(sock, &reply, sizeof(reply)) == -1) {
 		perror("read");
 		exit(1);
 	}
@@ -64,15 +64,15 @@ int main(int argc, char *argv[])
 	switch(reply) {
 
 		case COMPLETED:
-			printf("JOB#%d - COMPLETED\n", reply);
+			printf("JOB#%s - COMPLETED\n", argv[2]);
 			break;
 
 		case RUNNING:
-			printf("JOB#%d - RUNNING\n", reply);
+			printf("JOB#%s - RUNNING\n", argv[2]);
 			break;
 
 		case INVALID:
-			printf("JOB#%d - INVALID\n", reply);
+			printf("JOB#%s - INVALID\n", argv[2]);
 			break;
 
 		default:

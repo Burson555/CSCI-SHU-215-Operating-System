@@ -1,20 +1,30 @@
-CFLAGS =-Iinclude -Wall -lpthread -lrt
+# the rules in this Makefile file only compile the programs needed
+# which are 3 client requests (deployment, status and result), master server launch and worker server launch
+CFLAGS =-Iinclude -Wall
 
-all: build run
+all: build 
 
-build_conversion: clean build_server build_client
+build: clean build_master build_client build_worker
 
-build_server: # build file sleep.c
-	gcc $(CFLAGS) -c -o obj/conversion_server.o src/conversion_server.c
-	gcc $(CFLAGS) -o bin/conversion_server obj/conversion_server.o
+build_worker: 
+	gcc $(CFLAGS) -c -o obj/worker.o src/worker.c
+	gcc $(CFLAGS) -o bin/worker obj/worker.o
 
-build_client: # build file sleep.c
-	gcc $(CFLAGS) -c -o obj/conversion_client.o src/conversion_client.c
-	gcc $(CFLAGS) -o bin/conversion_client obj/conversion_client.o
+build_master: 
+	gcc $(CFLAGS) -c -o obj/master.o src/master.c
+	gcc $(CFLAGS) -o bin/master obj/master.o
 
-build_philo: # build file sleep.c
-	gcc $(CFLAGS) -lm -c -o obj/philo.o src/philo.c
-	gcc $(CFLAGS) -lm -o bin/philo obj/philo.o
+build_client: build_deploy build_status build_result
+
+build_deploy:
+	gcc $(CFLAGS) -c -o obj/deploy.o src/deploy.c
+	gcc $(CFLAGS) -o bin/deploy obj/deploy.o
+build_status:
+	gcc $(CFLAGS) -c -o obj/status.o src/status.c
+	gcc $(CFLAGS) -o bin/status obj/status.o
+build_result:
+	gcc $(CFLAGS) -c -o obj/result.o src/result.c
+	gcc $(CFLAGS) -o bin/result obj/result.o
 
 clean:
-	rm -rf bin/* obj/* opf/*
+	rm -rf bin/* obj/* opf/* clt_file/* mst_file/* wkr_file/*

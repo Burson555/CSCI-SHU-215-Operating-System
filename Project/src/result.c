@@ -1,28 +1,18 @@
 /** Simple TCP client **/
 
-#define _XOPEN_SOURCE 700
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <string.h>
-
-#define PORTSERV 7200
+#include "server.h"
 
 int main(int argc, char *argv[])
 {
 	struct sockaddr_in dest; /* Server address */
 	struct addrinfo *result;
 	int sock;
-	int msg; 
+	int ticket;
+	int service; 
 	int reply;
 	
-	if (argc != 2) {
-		fprintf(stderr, "Usage: %s machine\n", argv[0]);
+	if (argc != 4) {
+		fprintf(stderr, "Invalid input\n");
 		exit(1);
 	}
 	
@@ -53,20 +43,54 @@ int main(int argc, char *argv[])
 		perror("connect");
 		exit(1);
 	}
-	msg = 10;				
 	/* Send message (here it's an int)*/
-	if (write(sock,&msg,sizeof(msg)) == -1) {
+	service = RESULT;		
+	if (write(sock, &service, sizeof(service)) == -1) {
+		perror("write");
+		exit(1);
+	}
+	ticket = atoi(argv[2]);
+	if (write(sock, &ticket, sizeof(ticket)) == -1) {
 		perror("write");
 		exit(1);
 	}
 	
 	/* Receive reply */			
-	if (read(sock,&reply,sizeof(reply)) == -1) {
-		perror("recvfrom");
+	if (read(sock, &reply, sizeof(reply)) == -1) {
+		perror("read");
 		exit(1);
 	}
-	printf("reply : %d\n", reply);
+
+	/* Task not COMPLETED */
+	if (reply != COMPLETED) {
+		perror("Task not COMPLETED");
+		exit(1);
+	}
 	
+	/* Create file name */
+	char file_name[MAX_NAME_SIZE] = "";
+    sprintf(file_name, "stdoutTar-%d.tgz", ticket);
+    char full_file[MAX_NAME_SIZE] = "";
+    strcat(full_file, argv[3]);
+    strcat(full_file, "/");
+    strcat(full_file, file_name);
+
+	/* Receive file */
+    int fd1;
+    int or;
+    void* buffer = malloc(BUFSZ);
+    or = BUFSZ;
+    fd1 = open(file_name, O_RDWR|O_CREAT|O_TRUNC, 0600);
+    while(or == BUFSZ) {
+        or = read(sock, buffer, BUFSZ);
+        if (write(fd1, buffer, or) == -1) {
+            perror("write");
+            exit(1);
+        }
+    }
+    close(fd1);
+    printf("Result retrieved: clt_file/stdoutTar-%d.tgz\n", ticket);
+
 	/* Close connection */
 	shutdown(sock,2);
 	close(sock);

@@ -18,13 +18,15 @@
 #define PORTSERV 8080
 #define PORTWRKR 8400
 #define MAX_CONNECTION 999
+#define NB_NODE 5
 
 #define BUFSZ 1024
 #define MAX_NAME_SIZE 128
+#define PATH_MAX 128
 
-#define COMPLETED 0
+#define INVALID 0
 #define RUNNING 1
-#define INVALID 2
+#define COMPLETED 2
 
 #define DEPLOY 0
 #define STATUS 1

@@ -38,19 +38,21 @@ int main(int argc, char** argv) {
     struct dirent* dirEnt;
     struct stat info;
     
-    if ((pt_Dir = opendir (argv[2]) ) == NULL) {
+    // if ((pt_Dir = opendir (argv[2]) ) == NULL) {
+    if ((pt_Dir = opendir (".") ) == NULL) {
         perror ("opendir");
         return EXIT_FAILURE;
     }
     
     while ((dirEnt = readdir(pt_Dir)) !=NULL) {
-        printf("checking entry...\n");
+        // printf("checking entry...\n");
         stat(dirEnt->d_name, &info);
         if (S_ISREG(info.st_mode)) {
-            printf("find a regular file\n");
-            printf ("Checking %s... ", dirEnt->d_name);
-            if (checkfile(dirEnt->d_name, argv[1]) == 1)
-                printf("Yes!\n");
+            // printf("find a regular file\n");
+            // printf ("Checking %s... ", dirEnt->d_name);
+            if (strncmp(dirEnt->d_name, "lab06-q", strlen("lab06-q")) == 0)
+            // if (checkfile(dirEnt->d_name, argv[1]) == 1)
+                printf("Yes! %s\n", dirEnt->d_name);
             else
                 printf("Nope\n");
         }

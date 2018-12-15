@@ -1,9 +1,11 @@
 /** Simple TCP client **/
 
 #include "server.h"
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+int counter = 0;
+int port;
 
 void* process_request(void* arg) {
-    printf("Upon recrption\n");
 
     int fd2;
     int or = BUFSZ;
@@ -11,10 +13,15 @@ void* process_request(void* arg) {
     int sock_master;
     sock_master = * (int*)arg;
 
-    char worker_file[MAX_NAME_SIZE];
-
-    sprintf(worker_file, "worker_file-%d", sock_master);
-    fd2 = open(worker_file, O_RDWR|O_CREAT|O_TRUNC, 0600);
+	char stdout_worker[MAX_NAME_SIZE];
+    char source_file[MAX_NAME_SIZE];
+	pthread_mutex_lock(&mutex);
+    int local_counter;
+    local_counter = counter;
+    counter ++;
+    pthread_mutex_unlock(&mutex);
+    sprintf(source_file, "wkr_file/source_file-%d", local_counter);
+    fd2 = open(source_file, O_RDWR|O_CREAT|O_TRUNC, 0600);
     if (fd2 == -1) {
         perror("open");
         exit(3);
@@ -31,19 +38,51 @@ void* process_request(void* arg) {
     /* Run the code */
     pid_t pid;
     if ((pid = fork()) > 0) {
-    	/* Code for parent: wait(pid) and wait only */
-    	printf("parent\n");
+    	wait(NULL);
     } else {
+		/* Generate the full directory name */
+		char cwd[PATH_MAX];
+		if (getcwd(cwd, sizeof(cwd)) == NULL) {
+		   perror("getcwd");
+		   exit(2);
+		}
+		struct stat st = {0};
+    	char dir_name[MAX_NAME_SIZE];
+    	sprintf(dir_name, "wkr_file/extractFolder-%d-%d", port, local_counter);
+		if (stat(dir_name, &st) == -1) {
+		    mkdir(dir_name, 0700);
+		}
+    	char full_dir[MAX_NAME_SIZE] = "";
+    	strcat(full_dir, cwd);
+    	strcat(full_dir, "/");
+    	strcat(full_dir, dir_name);
+		/* Generate the full file name */
+    	char full_file[MAX_NAME_SIZE] = "";
+    	strcat(full_file, cwd);
+    	strcat(full_file, "/");
+    	strcat(full_file, source_file);
 		/* Unzip the compressed file */
-		/* Call make in the directory */
+		if ((pid = fork()) > 0) {
+	    	wait(NULL);
+	    } else {
+	    	execlp("tar", "tar", "xvzf", full_file, "-C", full_dir, NULL);
+	    }
 		/* Locate the stdout file */
-		printf("child\n");
+		int fd1;
+    	sprintf(stdout_worker, "wkr_file/stdout_worker-%d-%d", port, local_counter);
+		if ((fd1 = open (stdout_worker, O_RDWR|O_CREAT|O_TRUNC, 0600)) == -1) { 
+			perror ( "open \n"); 
+			exit(2);
+		}
+		dup2(fd1, STDOUT_FILENO);
+		/* Call make in the directory */
+		execlp("make", "make", "-C", full_dir, NULL);
 		exit(0);
     }
     /* Send back the stdout file */
     or = BUFSZ;
-    sprintf(worker_file, "worker_file-%d", sock_master);
-    fd2 = open(worker_file, O_RDWR, 0600);
+    sprintf(stdout_worker, "wkr_file/stdout_worker-%d-%d", port, local_counter);
+    fd2 = open(stdout_worker, O_RDWR, 0600);
     if (fd2 == -1) {
         perror("open");
         exit(3);
@@ -51,7 +90,7 @@ void* process_request(void* arg) {
     while(or == BUFSZ) {
         or = read(fd2, buffer, BUFSZ);
         if (write(sock_master, buffer, or) == -1) {
-            perror("write_client");
+            perror("write");
             exit(1);
         }
     }
@@ -71,7 +110,6 @@ int main(int argc, char *argv[]){
     int scom;             /* Communication socket */
     int fromlen = sizeof (exp);
     int i;
-    int port;
     port = atoi(argv[1]);
     pthread_t tid[MAX_CONNECTION];
     
@@ -106,11 +144,13 @@ int main(int argc, char *argv[]){
     listen(sc, MAX_CONNECTION);
     
     /* Main loop */
+    printf("Worker server successfully launched\n");
     for (i = 0;i < MAX_CONNECTION - 1; i++) {
         if ( (scom = accept(sc, (struct sockaddr *)&exp, (socklen_t *) &fromlen))== -1) {
             perror("accept");
             exit(2);
         }
+	    // printf("%s: Upon recrption - scom: %d\n", argv[1], scom);
         /* Create a thread to handle the newly connected client */
         int* tscom = (int*)malloc(sizeof(int));
         *tscom = scom;
