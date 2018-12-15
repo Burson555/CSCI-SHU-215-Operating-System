@@ -66,6 +66,12 @@ int main(int argc, char *argv[])
 		perror("Task not COMPLETED");
 		exit(1);
 	}
+
+	/* Check dir existense */
+	struct stat st = {0};
+    if (stat(argv[3], &st) == -1) {
+        mkdir(argv[3], 0700);
+    }
 	
 	/* Create file name */
 	char file_name[MAX_NAME_SIZE] = "";
@@ -80,7 +86,7 @@ int main(int argc, char *argv[])
     int or;
     void* buffer = malloc(BUFSZ);
     or = BUFSZ;
-    fd1 = open(file_name, O_RDWR|O_CREAT|O_TRUNC, 0600);
+    fd1 = open(full_file, O_RDWR|O_CREAT|O_TRUNC, 0600);
     while(or == BUFSZ) {
         or = read(sock, buffer, BUFSZ);
         if (write(fd1, buffer, or) == -1) {
@@ -89,7 +95,7 @@ int main(int argc, char *argv[])
         }
     }
     close(fd1);
-    printf("Result retrieved: clt_file/stdoutTar-%d.tgz\n", ticket);
+    printf("Result retrieved: %s/stdoutTar-%d.tgz\n", argv[3], ticket);
 
 	/* Close connection */
 	shutdown(sock,2);
