@@ -1,6 +1,7 @@
 # the rules in this Makefile file only compile the programs needed
 # which are 3 client requests (deployment, status and result), master server launch and worker server launch
-CFLAGS =-Iinclude -Wall
+CFLAGS =-Iinclude -Wall 
+# CFLAGS =-Iinclude -Wall -lpthread 
 
 all: build 
 

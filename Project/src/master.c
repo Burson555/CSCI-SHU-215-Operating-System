@@ -109,6 +109,8 @@ void* process_request(void* arg) {
                perror("write");
                exit(2);
         }
+        /* Return the job ticket and tell the client to end */
+        /* Wait for the results from workers */
         /* Read stdout from the worker */
         struct stat st = {0};
         char dir_name[MAX_NAME_SIZE];
@@ -135,7 +137,6 @@ void* process_request(void* arg) {
             shutdown(sock_worker[i], 2);
             close(sock_worker[i]);
         }
-        /* Wait for the results from workers */
 
     // DEPLOY ******************************************************************
     // STATUS ******************************************************************
